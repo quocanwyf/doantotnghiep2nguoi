@@ -116,5 +116,3 @@ Sau khi chọn **một** hướng optimization, viết rõ hai pipeline trước
 3. Yêu cầu train/fine-tune và thuật toán optimization: tối ưu tham số huấn luyện, tối ưu bounding box/ROI ở inference, hay cả hai được chấp nhận ở mức nào? Nếu ROI là đóng góp chính, phần train/fine-tune cần thực hiện ra sao?
 4. Điện thoại, hệ điều hành, chạy trên thiết bị hay qua server, mục tiêu thời gian phản hồi và ngân sách GPU là gì?
 5. Quy tắc nhận muộn, vắng, điểm danh trùng, nhận sai và xác nhận thủ công do ai quyết định?
-
-Sau khi Quốc An có bản T-002, hai người so sánh hai phương án theo [quy trình giai đoạn 01](README.md) rồi mới ghi phạm vi chính thức ở T-004. Khảo sát model/dataset/optimization trong báo cáo này là **đề xuất sơ bộ** để thấy use case có thể nghiên cứu được, chưa thay thế khảo sát kỹ thuật T-005/T-006 hoặc quyết định T-007.
