@@ -1,5 +1,7 @@
 # Quy trình phối hợp qua Sheet và GitHub
 
+Nhóm gồm **Quốc An (TV-A)** và **Minh Hy (TV-B)**. Hướng dẫn để Minh Hy bắt đầu trên máy riêng ở [onboarding.md](onboarding.md).
+
 ## Hai nguồn dùng cho hai mục đích
 
 - [Google Sheet task](https://docs.google.com/spreadsheets/d/14BQCQ_LbGkZS15Grfi4AZNWBX15h479XjoyQvP9jHcU/edit?gid=0#gid=0): mã việc, người làm chính, người review, trạng thái, hạn, trở ngại và link đầu ra.

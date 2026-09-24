@@ -23,7 +23,7 @@ docs/07-report/        Bản thảo báo cáo và đầu ra nộp
 docs/meetings/         Một file mỗi buổi gặp
 docs/progress/         Một file mỗi tuần cho cả hai
 docs/handoffs/         Một file bàn giao cho mỗi task hoàn thành
-docs/sources/          Thông tin nguồn; bản Word gốc trao riêng, không lên Git
+docs/sources/          Bản Word gốc để hai thành viên đối chiếu
 data/                  Dữ liệu cục bộ; nội dung nhạy cảm không lên Git
 artifacts/             Checkpoint, log và đầu ra lớn cục bộ
 ```

@@ -3,13 +3,13 @@
 - Khoảng ngày:
 - Mốc chung:
 
-## Thành viên A — tên
+## Quốc An
 
 - Task và kết quả (link commit/tài liệu):
 - Việc đang vướng:
 - Việc dự kiến tiếp:
 
-## Thành viên B — tên
+## Minh Hy
 
 - Task và kết quả (link commit/tài liệu):
 - Việc đang vướng:

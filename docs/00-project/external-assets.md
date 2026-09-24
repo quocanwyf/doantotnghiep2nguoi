@@ -17,13 +17,4 @@ Khi một task cần file ngoài Git, thêm một mục theo mẫu. Gửi bằng
 - Ngày cập nhật:
 ```
 
-## A-001 — Bản ghi định hướng gốc
-
-- Task liên quan: khởi động dự án
-- Mục đích: đối chiếu với `brief.md` khi có chi tiết chưa rõ
-- Tên, phiên bản, dung lượng: `dinhhuongdatn.docx`, bản nhận ngày 2026-09-24, 51.495 byte
-- SHA-256: `B819734B280E8E5A68B238DF9C2023D21271896EE9F66967A39780E6EFBA4E63`
-- Người giữ và người cần nhận: hai thành viên tự điền
-- Trạng thái: Chưa xác nhận người còn lại đã nhận
-- Vị trí lưu: gửi riêng; không đặt link riêng tư trong GitHub
-- Ngày cập nhật: 2026-09-24
+Hiện chưa có file cần bàn giao ngoài Git.

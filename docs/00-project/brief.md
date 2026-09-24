@@ -1,6 +1,6 @@
 # Định hướng hiện tại
 
-**Nguồn:** `dinhhuongdatn.docx`, bản ghi do nhóm cung cấp ngày 2026-09-24 sau buổi gặp đầu tiên. Bản gốc không đưa lên Git; cách nhận và mã kiểm tra ở [sources/README.md](../sources/README.md). Ngày gặp và câu nào được thầy xác nhận trực tiếp chưa được tách rõ trong nguồn. Vì vậy, tài liệu này là tóm tắt làm việc, không tự gán mọi ý thành yêu cầu chính thức của thầy.
+**Nguồn:** [dinhhuongdatn.docx](../sources/dinhhuongdatn.docx), bản ghi do nhóm cung cấp ngày 2026-09-24 sau buổi gặp đầu tiên. Ngày gặp và câu nào được thầy xác nhận trực tiếp chưa được tách rõ trong nguồn. Vì vậy, tài liệu này là tóm tắt làm việc, không tự gán mọi ý thành yêu cầu chính thức của thầy.
 
 ## Mục tiêu nghiên cứu được ghi nhận
 

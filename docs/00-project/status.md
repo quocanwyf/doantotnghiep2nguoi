@@ -1,7 +1,8 @@
 # Trạng thái dự án
 
 - Cập nhật: 2026-09-24
-- Giai đoạn: khởi động, làm rõ bài toán (`docs/01-problem/`)
+- Giai đoạn: khởi động, làm rõ bài toán (docs/01-problem/)
+- Thành viên: Quốc An (TV-A), Minh Hy (TV-B)
 - Đã có: bản định hướng sau buổi gặp đầu tiên; repo tài liệu chung; Sheet để phân công task
 - Chưa chốt: bối cảnh nghiệp vụ, câu hỏi nghiên cứu, dữ liệu, model, optimization, metric, mobile stack, deadline
 - Bước tiếp: điền tên hai thành viên trên Sheet, phân tích use case, dữ liệu và hướng tối ưu; chuẩn bị câu hỏi cho thầy
