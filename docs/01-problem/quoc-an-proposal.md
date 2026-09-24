@@ -1,6 +1,6 @@
 # T-002 — Đề xuất của Quốc An: xác thực thí sinh tại cửa phòng thi
 
-**Trạng thái:** phương án Quốc An chủ động đề xuất để so sánh với đề xuất độc lập T-003 của Minh Hy. Chưa phải lựa chọn chính thức của nhóm ở T-004; chưa chọn dataset, model hoặc thuật toán tối ưu.
+**Trạng thái:** phương án Quốc An chủ động đề xuất để so sánh với đề xuất độc lập T-003 của Minh Hy. Khảo sát kỹ thuật đi kèm ở [T-005 của Quốc An](../02-survey/quoc-an-survey.md); hai tài liệu cùng tạo thành một phương án cá nhân. Chưa phải lựa chọn chính thức của nhóm ở T-004; chưa chốt dataset, model hoặc thuật toán tối ưu.
 
 ## 1. Vấn đề và giá trị nghiệp vụ
 
@@ -45,7 +45,7 @@ Bài toán nhận dạng chính là **1:1 có khai báo danh tính**: ảnh thu 
 
 Pipeline gốc ở mức khái niệm: khai báo mã → tìm hồ sơ → thu và chọn mặt người trong vùng → kiểm tra chất lượng/căn chỉnh → tạo đặc trưng → so với ảnh đăng ký → quyết định mức tin cậy → kiểm tra điều kiện phòng/ca/trạng thái → hiển thị cho giám thị. Đây là khung để khảo sát về sau, chưa chọn thành phần, model hay thuật toán.
 
-Các điểm có thể chưa tốt chỉ là **giả thuyết cần kiểm chứng**: chọn nhầm người trong nền; ảnh ở cửa kém hơn ảnh đăng ký; sai từ chối khi đeo khẩu trang/ánh sáng xấu; sai chấp nhận khi khuôn mặt giống nhau; chờ lâu khi hàng đông; ảnh/video giả mạo. T-005/T-006 sẽ khảo sát dữ liệu, baseline, đo lỗi thực tế, rồi mới chọn một hoặc vài điểm có cơ sở để cải thiện. Nếu thay nhiều thành phần phải tách tác động từng thay đổi.
+Các điểm có thể chưa tốt chỉ là **giả thuyết cần kiểm chứng**: chọn nhầm người trong nền; ảnh ở cửa kém hơn ảnh đăng ký; sai từ chối khi đeo khẩu trang/ánh sáng xấu; sai chấp nhận khi khuôn mặt giống nhau; chờ lâu khi hàng đông; ảnh/video giả mạo. T-005 của Quốc An khảo sát trước các hướng dữ liệu, baseline và cách đo; T-006 là khảo sát độc lập của Minh Hy. Đề xuất điểm cải thiện chính chỉ được chọn sau khi có dữ liệu và lỗi baseline thực tế. Nếu thay nhiều thành phần phải tách tác động từng thay đổi.
 
 ## 6. Tiêu chí để đánh giá tính khả thi ở T-004
 
@@ -58,11 +58,11 @@ Các điểm có thể chưa tốt chỉ là **giả thuyết cần kiểm chứ
 
 Các bối cảnh đã xem trước đó — điểm danh bằng điện thoại cá nhân, kiosk nhân viên, camera toàn lớp, phòng họp, cửa tòa nhà và quầy lễ tân — là đối chiếu để lý giải lựa chọn. Quốc An **đề xuất bối cảnh phòng thi làm phương án chính** vì sự kiện cần quyết định rõ, danh sách theo phòng/ca có trước, camera mobile có vai trò thật và điều kiện hành lang tạo vấn đề nhận dạng cần kiểm chứng. Đây chưa phải kết luận của nhóm trước T-004.
 
-## 7. Checkpoint nghiệp vụ trước khảo sát kỹ thuật sâu
+## 7. Checkpoint nghiệp vụ sau khi nhóm chọn phương án
 
-T-004 cần so sánh đề xuất của Quốc An với T-003 của Minh Hy và chọn một use case. Nếu nhóm chọn phòng thi, Quốc An đề nghị một **cổng đặc tả nghiệp vụ riêng sau lựa chọn và trước T-005/T-006**; có thể đặt thành task trên Sheet nếu khối lượng lớn. Cổng này phải có sơ đồ luồng lượt vào, danh mục trạng thái và bảng ngoại lệ. Với mỗi ngoại lệ, ghi điều kiện phát hiện, hành động của hệ thống, ai có quyền quyết định, thông tin nào cần lưu và cách sửa sai. Hai người phải thống nhất; các điểm phụ thuộc quy chế hoặc ý kiến thầy phải được đánh dấu chờ xác nhận.
+T-004 cần so sánh cả hai gói T-002 + T-005 của Quốc An và T-003 + T-006 của Minh Hy, rồi mới chọn phương án chung. Nếu nhóm chọn phòng thi, Quốc An đề nghị một **cổng đặc tả nghiệp vụ riêng sau lựa chọn và trước khi triển khai thí nghiệm chính**; có thể đặt thành task trên Sheet nếu khối lượng lớn. Cổng này phải có sơ đồ luồng lượt vào, danh mục trạng thái và bảng ngoại lệ. Với mỗi ngoại lệ, ghi điều kiện phát hiện, hành động của hệ thống, ai có quyền quyết định, thông tin nào cần lưu và cách sửa sai. Hai người phải thống nhất; các điểm phụ thuộc quy chế hoặc ý kiến thầy phải được đánh dấu chờ xác nhận.
 
-Ở T-002 đã xác định **ưu tiên có khai báo mã rồi xác minh 1:1**. Tại cổng nghiệp vụ mới chốt cách khai báo, quy tắc đúng/sai phòng/ca, đến muộn, trùng lượt, kiểm tra giấy tờ, mức xử lý nghi giả mạo và luồng dự phòng. T-005/T-006 mới chọn dữ liệu, baseline, metric kỹ thuật, model và hướng tối ưu. Không dùng việc thử model để thay cho việc thống nhất quy trình nghiệp vụ.
+Ở T-002 đã xác định **ưu tiên có khai báo mã rồi xác minh 1:1**. Tại cổng nghiệp vụ mới chốt cách khai báo, quy tắc đúng/sai phòng/ca, đến muộn, trùng lượt, kiểm tra giấy tờ, mức xử lý nghi giả mạo và luồng dự phòng. T-005/T-006 là các bản khảo sát cá nhân có thể làm ngay để chuẩn bị so sánh, nhưng chưa chốt lựa chọn chung. Không dùng việc thử model để thay cho việc thống nhất quy trình nghiệp vụ.
 
 ## 8. Câu hỏi mở để trao đổi với Minh Hy và thầy
 
@@ -72,43 +72,3 @@ T-004 cần so sánh đề xuất của Quốc An với T-003 của Minh Hy và 
 4. Mục tiêu tối thiểu là hỗ trợ kiểm tra ở cửa hay tự động cho vào không cần người? Quốc An đề xuất bắt đầu bằng hỗ trợ giám thị.
 5. Nếu không có dữ liệu từ kỳ thi thật, nhóm có thể mô phỏng luồng tại cửa với người tham gia đồng ý và công bố giới hạn kết luận thế nào?
 6. Mobile chỉ là thiết bị thu ảnh hay phải chạy suy luận tại chỗ/offline? Cần quyết sau khi biết điều kiện vận hành và dữ liệu.
-
-## 9. Phân tích kỹ thuật sơ bộ của Quốc An
-
-Phần này đi cùng đề xuất T-002 để Quốc An và Minh Hy có thể so sánh **cả bài toán lẫn phương án kỹ thuật** của mỗi người. Tên dataset, model và hướng tối ưu vẫn là ứng viên cần kiểm chứng, chưa phải lựa chọn chính thức. T-005/T-006 theo kế hoạch cũ không nên được hiểu là hai người bắt đầu đề xuất kỹ thuật từ đầu sau T-004; nhóm cần cập nhật lại vai trò các task đó khi hai phương án hoàn chỉnh đã được so sánh.
-
-### 9.1. Dữ liệu và quyền sử dụng
-
-**Dữ liệu đích cần có:** ảnh đăng ký đã xác minh danh tính; video hoặc ảnh nguyên khung tại cửa phòng có người xung quanh, nhiều mức sáng và khoảng cách; nhãn người đang làm thủ tục, mặt mục tiêu, mã được khai báo, ca/phòng, kết quả đúng/sai, lượt trùng và lý do ngoại lệ. Cần cả lượt đúng người, người cố khai báo mã của người khác và lượt không có trong danh sách. Nếu muốn nghiên cứu chống giả mạo, phải có tập ảnh/video tấn công riêng, không được suy ra khả năng chống giả mạo từ tập ảnh người thật.
-
-**Nguồn ưu tiên:** dữ liệu mô phỏng cửa phòng thi với người tham gia đồng ý và quy trình lưu/xóa rõ; cần kiểm tra nhóm có đủ người, nhiều buổi và thiết bị để kết luận có ý nghĩa. Nếu không có quyền dùng ảnh đăng ký thật, dùng ảnh đăng ký do người tham gia cung cấp cho thí nghiệm; khi báo cáo phải nói rõ đây là mô phỏng, không chứng minh độ chính xác trong kỳ thi thực.
-
-**Nguồn công khai để thử kỹ thuật:** [LFW và giao thức cặp ảnh do nhóm tác giả công bố](https://people.cs.umass.edu/~elm/papers/lfw.pdf) có thể giúp kiểm tra phép xác minh 1:1, nhưng không thay được ảnh nguyên khung ở cửa phòng. [Replay-Attack của Idiap](https://www.idiap.ch/en/scientific-research/data/replayattack/index_html?set_language=en) là ứng viên khảo sát chống giả mạo, nhưng không được dùng mặc nhiên trước khi kiểm tra quyền tải và điều kiện sử dụng. Dữ liệu, mã nguồn và trọng số model phải rà quyền riêng; ví dụ [InsightFace phân biệt mã MIT với trọng số cung cấp chỉ cho nghiên cứu phi thương mại](https://github.com/deepinsight/insightface/blob/master/python-package/docs/model_zoo.md). Do có hướng sản phẩm thương mại, bản đồ án không được ngầm coi trọng số nghiên cứu là tài sản có thể đưa vào sản phẩm.
-
-### 9.2. Pipeline gốc và baseline dự kiến
-
-Luồng đầu-cuối: nhận mã khai báo → xác nhận mã thuộc kỳ thi → thu vài khung hình ở vùng đứng quy định → phát hiện các mặt → chọn mặt của người đang làm thủ tục → kiểm tra chất lượng/căn chỉnh → tạo embedding cho mặt hiện tại và ảnh đăng ký → so điểm → chấp nhận, chụp lại hoặc chuyển giám thị → kiểm tra phòng/ca/trùng lượt → lưu sự kiện.
-
-**Baseline kỹ thuật 1:** dùng một bộ phát hiện/căn chỉnh và một bộ tạo embedding có trọng số được phép dùng cho nghiên cứu; với một khung hình, chọn mặt trong vùng đứng theo quy tắc cố định, so độ tương đồng và dùng một ngưỡng được chỉnh trên tập phát triển. Đây là baseline có thể tái lập, chưa chốt tên model. Các họ phương pháp để khảo sát gồm [SCRFD cho phát hiện mặt](https://github.com/deepinsight/insightface/blob/master/detection/scrfd/README.md), [ArcFace cho đặc trưng phân biệt](https://arxiv.org/abs/1801.07698) và [MobileFaceNets cho xử lý gọn trên điện thoại](https://arxiv.org/abs/1804.07573); không đồng nghĩa sẽ dùng cả ba.
-
-**Baseline kỹ thuật 2 nếu dữ liệu video cho phép:** giữ nguyên detector và embedding, dùng vài khung hình với quy tắc chất lượng đơn giản để chọn một ảnh trước khi xác minh. Baseline này kiểm tra liệu lỗi đến từ một khung xấu hay không. So sánh phải dùng cùng hồ sơ, tập kiểm tra, ngưỡng hiệu chỉnh đúng giao thức và thiết bị đo; không thay nhiều thành phần đồng thời.
-
-Baseline nghiệp vụ là quy trình giám thị hiện tại để đo thời gian/lượt và số ngoại lệ phải xử lý, nhưng không đánh đồng số liệu vận hành của con người với độ chính xác của model trên một dataset khác.
-
-### 9.3. Các điểm tối ưu ứng viên, gắn với lỗi cần chứng minh
-
-1. **Chọn đúng mặt và đúng khung hình:** nếu baseline hay lấy nhầm người trong nền hoặc ảnh mờ, thử vùng đứng cố định so với theo dõi mặt trong vùng, một khung so với chọn khung theo chất lượng. Không gian lựa chọn có thể là vị trí/kích thước vùng, số khung chờ và tiêu chí chất lượng. Đo nhầm mặt mục tiêu, lỗi xác minh đầu-cuối, tỷ lệ chụp lại và thời gian mỗi lượt.
-2. **Ảnh đăng ký và căn chỉnh:** nếu ảnh đăng ký/căn chỉnh gây bỏ sót, thử quy tắc chọn ảnh đăng ký, một hay nhiều mẫu được phép, hoặc các cách căn chỉnh tương thích với cùng embedding. Đo FNMR tại mức FMR đã chọn, tỷ lệ ảnh không đạt và công sức đăng ký. Chỉ làm nếu có đủ ảnh và quyền dùng.
-3. **Quyết định và ngưỡng:** nếu nhiều lượt rơi gần ngưỡng, khảo sát ngưỡng trên tập phát triển cùng một chính sách chụp lại/chuyển thủ công. Một search space rõ có thể gồm ngưỡng xác minh, ngưỡng chất lượng và số lần thử tối đa; mục tiêu là giảm bỏ sót và thời gian/chuyển thủ công **với ràng buộc nhận nhầm**. Thuật toán tìm kiếm chỉ được chọn sau khi có search space và objective; một phép dò ngưỡng đơn giản phải là đối chứng.
-4. **Hiệu năng mobile:** nếu pipeline đạt chất lượng nhưng chậm/nặng, thử model gọn hoặc nén/định lượng phù hợp quyền sử dụng và runtime; đo độ trễ, bộ nhớ, kích thước và thay đổi lỗi nhận dạng trên cùng dữ liệu. Không mặc nhiên xem kết quả CPU máy tính là kết quả trên điện thoại.
-5. **Chống giả mạo:** là nhánh rủi ro riêng. Nếu phạm vi chọn có yêu cầu tự động quyết định không cần giám thị, phải định nghĩa loại tấn công, dữ liệu và metric riêng trước khi chọn PAD; không cộng một mô hình PAD vào pipeline chỉ để nói đã giải quyết gian lận.
-
-Có thể thực nghiệm một hoặc vài cải tiến, nhưng phải tách tác động từng phần. Một hướng dùng dataset khác để khám phá thì không thể lấy chênh lệch điểm giữa hai dataset làm bằng chứng cải thiện; phép so baseline–proposed cuối cùng phải cùng dữ liệu và điều kiện đo.
-
-### 9.4. Giao thức đánh giá dự kiến
-
-Tách người hoặc phiên dùng để chọn model/ngưỡng khỏi người hoặc phiên kiểm tra cuối; mỗi lượt kiểm tra có ảnh đăng ký của đúng người theo đúng bài toán 1:1, nhưng không dùng lượt kiểm tra cuối để chỉnh ngưỡng. Tách theo ngày/thiết bị và ghi điều kiện ánh sáng, số người trong nền, khẩu trang, góc mặt để phân tích lỗi. Giữ ảnh nguyên khung cho đánh giá đầu-cuối; ảnh đã cắt sẵn chỉ dùng để kiểm tra riêng mô-đun embedding.
-
-Metric xác minh gồm FMR (chấp nhận sai người) và FNMR (bỏ sót đúng người), báo FNMR tại một FMR mục tiêu do nghiệp vụ quyết; [NIST dùng cặp FMR/FNMR và ngưỡng trong đánh giá 1:1](https://pages.nist.gov/frvt/html/frvt11.html). Metric hệ thống gồm tỷ lệ chọn nhầm mặt, lượt đúng người phải chuyển giám thị, lượt sai người được hệ thống đề xuất chấp nhận, tỷ lệ chụp lại, thời gian mỗi lượt, thời gian chờ, và lỗi phòng/ca/trùng lượt. Đo thêm độ trễ p50/p95, bộ nhớ và kích thước trên cùng điện thoại. Không công bố một tỷ lệ lỗi rất thấp nếu tập impostor/quy mô thử quá nhỏ để ước lượng nó đáng tin.
-
-**Điều kiện sang triển khai:** có dữ liệu và quyền dùng đủ rõ, baseline chạy được, lỗi đáng cải thiện xuất hiện trên tập kiểm tra gần nghiệp vụ, objective của hướng tối ưu được viết cụ thể, và nhóm có thiết bị để đo mobile. Nếu điều kiện này không đạt, đổi hướng nghiên cứu phải được ghi lại thay vì vẫn tuyên bố tối ưu thành công.
