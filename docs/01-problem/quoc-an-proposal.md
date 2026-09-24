@@ -49,11 +49,11 @@ Các điểm có thể chưa tốt chỉ là **giả thuyết cần kiểm chứ
 
 ## 6. Tiêu chí để đánh giá tính khả thi ở T-004
 
-- Có quyền dùng ảnh đăng ký và dữ liệu thử nghiệm gần với cửa phòng thi, gồm nhiều lần chụp mỗi người, điều kiện sáng/đông người khác nhau, người đúng và sai hồ sơ không?
+- Có dataset công khai nào đủ gần cảnh đi qua cửa, có ảnh/chuỗi và nhãn để đánh giá xác minh 1:1 không? Phần nào của bối cảnh phòng thi chưa có dữ liệu tương ứng?
 - Có thể xác định rõ giám thị/người có thẩm quyền xử lý từng trạng thái và đối soát kết quả không?
 - Có thể thử toàn bộ lượt làm thủ tục, không chỉ độ chính xác trên ảnh mặt đã cắt sẵn không?
 - Có thể đo hai loại lỗi quan trọng — nhận nhầm người và bỏ sót người hợp lệ — cùng tỷ lệ chuyển xử lý thủ công, thời gian mỗi lượt và lỗi ở cấp quyết định vào đúng phòng/ca không?
-- Có thể demo bằng điện thoại đặt tại cửa với cùng điều kiện camera trong nghiên cứu không?
+- Có thể demo giao diện/luồng nghiệp vụ bằng hồ sơ giả lập và đo pipeline nhận diện trên dataset công khai không? Phải nêu rõ giới hạn giữa hai phần.
 - Có thể thử nghiệm trong phạm vi đồ án mà không tuyên bố thay thế các bước giám thị bắt buộc theo quy chế không?
 
 Các bối cảnh đã xem trước đó — điểm danh bằng điện thoại cá nhân, kiosk nhân viên, camera toàn lớp, phòng họp, cửa tòa nhà và quầy lễ tân — là đối chiếu để lý giải lựa chọn. Quốc An **đề xuất bối cảnh phòng thi làm phương án chính** vì sự kiện cần quyết định rõ, danh sách theo phòng/ca có trước, camera mobile có vai trò thật và điều kiện hành lang tạo vấn đề nhận dạng cần kiểm chứng. Quốc An cho biết nhóm đã chọn phương án này ở T-004; biên bản quyết định chính thức cần được bổ sung.
@@ -67,8 +67,8 @@ Sau lựa chọn T-004 do Quốc An thông báo, cần một **cổng đặc t�
 ## 8. Câu hỏi mở để trao đổi với Minh Hy và thầy
 
 1. Kỳ thi mục tiêu để làm đồ án/pilot là kỳ thi nào? Quy chế cụ thể cho phép hệ thống hỗ trợ giám thị ở bước nào?
-2. Ai có quyền cung cấp ảnh đăng ký; ảnh đó được xác thực khi đăng ký ra sao; có đủ ảnh qua nhiều thời điểm/điều kiện để thử không?
+2. Dataset công khai nào cung cấp ảnh tham chiếu và ảnh/chuỗi tại điểm qua cửa? Có thể tạo protocol khai báo danh tính mà không làm sai ý nghĩa nhãn gốc không?
 3. Ai là người quyết định cuối cùng khi hệ thống báo không khớp, đến muộn hoặc nghi giả mạo?
 4. Với kỳ thi mục tiêu, mức tự động hóa nào được phép để giảm người chuyên đứng cửa? Ai giám sát các lượt máy ghi nhận và ai xử lý ngoại lệ?
-5. Nếu không có dữ liệu từ kỳ thi thật, nhóm có thể mô phỏng luồng tại cửa với người tham gia đồng ý và công bố giới hạn kết luận thế nào?
+5. Vì đồ án chỉ dùng dataset công khai cho nhận diện, phần nào của luồng phòng thi phải minh họa bằng hồ sơ giả lập và phần nào chưa thể đánh giá thực nghiệm?
 6. Mobile chỉ là thiết bị thu ảnh hay phải chạy suy luận tại chỗ/offline? Cần quyết sau khi biết điều kiện vận hành và dữ liệu.
