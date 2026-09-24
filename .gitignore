@@ -1,0 +1,36 @@
+# Secrets
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+
+# Local data and outputs
+data/*
+!data/README.md
+artifacts/*
+!artifacts/README.md
+docs/sources/*.docx
+*.ckpt
+*.pt
+*.pth
+*.onnx
+*.tflite
+*.h5
+*.safetensors
+
+# Python and notebooks
+__pycache__/
+*.py[cod]
+.venv/
+.ipynb_checkpoints/
+
+# Builds and local IDE files
+build/
+dist/
+node_modules/
+.gradle/
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
