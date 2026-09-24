@@ -5,11 +5,28 @@
 - **Trạng thái:** Đề xuất để Quốc An review và hai thành viên so sánh ở T-004. Chưa phải phạm vi, model hay dataset đã được nhóm hoặc thầy chốt.
 - **Nguồn định hướng:** [Bản ghi do nhóm cung cấp](../sources/dinhhuongdatn.docx) và [tóm tắt phạm vi hiện tại](../00-project/brief.md). Bản ghi không chứng minh mọi ý trong đó đã được thầy xác nhận.
 
+## Mục tiêu nghiên cứu và thứ tự ra quyết định
+
+**Câu hỏi trung tâm của nhóm:** Với cùng bài toán và điều kiện đánh giá, khi thêm một thuật toán optimization vào một thành phần được xác định rõ của model hoặc pipeline, **chỉ số nào thay đổi và thay đổi bao nhiêu so với baseline không có optimization?** Kết quả có thể là giảm lỗi nhận dạng, giảm thời gian/kích thước trong khi giữ chất lượng chấp nhận được, hoặc một đánh đổi được định lượng. Chưa có kết quả thực nghiệm nên báo cáo này không khẳng định đã cải thiện.
+
+Thứ tự nghiên cứu cần giữ là:
+
+1. **Bài toán cần giải quyết:** chọn một bối cảnh và một quy trình điểm danh/hiện diện cụ thể; hai use case bên dưới là phương án để so sánh.
+2. **Yêu cầu hệ thống:** ai dùng, camera nhận một hay nhiều người, kết quả nào được phép tự ghi, trường hợp nào phải từ chối, giới hạn thời gian và thiết bị.
+3. **Dữ liệu cần có:** ảnh đăng ký, ảnh lúc sử dụng, người trong/ngoài danh sách, nhãn danh tính và bounding box nếu nghiên cứu ROI; cần các buổi chụp tách biệt để thử nghiệm khách quan.
+4. **Dataset phù hợp:** chọn nguồn đáp ứng từng vai trò huấn luyện, hiệu chỉnh và kiểm tra; xác minh quyền dùng, cách thu thập, chất lượng và khả năng truy cập trước khi phụ thuộc vào nguồn đó.
+5. **Model phù hợp:** so khả năng giải bài toán, mức lỗi ban đầu, chi phí huấn luyện và khả năng chạy trên thiết bị. MobileFaceNet trong báo cáo này là **ứng viên**, chưa phải lựa chọn đã chốt.
+6. **Điểm cần tối ưu:** chạy baseline và phân loại lỗi phát hiện mặt, crop/ROI, embedding, so khớp hoặc thời gian xử lý. Chỉ chọn điểm có bằng chứng và dư địa cải thiện.
+7. **Optimization algorithm:** định nghĩa biến tìm kiếm, ràng buộc và objective trước; sau đó mới chọn thuật toán phù hợp với không gian và chi phí đánh giá. Bayesian optimization, PSO, Jaya hoặc cách khác đều chỉ là ứng viên.
+8. **Pipeline và thực nghiệm:** xây baseline và proposed chỉ khác thành phần nghiên cứu; dùng cùng dữ liệu/split, protocol, metric, seed và thiết bị; giữ tập test cuối riêng để đo mức cải thiện.
+
+Ví dụ nếu mục tiêu là **giảm bỏ sót người đã đăng ký mà không tăng nhận nhầm người lạ**, báo cáo `ΔFNIR = FNIR_baseline − FNIR_proposed` tại cùng mức FPIR, kèm số lượt thử và khoảng bất định. Nếu mục tiêu là tốc độ, báo cáo thời gian p95 của cả hai phiên bản trên cùng điện thoại và mức thay đổi lỗi nhận dạng. Các giá trị này chỉ được điền sau khi chạy thí nghiệm; không lấy điểm benchmark của tác giả model làm kết quả của nhóm.
+
 ## Tóm tắt đề xuất
 
 Đề xuất ưu tiên **điểm danh đầu giờ cho một lớp bằng điện thoại đặt tại điểm check-in, từng sinh viên đứng trước camera**. Hệ thống nhận dạng người đã đăng ký trong danh sách của phiên học và có quyền từ chối khi không đủ tin cậy. Phương án này giới hạn số mặt trong mỗi lượt, dễ thu dữ liệu đúng bối cảnh và đo lỗi nhận sai, bỏ sót, thời gian xử lý. Phương án thứ hai là ghi nhận nhiều người trong một ảnh lớp; nó gần với ý tưởng quan sát hiện diện nhưng đòi hỏi dữ liệu mặt nhỏ, che khuất, nhiều người cùng khung hình và quy tắc kiểm tra thủ công phức tạp hơn.
 
-Nếu chọn phương án thứ nhất, đề xuất **MobileFaceNet** làm model nhận dạng cần khảo sát. Hai điểm có thể cải thiện theo bản định hướng là **tham số/chính sách huấn luyện** của model và **vùng crop từ bounding box** trước khi đưa mặt vào model. Đây là hai giả thuyết nghiên cứu khác nhau; nhóm cần đo lỗi trước rồi chọn **một** điểm chính để thử nghiệm. Dataset đề xuất gồm **DigiFace-1M cho huấn luyện nghiên cứu**, **ảnh người tham gia đồng ý cung cấp để đăng ký và đánh giá đúng bối cảnh**, và **LFW để kiểm tra tham khảo theo giao thức xác minh cặp ảnh**. Quyền sử dụng và chi phí huấn luyện cần được xác nhận trước khi lấy dữ liệu.
+Nếu chọn phương án thứ nhất, **MobileFaceNet** là ứng viên model nhận dạng để khảo sát sau khi xác định yêu cầu và dữ liệu. Hai điểm có thể cải thiện theo bản định hướng là **tham số/chính sách huấn luyện** của model và **vùng crop từ bounding box** trước khi đưa mặt vào model. Đây là hai giả thuyết nghiên cứu khác nhau; nhóm cần đo baseline rồi chọn **một** điểm chính để thử nghiệm. DigiFace-1M, dữ liệu người tham gia đồng ý cung cấp và LFW được liệt kê theo vai trò khác nhau ở phần dataset; chưa nguồn nào được quyết định là dataset chính thức.
 
 ## Use case A — Điểm danh từng người tại điểm check-in (ưu tiên)
 
@@ -45,6 +62,21 @@ Tiêu chí cần đo thêm là **recall trên mặt nhỏ**, tỷ lệ người 
 
 **Giả định chưa xác nhận:** có thể chụp toàn lớp với sự đồng ý phù hợp; góc camera/độ phân giải cho mặt đủ lớn; giảng viên chấp nhận rà soát kết quả; thầy muốn xử lý nhiều người trong một lần chụp; điện thoại đáp ứng thời gian xử lý.
 
+## Dữ liệu cần có và dataset ứng viên
+
+Trước khi chọn tên dataset, cần xác định bốn nhóm dữ liệu: **ảnh có nhãn danh tính để train/fine-tune**, **ảnh đăng ký của người dùng dự kiến**, **lượt chụp người trong và ngoài danh sách ở các buổi khác nhau để chọn tham số và đánh giá**, và **nhãn bounding box/chất lượng crop nếu nghiên cứu ROI**. Dữ liệu public có thể phục vụ huấn luyện hoặc benchmark; chỉ dữ liệu đúng camera và quy trình dự kiến mới kiểm tra được use case điểm danh của nhóm. Bảng sau là danh sách ứng viên theo vai trò, không phải quyết định dùng tất cả.
+
+| Dataset/nguồn | Vai trò đề xuất | Lý do chọn | Điều kiện và giới hạn |
+| --- | --- | --- | --- |
+| [DigiFace-1M](https://github.com/microsoft/DigiFace1M) | **Ứng viên chính cho huấn luyện nhận dạng** MobileFaceNet trong nghiên cứu. Bắt đầu bằng phần 72 ảnh/người nếu tài nguyên không cho phép dùng toàn bộ; ghi chính xác tập con và seed. | Có nhãn danh tính và nhiều ảnh cho mỗi người; ảnh tổng hợp giảm phụ thuộc vào bộ ảnh thật thu thập từ Internet. [Bài báo gốc](https://openaccess.thecvf.com/content/WACV2023/papers/Bae_DigiFace-1M_1_Million_Digital_Face_Images_for_Face_Recognition_WACV_2023_paper.pdf) nghiên cứu cả khoảng cách từ tổng hợp sang ảnh thật. | [Giấy phép R-UDA](https://github.com/microsoft/DigiFace1M/blob/main/LICENSE) giới hạn ở nghiên cứu phi thương mại. Một tập con nhỏ không tự bảo đảm model đủ tốt; cần ước lượng GPU, dung lượng và hiệu năng sau huấn luyện. |
+| Ảnh **người tham gia đồng ý cung cấp** | Đăng ký mẫu; dữ liệu train/fine-tune thực tế nếu đủ và được phép; calibration/validation; **test độc lập** của app điểm danh. | Chỉ nguồn này phản ánh camera, ánh sáng, khoảng cách và người dùng của use case. Phải có cả người **ngoài danh sách** để đo FPIR. | Cần thỏa thuận quyền thu, truy cập, lưu và xóa. Không commit ảnh, danh tính hoặc embedding cá nhân lên Git. Không dùng các khung hình gần nhau của cùng một lượt chụp ở cả train và test. |
+| [LFW](https://web.cs.umass.edu/publication/docs/2014/UM-CS-2014-003.pdf) | Benchmark **bổ trợ** cho xác minh cặp ảnh cùng/khác người. | Có giao thức công bố để kiểm tra triển khai model và tham khảo nghiên cứu. | LFW là bài toán cặp ảnh; điểm LFW không thay thế kết quả nhận dạng 1:N và điểm danh trong lớp. Cần tuân theo protocol và điều kiện dùng dữ liệu trước khi báo số liệu. |
+| [WIDER FACE](https://shuoyang1213.me/WIDERFACE/) | Chỉ dùng khi cần chẩn đoán/đánh giá **bộ phát hiện mặt**, đặc biệt nếu chọn use case B. | Có nhãn bounding box và phân mức Easy/Medium/Hard. | Không có nhãn danh tính để huấn luyện MobileFaceNet cho điểm danh; trang dự án ghi giấy phép CC BY-NC-ND. |
+
+**VGGFace2 chưa phù hợp để làm nguồn huấn luyện phụ thuộc chính:** [trang chính thức của Oxford](https://www.robots.ox.ac.uk/~vgg/data/vgg_face2/) hiện ghi đường tải dataset không còn được cung cấp tại đó. Trọng số pretrained của [InsightFace](https://github.com/deepinsight/insightface/blob/master/python-package/docs/model_zoo.md) có điều kiện dùng nghiên cứu phi thương mại riêng với giấy phép mã nguồn. Nếu dùng trọng số đó cho prototype, phải ghi rõ xuất xứ và không coi nó là model nhóm tự huấn luyện trên DigiFace-1M.
+
+**Phân chia dữ liệu dự kiến:** với người tham gia thật, ảnh đăng ký lấy ở buổi A; ảnh chọn ngưỡng và chính sách ở buổi B; ảnh test ở buổi C khác ngày/điều kiện. Người ngoài danh sách tham gia test cũng cần đồng ý. Với dữ liệu huấn luyện nhận dạng công khai/tổng hợp, không để ảnh hoặc danh tính của tập test đi vào bước tìm tham số hoặc ROI. Cả hai phiên bản phải dùng cùng split, detector và danh sách đăng ký; **cách crop chỉ được thay khi đó chính là biến nghiên cứu**. Ghi seed, phiên bản mã, trọng số khởi tạo, thiết bị và thời gian huấn luyện để so sánh có thể tái lập.
+
 ## Model đề xuất và điểm yếu cần kiểm chứng
 
 **Model nhận dạng đề xuất:** MobileFaceNet tạo embedding khuôn mặt. Model phát hiện mặt có thể là SCRFD-500MF nếu giấy phép và thử nghiệm trên điện thoại phù hợp; detector được giữ cố định khi so sánh baseline với proposed. [Bài báo MobileFaceNets](https://arxiv.org/abs/1804.07573) thiết kế kiến trúc cho thiết bị di động. [ArcFace](https://openaccess.thecvf.com/content_CVPR_2019/html/Deng_ArcFace_Additive_Angular_Margin_Loss_for_Deep_Face_Recognition_CVPR_2019_paper.html) là một loss có thể dùng khi huấn luyện, không phải bộ nhận dạng thứ hai lúc chạy app.
@@ -68,18 +100,14 @@ Tiêu chí cần đo thêm là **recall trên mặt nhỏ**, tỷ lệ người 
 
 **Objective chung:** giảm FNIR ở mức FPIR đã định, đồng thời báo cáo tỷ lệ ghi điểm danh đúng và p95 thời gian xử lý. Tập test cuối phải giữ riêng. Với ROI, nếu độ chính xác tăng do chạy nhiều crop, phải báo thêm chi phí xử lý; với tham số huấn luyện, phải báo chi phí tìm kiếm/fine-tune. Mỗi hướng cần một phép so sánh chỉ thay thành phần đang nghiên cứu.
 
-## Dataset đề xuất và lý do
+### Pipeline nghiên cứu và cách chứng minh mức cải thiện
 
-| Dataset/nguồn | Vai trò đề xuất | Lý do chọn | Điều kiện và giới hạn |
-| --- | --- | --- | --- |
-| [DigiFace-1M](https://github.com/microsoft/DigiFace1M) | **Ứng viên chính cho huấn luyện nhận dạng** MobileFaceNet trong nghiên cứu. Bắt đầu bằng phần 72 ảnh/người nếu tài nguyên không cho phép dùng toàn bộ; ghi chính xác tập con và seed. | Có nhãn danh tính và nhiều ảnh cho mỗi người; ảnh tổng hợp giảm phụ thuộc vào bộ ảnh thật thu thập từ Internet. [Bài báo gốc](https://openaccess.thecvf.com/content/WACV2023/papers/Bae_DigiFace-1M_1_Million_Digital_Face_Images_for_Face_Recognition_WACV_2023_paper.pdf) nghiên cứu cả khoảng cách từ tổng hợp sang ảnh thật. | [Giấy phép R-UDA](https://github.com/microsoft/DigiFace1M/blob/main/LICENSE) giới hạn ở nghiên cứu phi thương mại. Một tập con nhỏ không tự bảo đảm model đủ tốt; cần ước lượng GPU, dung lượng và hiệu năng sau huấn luyện. |
-| Ảnh **người tham gia đồng ý cung cấp** | Đăng ký mẫu; dữ liệu train/fine-tune thực tế nếu đủ và được phép; calibration/validation; **test độc lập** của app điểm danh. | Chỉ nguồn này phản ánh camera, ánh sáng, khoảng cách và người dùng của use case. Phải có cả người **ngoài danh sách** để đo FPIR. | Cần thỏa thuận quyền thu, truy cập, lưu và xóa. Không commit ảnh, danh tính hoặc embedding cá nhân lên Git. Không dùng các khung hình gần nhau của cùng một lượt chụp ở cả train và test. |
-| [LFW](https://web.cs.umass.edu/publication/docs/2014/UM-CS-2014-003.pdf) | Benchmark **bổ trợ** cho xác minh cặp ảnh cùng/khác người. | Có giao thức công bố để kiểm tra triển khai model và tham khảo nghiên cứu. | LFW là bài toán cặp ảnh; điểm LFW không thay thế kết quả nhận dạng 1:N và điểm danh trong lớp. Cần tuân theo protocol và điều kiện dùng dữ liệu trước khi báo số liệu. |
-| [WIDER FACE](https://shuoyang1213.me/WIDERFACE/) | Chỉ dùng khi cần chẩn đoán/đánh giá **bộ phát hiện mặt**, đặc biệt nếu chọn use case B. | Có nhãn bounding box và phân mức Easy/Medium/Hard. | Không có nhãn danh tính để huấn luyện MobileFaceNet cho điểm danh; trang dự án ghi giấy phép CC BY-NC-ND. |
+Sau khi chọn **một** hướng optimization, viết rõ hai pipeline trước khi chạy:
 
-**Không chọn VGGFace2 làm nguồn huấn luyện chính lúc này:** [trang chính thức của Oxford](https://www.robots.ox.ac.uk/~vgg/data/vgg_face2/) hiện ghi đường tải dataset không còn được cung cấp tại đó. Trọng số pretrained của [InsightFace](https://github.com/deepinsight/insightface/blob/master/python-package/docs/model_zoo.md) có điều kiện dùng nghiên cứu phi thương mại riêng với giấy phép mã nguồn. Nếu dùng trọng số đó cho prototype, phải ghi rõ xuất xứ và không coi nó là model nhóm tự huấn luyện trên DigiFace-1M.
+- **Nếu chọn tham số huấn luyện:** cùng ảnh → cùng detector/crop → MobileFaceNet baseline huấn luyện với cấu hình cố định **so với** MobileFaceNet proposed được fine-tune bằng cấu hình do thuật toán tìm. Hai model được đánh giá bằng cùng danh sách đăng ký và lượt test.
+- **Nếu chọn bounding box/ROI:** cùng ảnh → cùng detector → crop baseline cố định **so với** crop proposed do chính sách tối ưu chọn → **cùng trọng số MobileFaceNet** → cùng logic điểm danh. Khi đó kết luận là cải thiện pipeline dùng model, không phải cải thiện trọng số của model.
 
-**Phân chia dữ liệu dự kiến:** với người tham gia thật, ảnh đăng ký lấy ở buổi A; ảnh chọn ngưỡng và chính sách ở buổi B; ảnh test ở buổi C khác ngày/điều kiện. Người ngoài danh sách tham gia test cũng cần đồng ý. Với dữ liệu huấn luyện nhận dạng công khai/tổng hợp, không để ảnh hoặc danh tính của tập test đi vào bước tìm tham số hoặc ROI. Cả hai phiên bản phải dùng cùng split, detector và danh sách đăng ký; **cách crop chỉ được thay khi đó chính là biến nghiên cứu**. Ghi seed, phiên bản mã, trọng số khởi tạo, thiết bị và thời gian huấn luyện để so sánh có thể tái lập.
+Ở cả hai hướng, khóa tập test cho đến khi hoàn tất chọn tham số, ngưỡng và thuật toán. Ghi bảng baseline/proposed gồm FPIR, FNIR, tỷ lệ điểm danh đúng, thời gian p95, kích thước model, số lần đánh giá của thuật toán và chênh lệch có dấu cho từng metric. Chạy nhiều seed khi có huấn luyện ngẫu nhiên; nêu số lượt, điều kiện chụp và khoảng bất định để người đọc biết cải thiện lớn hơn dao động đo hay không. Không dùng kết quả benchmark công khai để điền vào bảng so sánh của nhóm.
 
 ## Điều cần nhóm và thầy xác nhận trước khi chốt
 
