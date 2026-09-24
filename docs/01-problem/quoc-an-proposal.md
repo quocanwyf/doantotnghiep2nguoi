@@ -1,113 +1,74 @@
-# T-002 — Đề xuất use case của Quốc An
+# T-002 — Đề xuất của Quốc An: xác thực thí sinh tại cửa phòng thi
 
-**Trạng thái:** Đề xuất cá nhân để trao đổi với Minh Hy. Chưa phải phạm vi chính thức của nhóm. Quốc An đề nghị khảo sát nhiều bối cảnh trước khi thu hẹp; Minh Hy chuẩn bị phương án riêng ở T-003.
+**Trạng thái:** phương án Quốc An chủ động đề xuất để so sánh với đề xuất độc lập T-003 của Minh Hy. Chưa phải lựa chọn chính thức của nhóm ở T-004; chưa chọn dataset, model hoặc thuật toán tối ưu.
 
-## 1. Logic từ vấn đề đến đóng góp nghiên cứu
+## 1. Vấn đề và giá trị nghiệp vụ
 
-Với mỗi bối cảnh, trả lời theo thứ tự:
+Trước một kỳ thi, đơn vị tổ chức đã có danh sách thí sinh theo điểm thi, phòng, môn và ca, cùng ảnh đăng ký. Tại cửa phòng, giám thị phải nhận diện người đến, đối chiếu hồ sơ/giấy tờ, kiểm tra đúng phòng và thời điểm, rồi ghi nhận lượt vào. Nhiều thí sinh đến gần cùng lúc làm khâu này dễ ùn hàng, nhập nhầm hoặc khó rà soát khi phát sinh tranh chấp. Phòng thi có thể gồm thí sinh từ nhiều lớp, trường hoặc nhóm; đơn vị nghiệp vụ là **phòng + ca thi**, không phải lớp học.
 
-1. **Vấn đề nghiệp vụ:** việc ghi nhận hiện diện hoặc kiểm soát ra vào đang tốn công/sai ở đâu, hậu quả của từng loại sai là gì?
-2. **Sự kiện cần quyết định:** ai được ghi có mặt, lúc nào, theo quy tắc nào, ai sửa trường hợp không chắc chắn?
-3. **Bài toán thị giác:** chụp một hay nhiều người; xác minh danh tính đã khai báo (1:1), hay tìm người trong danh sách (1:N); có người ngoài danh sách không?
-4. **Điều kiện camera:** vị trí, khoảng cách, ánh sáng, góc mặt, chuyển động, số người cùng lúc và thời gian xử lý.
-5. **Giải pháp gốc:** thu ảnh → phát hiện/căn chỉnh mặt → tạo đặc trưng → so sánh → quyết định → ghi sự kiện và xử lý ngoại lệ.
-6. **Đóng góp:** chỉ sau khi thử giải pháp gốc mới xác định điểm yếu, thay đổi có mục tiêu và so sánh bằng cùng dữ liệu, cách chia và điều kiện đo.
+Quốc An đề xuất một thiết bị camera đặt trước cửa, ban đầu là điện thoại, để **hỗ trợ giám thị xác minh danh tính và ghi nhận lượt làm thủ tục**. Hệ thống phải trả lời: người đang làm thủ tục có khớp hồ sơ đã khai báo, được xếp vào đúng phòng/ca và chưa có lượt ghi nhận trùng không? Kết quả không chắc chắn chuyển cho người có thẩm quyền xử lý. Giá trị dự kiến là thao tác tra cứu nhanh hơn, ít nhầm phòng/ca hơn, danh sách có mặt cập nhật rõ hơn và có nhật ký để đối soát.
 
-Phân biệt **cần** (thiếu thì không giải quyết được nghiệp vụ) với **muốn** (có thể là phần mở rộng). Nhận dạng đúng khuôn mặt không tự chứng minh người đó ở đúng địa điểm hoặc đang đứng trước camera thay vì ảnh/video; những yêu cầu này phải được nêu riêng.
+Với kỳ thi tốt nghiệp THPT theo quy chế hiện được công bố, giám thị vẫn có nhiệm vụ gọi tên, đối chiếu danh sách ảnh và giấy tờ tùy thân, rồi tiếp tục kiểm tra trong phòng. Vì vậy đề xuất này **không mặc nhiên bỏ bước kiểm tra do quy chế yêu cầu**; mức tự động hóa phải được xác nhận theo từng loại kỳ thi và đơn vị tổ chức. Nguồn: [Quy chế thi của Bộ GD&ĐT, phần nhiệm vụ giám thị](https://vqa.moet.gov.vn/uploads/news/2024_12/final-quy-che-thi-tot-nghiep-thpt.pdf).
 
-## 2. Bảy use case ứng viên
+## 2. Bối cảnh sử dụng và người tham gia
 
-### A. Điểm danh cả lớp bằng camera cố định
+- **Đơn vị tổ chức thi:** cung cấp, kiểm tra và chốt danh sách thí sinh; xác định phòng, ca, thời gian và người có quyền xử lý ngoại lệ.
+- **Giám thị tại cửa/phòng:** vận hành thiết bị, xem kết quả, kiểm tra giấy tờ và quyết định theo quy chế. Người có thẩm quyền cao hơn xử lý trường hợp cần thay đổi danh sách hoặc cho phép ngoại lệ.
+- **Thí sinh:** xếp hàng và từng người bước vào vùng làm thủ tục, khai báo mã dự thi, nhìn vào camera, nhận hướng dẫn khi cần chụp lại.
+- **Thiết bị:** điện thoại đặt cố định ở cửa phòng trong bản đầu; hành lang có thể đông và có người khác trong nền ảnh, nhưng mỗi lượt chỉ một thí sinh đứng trong vùng kiểm tra. Một hướng sản phẩm về sau là thay bằng thiết bị edge nếu quy trình và kết quả đo chứng minh phù hợp.
 
-- **Vấn đề và người dùng:** giảng viên mất thời gian gọi tên; sinh viên vào muộn hoặc bị che khuất khiến danh sách dễ sai. Giảng viên xem và sửa kết quả.
-- **Camera, input, bài toán:** camera trong phòng nhìn nhiều sinh viên từ xa. Nhận diện từng người trong danh sách lớp (1:N), đồng thời từ chối người ngoài danh sách.
-- **Output và quy tắc hiện diện:** đề xuất danh sách có mặt theo buổi, kèm thời điểm quan sát; giảng viên xác nhận trước khi ghi chính thức. Phải định nghĩa cách xử lý vào muộn, ra sớm, bị che mặt.
-- **Cần / muốn:** cần tránh tự ghi có mặt khi không quan sát đủ và có cơ chế sửa sai; muốn tự động xử lý toàn lớp.
-- **Ràng buộc và dữ liệu:** mặt nhỏ, góc nghiêng, che khuất, ánh sáng không đều. Cần ảnh/video lớp học có nhiều buổi, nhãn người theo thời gian và quyền dùng phù hợp; ảnh chân dung đơn lẻ chưa đủ. Demo bằng selfie điện thoại không đại diện cho camera toàn lớp.
-- **Giải pháp và điểm yếu có thể khảo sát:** phát hiện nhiều mặt → căn chỉnh → đặc trưng → so danh sách → gộp quan sát theo thời gian. Có thể thử chọn crop/khung hình hoặc quy tắc gộp; đo lỗi ghi có mặt/vắng mặt ở cấp buổi, tỷ lệ không xử lý được và tốc độ. Đây chỉ là hướng giả thuyết, chưa chọn thuật toán.
+## 3. Luồng nghiệp vụ Quốc An đề xuất
 
-### B. Sinh viên tự điểm danh bằng điện thoại tại lớp
+**Trước ca thi:** đơn vị tổ chức nhập danh sách đã xác thực gồm mã thí sinh duy nhất, ảnh đăng ký có nguồn rõ, phòng, ca/môn, thời gian, tình trạng đủ điều kiện và thông tin cần hiển thị cho giám thị. Chốt phiên bản danh sách; giám thị chọn đúng phòng/ca trên thiết bị, kiểm tra camera và tình trạng dữ liệu.
 
-- **Vấn đề và người dùng:** giảng viên muốn giảm thao tác; sinh viên chủ động xác nhận, giảng viên xử lý ngoại lệ.
-- **Camera, input, bài toán:** camera trước chụp một người sau khi sinh viên đăng nhập hoặc khai báo mã; xác minh 1:1 với mẫu đăng ký.
-- **Output và quy tắc hiện diện:** chấp nhận, từ chối hoặc yêu cầu chụp lại; ghi theo buổi học. Cần quy định thế nào là “ở trong lớp”, chống dùng ảnh/video và xử lý mất mạng. Khuôn mặt một mình chưa giải quyết được các yêu cầu đó.
-- **Cần / muốn:** cần xác minh người thực hiện và có đường sửa sai; muốn chạy hoàn toàn trên thiết bị, offline, chống giả mạo nâng cao.
-- **Ràng buộc và dữ liệu:** ánh sáng/góc chụp/camera khác nhau; sai từ chối gây phiền, sai chấp nhận gây điểm danh hộ. Cần nhiều lần chụp mỗi người, cặp đúng/sai người, điều kiện thu ảnh gần thực tế và quyền đồng ý.
-- **Giải pháp và điểm yếu có thể khảo sát:** phát hiện → kiểm tra chất lượng/căn chỉnh → đặc trưng → so 1:1 → ngưỡng. Có thể thử chọn mẫu đăng ký, kiểm tra chất lượng, căn chỉnh hoặc ngưỡng; đo tỷ lệ từ chối sai ở mức chấp nhận sai xác định trước, tỷ lệ phải chụp lại và độ trễ trên điện thoại.
+**Mỗi lượt tại cửa:**
 
-### C. Nhân viên ghi nhận giờ vào/ra tại kiosk doanh nghiệp
+1. Thí sinh **khai báo mã dự thi trước**. Hệ thống lấy đúng một hồ sơ trong kỳ thi. Việc nhập số báo danh, quét mã trên giấy báo dự thi hay phương tiện khác chưa cần quyết ở T-002; mã chỉ dùng để tìm hồ sơ, không tự chứng minh người cầm mã là chủ hồ sơ.
+2. Camera thu người đang đứng trong vùng làm thủ tục. Nếu có người khác ở nền, hệ thống phải chọn đúng người trong vùng; nếu nhiều mặt cùng chen vào vùng hoặc ảnh kém thì hướng dẫn làm lại.
+3. Hệ thống đối chiếu mặt người này với ảnh đăng ký của hồ sơ đã khai báo: **xác minh 1:1**. Đồng thời kiểm tra đúng phòng, đúng ca, khoảng thời gian cho phép và tình trạng đã ghi nhận hay chưa.
+4. Hiển thị một kết quả có lý do để giám thị quyết định: phù hợp để tiếp tục làm thủ tục; cần chụp lại; hoặc cần xử lý thủ công vì không khớp, sai phòng/ca, trùng lượt, quá giờ hay dữ liệu bất thường. Một điểm nhận dạng thấp không tự tước quyền dự thi của người hợp lệ.
+5. Ghi lại kết quả lượt, thời điểm, người xử lý và lý do nếu có sửa/ghi nhận ngoại lệ; sau ca cho phép đối soát danh sách đã đến, vắng và các trường hợp cần xác minh.
 
-- **Vấn đề và người dùng:** nhân sự cần sự kiện vào/ra đáng tin, ít nhập tay; nhân viên đứng trước camera ở điểm cố định.
-- **Camera, input, bài toán:** camera kiosk chụp một người mỗi lượt. Nếu không nhập mã, tìm trong danh sách nhân viên (1:N và có “không biết”). Nhập mã rồi xác minh 1:1 là biến thể nghiệp vụ khác, phải đánh giá riêng.
-- **Output và quy tắc hiện diện:** ghi thời điểm vào/ra và danh tính, hoặc chuyển lượt không chắc để duyệt. Ca làm, trùng lượt và sửa dữ liệu là quy tắc nghiệp vụ.
-- **Cần / muốn:** cần hạn chế nhận nhầm và xử lý người chưa đăng ký; muốn không chạm, offline, chờ ngắn.
-- **Ràng buộc và dữ liệu:** kính/khẩu trang, mẫu đăng ký cũ, danh sách tăng. Cần ảnh đăng ký và ảnh qua kiosk ở nhiều ngày, gồm cả người ngoài danh sách và quyền sử dụng ảnh nhân viên.
-- **Giải pháp và điểm yếu có thể khảo sát:** pipeline một mặt → đặc trưng → tìm ứng viên → ngưỡng từ chối. Có thể thử chất lượng/cập nhật mẫu đăng ký, ngưỡng hoặc tìm kiếm gọn; đo nhận nhầm, bỏ sót người hợp lệ, thời gian mỗi lượt theo quy mô danh sách.
+**Sau ca thi:** người phụ trách đối soát với danh sách phòng và biên bản giám thị, xử lý sai lệch, lưu hoặc xóa dữ liệu theo quy trình đã được đơn vị tổ chức phê duyệt. Việc thiết bị tự mở cửa, tự cho vào không cần giám thị, hay thay hoàn toàn kiểm tra giấy tờ **không thuộc phạm vi đề xuất ban đầu**.
 
-### D. Ghi nhận người dự họp trong phòng họp nhỏ
+## 4. Điều kiện cần, điều muốn và ngoại lệ phải đặc tả
 
-- **Vấn đề và người dùng:** chủ trì/thư ký mất thời gian điểm danh; cần biết ai thực sự dự một phiên.
-- **Camera, input, bài toán:** camera cố định quan sát một nhóm nhỏ; nhận diện trong danh sách dự kiến (1:N), vẫn có khách ngoài danh sách.
-- **Output và quy tắc hiện diện:** danh sách theo phiên và thời điểm được quan sát; chủ trì xác nhận. Cần định nghĩa xuất hiện bao lâu hoặc bao nhiêu lần thì tính có mặt.
-- **Cần / muốn:** cần tránh ghi nhầm người chỉ xuất hiện thoáng qua; muốn tự động hỗ trợ người đến muộn và rời sớm.
-- **Ràng buộc và dữ liệu:** quay mặt khỏi camera, che khuất, thay chỗ ngồi. Cần video có nhãn người/thời gian và quyền ghi hình; dataset ảnh tĩnh không kiểm tra được phần gộp theo thời gian.
-- **Giải pháp và điểm yếu có thể khảo sát:** phát hiện nhiều mặt → đặc trưng từng khung → liên kết quan sát → quyết định ở cấp phiên. Có thể tối ưu chọn khung, gộp điểm hoặc ngưỡng; đo lỗi hiện diện theo phiên, tỷ lệ không rõ và tốc độ.
+**Điều kiện cần:** danh sách/ảnh đăng ký đáng tin và được phép dùng; mã trỏ đúng một hồ sơ; camera chọn đúng người đang làm thủ tục dù có người xung quanh; xác minh 1:1; kiểm tra phòng/ca/trạng thái; có lối xử lý khi máy không chắc; ghi vết và sửa sai. Chưa thể coi nhận dạng mặt là bằng chứng đủ cho việc người trước camera là người thật hoặc giấy tờ họ xuất trình là thật.
 
-### E. Xác minh chủ thẻ tại cửa tòa nhà
+**Điều muốn sau khi phần cốt lõi chạy được:** giảm thời gian mỗi lượt, hoạt động khi mạng không ổn định, triển khai nhiều phòng bằng điện thoại rồi thiết bị edge, và giảm tỷ lệ phải kiểm tra thủ công mà không làm tăng rủi ro nhận nhầm. Mức tự động hóa sẽ phụ thuộc quy chế của kỳ thi.
 
-- **Vấn đề và người dùng:** ban quản lý muốn giảm dùng thẻ mượn; người ra vào quét thẻ rồi nhìn camera.
-- **Camera, input, bài toán:** camera ở cửa chụp một người, xác minh 1:1 với chủ thẻ. Bỏ thẻ và tìm toàn bộ danh sách là bài toán 1:N khác.
-- **Output và quy tắc hiện diện:** đề xuất cho qua/từ chối/chuyển nhân viên trực. Cơ chế cửa và lối đi khẩn cấp phải được thiết kế riêng.
-- **Cần / muốn:** cần rất hạn chế chấp nhận sai, có xử lý khi camera lỗi và quy trình dự phòng; muốn đi qua nhanh, ít tương tác.
-- **Ràng buộc và dữ liệu:** ảnh/video giả mạo, ánh sáng ở cửa, người di chuyển nhanh, hậu quả của chấp nhận sai. Cần cặp đúng/sai người qua cửa, dữ liệu tấn công phù hợp, quyền dùng và khả năng thử nghiệm an toàn.
-- **Giải pháp và điểm yếu có thể khảo sát:** kiểm tra chất lượng/chống giả mạo theo yêu cầu → xác minh → ngưỡng bảo thủ → ngoại lệ. Nếu thiếu dữ liệu giả mạo và hệ thống cửa, chỉ được kết luận về phần xác minh, chưa được tuyên bố giải quyết trọn bài toán.
+Các ngoại lệ phải được bàn kỹ: sai phòng; sai ca/môn; quá giờ; mã không có trong danh sách; hồ sơ đổi phòng phút cuối; lượt vào trùng hoặc thí sinh quay lại; ảnh đăng ký sai/cũ; ảnh thu mờ, ngược sáng, mặt nghiêng, khẩu trang; có nhiều mặt trong vùng; người ngoài danh sách; nghi dùng ảnh/video giả mạo; thí sinh không có giấy tờ; mất mạng, lệch giờ hoặc hỏng thiết bị; nhu cầu hỗ trợ đặc biệt. Chưa tự đặt quy tắc cho phép/từ chối từng trường hợp ở T-002.
 
-### F. Ghi nhận khách đã đăng ký tại quầy lễ tân
+## 5. Bài toán kỹ thuật suy ra từ nghiệp vụ
 
-- **Vấn đề và người dùng:** lễ tân muốn tìm đúng lịch hẹn nhanh hơn và hỗ trợ người không có đăng ký.
-- **Camera, input, bài toán:** camera quầy chụp một người; so danh sách khách của ngày (1:N nhỏ, có người ngoài danh sách). Nếu khách đưa mã hẹn, chuyển thành xác minh 1:1.
-- **Output và quy tắc hiện diện:** gợi ý lịch hẹn hoặc “không tìm thấy”; lễ tân xác nhận, không tự cấp quyền vào.
-- **Cần / muốn:** cần tránh gán nhầm khách cho lịch hẹn khác; muốn giảm thời gian tìm và hạn chế lưu dữ liệu.
-- **Ràng buộc và dữ liệu:** mẫu đăng ký có thể chỉ một ảnh, khách thay đổi diện mạo, danh sách thay hằng ngày. Cần ảnh đăng ký/ảnh tại quầy, người không có lịch, quy tắc lưu/xóa.
-- **Giải pháp và điểm yếu có thể khảo sát:** tạo đặc trưng lúc đăng ký → so danh sách trong ngày → ngưỡng từ chối. Có thể thử chất lượng ảnh đăng ký, ngưỡng theo kích thước danh sách hoặc xử lý gọn trên mobile; đo gán sai lịch, bỏ sót khách và thời gian xử lý.
+Bài toán nhận dạng chính là **1:1 có khai báo danh tính**: ảnh thu tại cửa so với ảnh đăng ký của một hồ sơ. Phần nghiệp vụ còn phải kiểm tra phòng/ca, thời gian và trạng thái lượt vào. Trong trường hợp có người xung quanh, phát hiện mặt nào thuộc lượt đang xử lý là một vấn đề đầu vào riêng. Không dùng mặt “rõ nhất” trong cả khung hình làm mặc định.
 
-### G. Kiểm tra thí sinh tại cửa phòng thi theo phòng và ca
+Pipeline gốc ở mức khái niệm: khai báo mã → tìm hồ sơ → thu và chọn mặt người trong vùng → kiểm tra chất lượng/căn chỉnh → tạo đặc trưng → so với ảnh đăng ký → quyết định mức tin cậy → kiểm tra điều kiện phòng/ca/trạng thái → hiển thị cho giám thị. Đây là khung để khảo sát về sau, chưa chọn thành phần, model hay thuật toán.
 
-- **Vấn đề và người dùng:** đơn vị tổ chức thi có danh sách thí sinh, phòng và ca trước giờ thi; giám thị cần đối chiếu đúng người, đúng lịch, ghi nhận lượt vào và xử lý ngoại lệ giữa lúc nhiều người xếp hàng.
-- **Camera, input, bài toán:** điện thoại đặt tại cửa. Một thí sinh bước vào vùng làm thủ tục mỗi lượt, dù có người khác ở hành lang hoặc trong nền ảnh. **Ưu tiên của Quốc An là thí sinh khai báo mã dự thi trước**, hệ thống lấy hồ sơ trong đúng kỳ thi/phòng/ca rồi xác minh mặt 1:1 với ảnh đăng ký. Chưa cần chọn ngay nhập số báo danh, quét mã trên giấy báo hay cách khác. Tìm mặt trực tiếp trong danh sách phòng (1:N) là phương án so sánh, chưa phải luồng chính được đề xuất.
-- **Output và quy tắc:** xác minh được danh tính, đúng phòng/ca và chưa ghi nhận trùng thì đề xuất hoàn tất thủ tục; ảnh kém, mặt không khớp, sai phòng/ca, quá giờ hoặc hồ sơ bất thường chuyển đến giám thị/người có thẩm quyền. Một điểm số nhận dạng thấp không tự tước quyền dự thi. Quyết định cuối cùng và giấy tờ phải theo quy chế của từng kỳ thi.
-- **Cần / muốn:** cần danh sách và ảnh đăng ký có nguồn tin cậy, kiểm tra đúng phòng/ca, chọn đúng người đang làm thủ tục, xử lý ngoại lệ và ghi vết; muốn giảm thao tác giấy tờ, kiểm tra nhanh và vận hành nhiều phòng bằng điện thoại hoặc thiết bị edge. Chống giả mạo phải được ghi là rủi ro ngay từ đầu; mức kiểm tra cần thiết phụ thuộc việc hệ thống chỉ hỗ trợ giám thị hay tự cho vào.
-- **Ràng buộc và dữ liệu:** người đứng xung quanh, nhiều mức sáng, góc mặt, khẩu trang, lỗi chụp, người không có trong danh sách, lượt trùng, đến muộn và thay đổi phòng. Cần dữ liệu ảnh đăng ký và ảnh/video tại cửa được phép dùng, gồm người hợp lệ và các ngoại lệ; dữ liệu ảnh mặt đã cắt sẵn không kiểm tra được lỗi chọn nhầm người trong nền.
-- **Giải pháp và điểm yếu có thể khảo sát sau T-004:** nhận mã khai báo → tìm hồ sơ → phát hiện đúng mặt trong vùng làm thủ tục → kiểm tra chất lượng/căn chỉnh → xác minh 1:1 → kiểm tra phòng, ca và trạng thái lượt vào → xử lý hoặc chuyển giám thị. Có thể khảo sát chọn mặt/khung hình, chất lượng ảnh, ngưỡng hoặc tốc độ trên mobile; đo nhận nhầm, bỏ sót, tỷ lệ chuyển thủ công, thời gian mỗi lượt và lỗi quyết định ở cấp lượt vào. Chưa chọn model hay thuật toán tối ưu.
+Các điểm có thể chưa tốt chỉ là **giả thuyết cần kiểm chứng**: chọn nhầm người trong nền; ảnh ở cửa kém hơn ảnh đăng ký; sai từ chối khi đeo khẩu trang/ánh sáng xấu; sai chấp nhận khi khuôn mặt giống nhau; chờ lâu khi hàng đông; ảnh/video giả mạo. T-005/T-006 sẽ khảo sát dữ liệu, baseline, đo lỗi thực tế, rồi mới chọn một hoặc vài điểm có cơ sở để cải thiện. Nếu thay nhiều thành phần phải tách tác động từng thay đổi.
 
-## 3. Cách lọc trước khi chọn ở T-004
+## 6. Tiêu chí để đánh giá tính khả thi ở T-004
 
-Áp dụng cùng các câu hỏi cho từng use case: (1) sự kiện nghiệp vụ và người chịu trách nhiệm có rõ không; (2) có dữ liệu hợp lệ, gần camera thực tế, gồm người đúng/người sai/người ngoài danh sách không; (3) có thể tách đăng ký, hiệu chỉnh, kiểm tra để tránh rò rỉ không; (4) có baseline và một điểm yếu đo được không; (5) demo mobile có phản ánh camera nghiên cứu không; (6) công sức ghi nhãn, tính toán và xử lý ngoại lệ có vừa sức không.
+- Có quyền dùng ảnh đăng ký và dữ liệu thử nghiệm gần với cửa phòng thi, gồm nhiều lần chụp mỗi người, điều kiện sáng/đông người khác nhau, người đúng và sai hồ sơ không?
+- Có thể xác định rõ giám thị/người có thẩm quyền xử lý từng trạng thái và đối soát kết quả không?
+- Có thể thử toàn bộ lượt làm thủ tục, không chỉ độ chính xác trên ảnh mặt đã cắt sẵn không?
+- Có thể đo hai loại lỗi quan trọng — nhận nhầm người và bỏ sót người hợp lệ — cùng tỷ lệ chuyển xử lý thủ công, thời gian mỗi lượt và lỗi ở cấp quyết định vào đúng phòng/ca không?
+- Có thể demo bằng điện thoại đặt tại cửa với cùng điều kiện camera trong nghiên cứu không?
+- Có thể thử nghiệm trong phạm vi đồ án mà không tuyên bố thay thế các bước giám thị bắt buộc theo quy chế không?
 
-**Ưu tiên kiểm tra tiếp, chưa chốt:** G có nghiệp vụ theo phòng/ca rõ, điều kiện cửa phòng thi đặc trưng và vai trò thật cho camera mobile; Quốc An ưu tiên luồng khai báo mã rồi xác minh 1:1. B sát camera điện thoại nhưng chưa tự chứng minh đang ở lớp; C có sự kiện vào/ra rõ; D có câu hỏi về quyết định từ nhiều khung hình. A cần dữ liệu lớp học thực, E có yêu cầu an toàn cao, F phụ thuộc dữ liệu khách. Thứ tự này là giả thuyết của Quốc An, có thể đổi sau khi kiểm chứng và trao đổi với Minh Hy.
+Các bối cảnh đã xem trước đó — điểm danh bằng điện thoại cá nhân, kiosk nhân viên, camera toàn lớp, phòng họp, cửa tòa nhà và quầy lễ tân — là đối chiếu để lý giải lựa chọn. Quốc An **đề xuất bối cảnh phòng thi làm phương án chính** vì sự kiện cần quyết định rõ, danh sách theo phòng/ca có trước, camera mobile có vai trò thật và điều kiện hành lang tạo vấn đề nhận dạng cần kiểm chứng. Đây chưa phải kết luận của nhóm trước T-004.
 
-### Đề nghị cổng chốt nghiệp vụ trước T-005/T-006
+## 7. Checkpoint nghiệp vụ trước khảo sát kỹ thuật sâu
 
-Sau khi T-002 và T-003 được trình bày, T-004 chọn một use case chính và luồng xác minh cơ bản. Trước khi bắt đầu khảo sát kỹ thuật sâu, nhóm cần một lần rà soát nghiệp vụ riêng trong T-004 hoặc một task kế cận nếu khối lượng lớn. Đầu ra là mô tả nghiệp vụ được cả hai thống nhất, không chỉ một câu tên đề tài.
+T-004 cần so sánh đề xuất của Quốc An với T-003 của Minh Hy và chọn một use case. Nếu nhóm chọn phòng thi, Quốc An đề nghị một **cổng đặc tả nghiệp vụ riêng sau lựa chọn và trước T-005/T-006**; có thể đặt thành task trên Sheet nếu khối lượng lớn. Cổng này phải có sơ đồ luồng lượt vào, danh mục trạng thái và bảng ngoại lệ. Với mỗi ngoại lệ, ghi điều kiện phát hiện, hành động của hệ thống, ai có quyền quyết định, thông tin nào cần lưu và cách sửa sai. Hai người phải thống nhất; các điểm phụ thuộc quy chế hoặc ý kiến thầy phải được đánh dấu chờ xác nhận.
 
-Tối thiểu phải có: dữ liệu đầu vào và người chịu trách nhiệm xác thực ảnh đăng ký; phiên bản danh sách theo kỳ thi/phòng/ca; luồng một lượt từ xếp hàng đến ghi nhận; các trạng thái kết quả; ai có quyền quyết định khi máy không chắc; quy tắc sai phòng, trùng lượt, đến muộn, ảnh kém, khẩu trang, người ngoài danh sách, nghi giả mạo, đổi phòng, mất mạng và hỏng thiết bị; nhật ký và cách sửa sai. Với từng ngoại lệ, ghi điều kiện phát hiện, hành động của hệ thống, người xử lý và bằng chứng lưu lại. Những điểm phụ thuộc quy chế kỳ thi hoặc ý kiến thầy phải được đánh dấu chờ xác nhận.
+Ở T-002 đã xác định **ưu tiên có khai báo mã rồi xác minh 1:1**. Tại cổng nghiệp vụ mới chốt cách khai báo, quy tắc đúng/sai phòng/ca, đến muộn, trùng lượt, kiểm tra giấy tờ, mức xử lý nghi giả mạo và luồng dự phòng. T-005/T-006 mới chọn dữ liệu, baseline, metric kỹ thuật, model và hướng tối ưu. Không dùng việc thử model để thay cho việc thống nhất quy trình nghiệp vụ.
 
-Chốt ở cổng này **có khai báo danh tính trước hay không**, vì nó quyết định 1:1 hay 1:N, dữ liệu và metric. Chưa cần chốt cách nhập/quét mã, model, ngưỡng hay thuật toán tối ưu; đó là lựa chọn triển khai và khảo sát sau.
+## 8. Câu hỏi mở để trao đổi với Minh Hy và thầy
 
-## 4. Cầu nối sang T-005/T-006
-
-Sau khi T-004 chọn một use case, mỗi hướng kỹ thuật được mô tả như một **gói kiểm chứng**: điều kiện camera → dữ liệu/quyền dùng → tập đăng ký, hiệu chỉnh và kiểm tra → pipeline gốc → 1–2 baseline → điểm lỗi quan sát được → lựa chọn cải thiện → metric/chi phí → khả năng chạy mobile. Không cần thử mọi tích Descartes dataset × model × pipeline × thuật toán.
-
-Nhóm hướng cải thiện cần khảo sát gồm phát hiện/căn chỉnh dưới điều kiện khó, ảnh/mẫu đăng ký, đặc trưng nhận dạng, ngưỡng quyết định, gộp nhiều khung hình, và tốc độ/kích thước mobile. Mỗi hướng có thể cần dữ liệu hoặc model riêng để xem xét; số liệu từ các tập khác nhau không so trực tiếp. Trong một phép thử baseline–proposed, giữ cùng dữ liệu, split, metric và điều kiện đo. Nếu thay nhiều phần, đo tác động từng phần.
-
-[NIST đánh giá xác minh 1:1](https://pages.nist.gov/frvt/html/frvt11.html) và [nhận diện 1:N](https://pages.nist.gov/frvt/html/frvt1N.html) theo các loại lỗi khác nhau, nên metric phải theo nghiệp vụ. [MobileFaceNets](https://arxiv.org/abs/1804.07573) là ví dụ về hướng model gọn, chưa phải lựa chọn của nhóm. Quyền dùng mã nguồn, trọng số và dataset phải kiểm tra riêng: [InsightFace nêu giới hạn của trọng số phát hành](https://github.com/deepinsight/insightface/blob/master/python-package/docs/model_zoo.md); [300-W nêu điều kiện dùng dữ liệu nghiên cứu](https://ibug.doc.ic.ac.uk/resources/300-W/). Các nguồn này chỉ là điểm bắt đầu cho khảo sát kỹ thuật.
-
-## 5. Câu hỏi cần trao đổi
-
-- Bối cảnh nào nhóm có thể quan sát hoặc mô phỏng trung thực, và ai có quyền cung cấp dữ liệu?
-- Nếu không nhận ra mặt, có được ghi vắng mặt/từ chối không, hay phải chuyển xử lý thủ công?
-- Tác vụ chính là 1:1, 1:N danh sách đóng, hay 1:N có người ngoài danh sách?
-- Mobile là camera thu ảnh chính, thiết bị suy luận, hay giao diện demo?
-- Lỗi chấp nhận sai và từ chối sai nào quan trọng nhất? Điều gì cần thầy xác nhận?
-
-Sau khi Quốc An và Minh Hy trao đổi, T-004 mới ghi một use case chính và quyết định của nhóm; câu hỏi chưa được thầy xác nhận tiếp tục ở docs/00-project/questions.md.
+1. Kỳ thi mục tiêu để làm đồ án/pilot là kỳ thi nào? Quy chế cụ thể cho phép hệ thống hỗ trợ giám thị ở bước nào?
+2. Ai có quyền cung cấp ảnh đăng ký; ảnh đó được xác thực khi đăng ký ra sao; có đủ ảnh qua nhiều thời điểm/điều kiện để thử không?
+3. Ai là người quyết định cuối cùng khi hệ thống báo không khớp, đến muộn hoặc nghi giả mạo?
+4. Mục tiêu tối thiểu là hỗ trợ kiểm tra ở cửa hay tự động cho vào không cần người? Quốc An đề xuất bắt đầu bằng hỗ trợ giám thị.
+5. Nếu không có dữ liệu từ kỳ thi thật, nhóm có thể mô phỏng luồng tại cửa với người tham gia đồng ý và công bố giới hạn kết luận thế nào?
+6. Mobile chỉ là thiết bị thu ảnh hay phải chạy suy luận tại chỗ/offline? Cần quyết sau khi biết điều kiện vận hành và dữ liệu.
