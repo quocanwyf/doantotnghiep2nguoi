@@ -116,6 +116,19 @@ Nếu mong thiết bị làm phần kiểm tra đầu vào chính mà không có
 
 **Lý do chưa chọn ngay thuật toán Jaya/PSO/HHO:** bản Word liệt kê chúng như công cụ, không có thuật toán nào tự tạo cải thiện. H1/H2 có biến rời rạc/liên tục và objective có ràng buộc; cần một thử nghiệm nhỏ trên development set để xem grid/random/BO/metaheuristic nào phù hợp. Nếu thuật toán đề xuất không hơn một phương pháp đơn giản cùng ngân sách, phải báo kết quả đó trung thực.
 
+## 8a. Bốn gói thí nghiệm khả thi và cách thu hẹp tổ hợp
+
+Không lấy tích Descartes của mọi dataset × model × thuật toán. Mỗi gói dưới đây trả lời một câu hỏi khác nhau; chỉ mở gói tiếp theo nếu dữ liệu và lỗi baseline tạo lý do.
+
+- **Gói P1 — khả năng vận hành cơ bản:** D1; YuNet + SFace cố định; B0 rồi B1. So trên cùng lượt video nguyên khung. Kết quả cần có: tỷ lệ giao dịch hoàn tất, lỗi chọn người, FMR/FNMR, tỷ lệ chuyển xử lý, thời gian/lượt. Đây là cột mốc bắt buộc trước mọi tuyên bố tối ưu.
+- **Gói P2 — chọn đúng mặt/khung trong hành lang:** D1 với nhãn người mục tiêu và nhiều khung mỗi lượt; giữ YuNet + SFace và quy tắc nghiệp vụ cố định; so B0, B1, H1, H2 và tổ hợp H1+H2 nếu từng hướng riêng có tín hiệu. D2 chỉ dùng kiểm tra detector, không dùng chọn tham số cho D1 test. Chỉ đi gói này nếu P1 cho thấy lỗi đầu vào đáng kể. Đánh giá cả tại cửa/camera khác với nơi tìm cấu hình để phát hiện overfit vùng đứng.
+- **Gói P3 — nhận dạng hoặc huấn luyện:** D1 làm test nghiệp vụ, D3 chỉ sanity check; đối chiếu A với B để chẩn đoán, hoặc khảo sát C nếu có tập train có quyền và thầy xác nhận yêu cầu fine-tune. Giữ detector, crop và chính sách quyết định tương đương khi muốn quy kết chênh lệch cho embedding. Chỉ đi gói này nếu P1/P2 cho thấy mặt chọn đúng, ảnh đủ chất lượng mà FNMR còn cao. Nếu thiếu dữ liệu train hợp lệ, không nhận H5.
+- **Gói P4 — sản phẩm gần vận hành:** cùng pipeline tốt nhất từ P1–P3 chạy trên điện thoại đích; D1 có các kịch bản tải cao, mất mạng và ngoại lệ; D4 hoặc tập PAD phù hợp nếu muốn tự xử lý không có người đứng cửa. Đo độ trễ p95, bộ nhớ, tỷ lệ giao dịch cần người hỗ trợ, chi phí nhân sự tại cửa và thời gian rà người vắng bằng diễn tập quy trình. PAD phải có phép đo riêng; nếu chưa có, không dùng P4 để kết luận “thay được giám thị”.
+
+**Quy tắc chốt sau khảo sát:** trước hết chốt kỳ thi/pilot, quyền dữ liệu và mức tự động hóa hợp lệ; sau đó chạy P1 và phân loại lỗi. Chọn **một** điểm tối ưu chính có lỗi đủ lớn, biến điều khiển được và dữ liệu đo được. Chốt baseline, search space, objective, thuật toán cùng ngân sách thử và tập test trước khi chạy proposed. Nếu H1 hoặc H2 không hơn B1/random search trên test độc lập, kết quả đúng là hướng đó chưa chứng minh được giá trị, không đổi metric để tạo “cải thiện”.
+
+**Điều kiện để nói giảm nhân sự:** mô phỏng hoặc pilot phải ghi số người thực sự cần đứng cửa theo ca/phòng, số lần người có thẩm quyền bị gọi đến, thời gian xử lý ngoại lệ, hàng chờ và thời gian đối soát. Độ chính xác trên ảnh không tự chứng minh có thể giảm một vị trí trực mỗi phòng. Với kỳ thi chịu quy chế bắt buộc giám thị đối chiếu trực tiếp, đánh giá hiệu quả như giảm tải/tra cứu/đối soát trong phạm vi được phép.
+
 ## 9. Giao thức chia dữ liệu và đánh giá định lượng
 
 **Đơn vị split là người và lượt/phiên**, không phải khung hình ngẫu nhiên. Tập train (nếu huấn luyện), development để chọn model/cấu hình/ngưỡng, và test cuối phải độc lập theo người khi mục tiêu là khả năng dùng với thí sinh mới. Trong test, mỗi người vẫn có ảnh đăng ký riêng được cấp trước như nghiệp vụ thật; không dùng bất kỳ lượt qua cửa test nào để chỉnh ngưỡng. Các khung trong cùng lượt luôn nằm cùng một split; thử thêm tách theo ngày, camera và vị trí cửa để đo domain shift. Dữ liệu D1 phải có cả genuine và impostor claim, không chỉ hai ảnh của cùng người.
