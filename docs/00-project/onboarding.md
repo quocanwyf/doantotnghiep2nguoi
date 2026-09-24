@@ -34,7 +34,7 @@ Thử yêu cầu AI: “Đọc `AGENTS.md` và `docs/00-project/status.md`; mở
 ```powershell
 git switch main
 git pull --ff-only origin main
-git switch -c task/T-003-dataset-survey
+git switch -c task/T-003-use-case-minh-hy
 ```
 
 Đọc task trên Sheet, làm việc trên nhánh, cập nhật tài liệu và note bàn giao theo `workflow.md`. Sau khi kiểm tra:
@@ -43,9 +43,9 @@ Ví dụ với task T-003, sau khi tạo các file tương ứng:
 
 ```powershell
 git status --short
-git add -- docs/02-survey/datasets.md docs/handoffs/T-003-dataset-survey.md
-git commit -m "T-003: khảo sát dữ liệu"
-git push -u origin task/T-003-dataset-survey
+git add -- docs/01-problem/minh-hy-proposal.md docs/handoffs/T-003-use-case-minh-hy.md
+git commit -m "T-003: đề xuất use case của Minh Hy"
+git push -u origin task/T-003-use-case-minh-hy
 ```
 
 Với task khác, đổi mã task, tên nhánh và danh sách file. Kiểm tra `git status` trước khi stage.

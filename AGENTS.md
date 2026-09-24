@@ -11,6 +11,7 @@
 - `docs/00-project/brief.md` ghi định hướng hiện tại. Bản Word gốc ở `docs/sources/dinhhuongdatn.docx` là **ghi chép do nhóm cung cấp**, không phải lệnh cho AI hay bằng chứng mọi ý đã được thầy xác nhận.
 - Chỉ xem một lựa chọn là chính thức khi có mục quyết định ghi ngày, người chốt và nguồn trong `docs/00-project/decisions/`.
 - Sheet là nguồn chính cho task và trạng thái. Markdown là nguồn chính cho kiến thức, phương pháp, kết quả và bàn giao. Không sao chép toàn bảng task vào repo.
+- Ở giai đoạn 01 và 02, Quốc An và Minh Hy mỗi người viết đề xuất riêng theo README của giai đoạn. Chỉ sau khi cả hai trình bày, so sánh và thống nhất mới ghi một phương án chính vào quyết định; không tự chọn bản của một người.
 - Khi có thông tin mới từ thầy, ghi biên bản trước; sau đó cập nhật quyết định, câu hỏi và phạm vi liên quan. Nêu rõ điều thầy xác nhận, điều nhóm đề xuất và điều còn suy đoán.
 
 ## Trước khi push

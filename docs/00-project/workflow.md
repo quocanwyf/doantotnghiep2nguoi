@@ -7,6 +7,10 @@ Nhóm gồm **Quốc An (TV-A)** và **Minh Hy (TV-B)**. Hướng dẫn để Mi
 - [Google Sheet task](https://docs.google.com/spreadsheets/d/14BQCQ_LbGkZS15Grfi4AZNWBX15h479XjoyQvP9jHcU/edit?gid=0#gid=0): mã việc, người làm chính, người review, trạng thái, hạn, trở ngại và link đầu ra.
 - [GitHub repo](https://github.com/quocanwyf/doantotnghiep2nguoi): mã, kiến thức dự án, quyết định, kết quả và note bàn giao. Không tạo task board thứ hai trong repo.
 
+## Hai vòng đề xuất song song
+
+Ở giai đoạn 01 và 02, Quốc An và Minh Hy mỗi người có **task và file đề xuất riêng**. Cả hai cùng nghiên cứu đầy đủ vấn đề, sau đó trình bày, hỏi chéo và chọn một phương án chính có lập luận/bằng chứng tốt hơn. Không gộp hai bản nháp thành quyết định trước buổi trao đổi. Người phụ trách task chọn phương án ghi lại kết luận; người còn lại review; cả hai phải đồng ý trước khi đánh dấu đã chốt trong nhóm. Các điểm cần thầy xác nhận vẫn ở `questions.md`.
+
 ## Một vòng làm việc
 
 1. **Nhận việc:** đồng bộ `main` mới nhất (`git pull --ff-only`), xem task ID trên Sheet, đọc `AGENTS.md`, `status.md`, quyết định, note bàn giao và tài liệu giai đoạn liên quan. Mỗi task có một người phụ trách chính và một người review.
