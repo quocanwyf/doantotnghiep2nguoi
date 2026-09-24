@@ -30,9 +30,9 @@ Dataset được chọn theo **vai trò đo**, không cộng mọi ảnh vào m�
 
 [Nhóm tác giả XQLFW](https://martlgap.github.io/xqlfw/) cung cấp giao thức 3.000 cặp cùng người và 3.000 cặp khác người, nhấn vào chênh lệch chất lượng/độ phân giải. Nó giúp hỏi model nào bền hơn khi ảnh ở cửa kém ảnh hồ sơ, và liệu hướng chọn khung theo chất lượng có lý do. **Không dùng làm tập chính cho video, chọn mặt trong cảnh hoặc thời gian qua cửa**, vì đây là benchmark cặp ảnh. Cần xác nhận điều kiện sử dụng **ảnh** ở trang tải; giấy phép MIT của mã đánh giá không tự là giấy phép của ảnh.
 
-### D3 — CPLFW hoặc CFP-FP: kiểm tra nhạy với góc mặt
+### D3 — CPLFW: kiểm tra nhạy với góc mặt
 
-[CPLFW của nhóm tác giả](https://www.whdeng.cn/CPLFW/index.html) tập trung vào cặp khác tư thế; [CFP-FP](http://www.cfpw.io/) là đối chiếu frontal–profile nếu trang/dữ liệu còn truy cập được. Chỉ chọn **một** tập pose sau kiểm tra quyền dùng và file protocol để tránh thêm benchmark vì số lượng. Chúng giúp giải thích lỗi do thí sinh quay mặt, nhưng không mô phỏng trọn luồng cửa phòng. Nếu không truy cập được nguồn chính thức/điều khoản, bỏ tập đó thay vì lấy bản sao không rõ nguồn.
+[CPLFW của nhóm tác giả](https://www.whdeng.cn/CPLFW/Cross-Pose-LFW.pdf) tập trung vào cặp ảnh khác tư thế. Nó giúp giải thích lỗi do người trước camera quay mặt, nhưng không mô phỏng trọn luồng cửa phòng. Chỉ thêm D3 sau khi kiểm tra quyền dùng, tệp ảnh và protocol từ nguồn gốc; nếu không truy cập được thì bỏ, không lấy bản sao không rõ nguồn.
 
 ### D4 — WIDER FACE: chỉ đo phát hiện mặt khi cần
 
@@ -42,7 +42,7 @@ Dataset được chọn theo **vai trò đo**, không cộng mọi ảnh vào m�
 
 [LFW](https://vis-www.cs.umass.edu/lfw/) là phép thử sanity cho cặp ảnh quen thuộc; điểm cao trên LFW không trả lời tình huống ảnh qua cửa khác chất lượng. [IJB-C](https://www.nist.gov/itl/tted/btg/ijb-c-dataset-request-form) có thử thách rộng hơn nhưng NIST đã ngừng phân phối từ 14/03/2023, nên không đặt làm điều kiện bắt buộc. Tập ảnh thi thật hoặc tập tự thu tại trường **không nằm trong kế hoạch dữ liệu của đồ án này**. Dữ liệu chống giả mạo không đưa vào ma trận chọn hướng tối ưu nhận diện.
 
-**Kết luận dataset ở mức khảo sát:** thử D1 làm tập chính; D2 kiểm tra cross-quality; chọn thêm D3 nếu lỗi pose nổi bật; D4 chỉ khi hướng nghiên cứu chạm detector. Đây là lựa chọn có lý do, chưa phải xác nhận đã tải/kiểm tra đủ file và giấy phép từng bộ.
+**Kết luận dataset ở mức khảo sát:** thử D1 làm tập chính; D2 kiểm tra cross-quality; chỉ thêm D3 nếu lỗi pose nổi bật; D4 chỉ khi hướng nghiên cứu chạm detector. Đây là lựa chọn có lý do, chưa phải xác nhận đã tải/kiểm tra đủ file và giấy phép từng bộ.
 
 ## 4. Model ứng viên và câu hỏi “sao không dùng model tốt hơn luôn?”
 
