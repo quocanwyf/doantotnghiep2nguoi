@@ -1,0 +1,22 @@
+# Bàn giao T-005 — khảo sát kỹ thuật từ bài toán xác thực thí sinh
+
+- **Người làm, ngày:** Quốc An, với AI hỗ trợ nghiên cứu và soạn; 2026-09-25.
+- **Task trên Sheet:** [T-005 trong bảng chung](https://docs.google.com/spreadsheets/d/14BQCQ_LbGkZS15Grfi4AZNWBX15h479XjoyQvP9jHcU/edit?gid=0#gid=0).
+- **Commit/PR:** [PR #1](https://github.com/quocanwyf/doantotnghiep2nguoi/pull/1). PR ghi lịch sử cập nhật gói tài liệu T-005.
+- **Đầu ra:** [README giai đoạn 02](../02-survey/README.md) dẫn đến bốn file theo thứ tự: [phân rã task](../02-survey/quoc-an-task-decomposition.md), [khảo sát dataset](../02-survey/quoc-an-datasets.md), [khảo sát model/phương pháp](../02-survey/quoc-an-models.md), [thiết kế thí nghiệm](../02-survey/quoc-an-experiments.md). Bản khảo sát một file cũ đã được thay thế theo yêu cầu Quốc An.
+- **Logic chính:** từ claim mã dự thi → truy đúng một hồ sơ → thu/chọn mặt của người làm thủ tục → xác minh 1:1 → kiểm tra phòng/ca/giờ/trạng thái → ghi nhận. Dataset và model được khảo sát theo task/annotation/role, không đặt trước lựa chọn cuối. Nghiệp vụ là deterministic; PAD nếu có là module độc lập. Chỉ chốt optimization sau baseline, error analysis và chứng cứ bottleneck.
+- **Cách kiểm tra:** đọc liên kết và nguồn chính thức trong bốn tài liệu; so stage với use case [T-002](../01-problem/quoc-an-proposal.md); kiểm tra rằng không có ký hiệu/lựa chọn cũ được dùng làm điểm xuất phát. Khi thực nghiệm, xác minh lại file, giấy phép, trọng số, protocol và hash rồi tái lập trên cùng split/phần cứng.
+- **Kết quả thực tế:** đây là candidate survey và experimental design; **chưa tải đầy đủ dataset, chưa chạy benchmark, chưa chọn dataset/model/pipeline/optimization cuối và chưa đo mobile**. Không có mã để chạy test tại T-005. Không dùng hoặc xin dữ liệu thí sinh thi thật; hồ sơ nghiệp vụ kiểm thử bằng fixture giả lập.
+- **Giả định/quyết định liên quan:** Quốc An cho biết nhóm đã chọn bối cảnh T-002 ở T-004; Sheet và thư mục quyết định chưa có biên bản ghi ngày, người chốt, nguồn. Không suy rằng thầy đã duyệt chi tiết kỹ thuật. Thiết bị mục tiêu và việc bắt buộc train/fine-tune còn mở.
+- **Bước tiếp:** đồng bộ biên bản T-004; kiểm tra quyền/tệp/protocol của candidate shortlist, chọn thiết bị đo và operating point, chạy baseline, phân tích lỗi, rồi xác định hướng tối ưu và ablation. T-007 vẫn cần so với khảo sát độc lập của Minh Hy.
+- **Trở ngại:** công cụ checkout cục bộ gặp lỗi khởi tạo trong lượt này; thay đổi thực hiện trực tiếp trên nhánh GitHub của PR, chưa xác minh checkout cục bộ. Không có file ngoài Git cần bàn giao.
+
+## Bổ sung 2026-09-25 — logic quyết định
+
+- PR #1 có thêm [logic phase 02](../02-survey/DECISION_LOGIC.md), nối từng nhóm S0–S11 với requirement, nguồn dữ liệu, model family/candidate và B0–B4. File này dẫn tới bốn tài liệu khảo sát hiện có, không thay thế chúng.
+- Cách kiểm tra: candidate shortlist vẫn mang trạng thái đáng thử; chưa có run, threshold, dataset/model cuối hoặc quyết định T-007. Hai file DECISION_LOGIC.md chỉ được tạo cho phase 01/02 đang làm.
+- Không có mã hay file ngoài Git mới. Checkout riêng của PR đã được kiểm tra; ghi chú lỗi checkout ở phần bàn giao trước phản ánh thời điểm viết phần đó.
+
+## Cập nhật sau lựa chọn T-007
+
+[Selection](../02-survey/selection.md) và [D-002](../00-project/decisions/D-002-chon-huong-khao-sat-t005.md) ghi hướng T-005 được chọn theo bài toán T-002. T-005 đã đủ **phân tích Survey** về task, dataset, model family và experiment design để review và chuẩn bị baseline; việc kiểm tra file/quyền/trọng số, chạy benchmark và chốt kỹ thuật cuối vẫn chưa làm. Ghi chú “T-007 chưa quyết” ở phần trên là trạng thái trước lần cập nhật này.

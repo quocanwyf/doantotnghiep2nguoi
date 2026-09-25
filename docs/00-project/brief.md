@@ -10,7 +10,7 @@ Chuỗi suy nghĩ: **bài toán → yêu cầu → dữ liệu → model → đi
 
 ## Phạm vi dự kiến
 
-- Cuối cùng chọn **một** bối cảnh trong trường học, doanh nghiệp hoặc tòa nhà thông minh. Chưa chọn bối cảnh.
+- Nhóm đã chọn **kiểm tra thí sinh tại cửa phòng thi** ở [D-001](decisions/D-001-chon-bai-toan-cua-phong-thi.md), theo xác nhận của Quốc An rằng mình và Minh Hy thống nhất. Quy chế kỳ thi mục tiêu và mức tự động hóa vẫn cần xác định; không suy lựa chọn này từ bản Word gốc.
 - Pipeline tham khảo: camera → phát hiện khuôn mặt → crop/alignment → embedding/đặc trưng → nhận dạng → điểm danh hoặc ghi nhận hiện diện. Pipeline cụ thể tùy câu hỏi nghiên cứu.
 - Có thể tối ưu hyperparameter, feature, ROI/bounding box, vùng ảnh, cấu trúc model hoặc hiệu năng trên mobile. Đây là **hướng khảo sát**, không phải các hạng mục phải làm hết.
 - Jaya, HHO, PSO, GA, Bayesian Optimization và các thuật toán khác là **ứng viên**, chưa chọn. Cần xác định search space và objective function trước.
@@ -22,4 +22,4 @@ Baseline và proposed cần dùng cùng dữ liệu, split, metric, giao thức 
 
 ## Chưa chốt
 
-Use case, input một/nhiều người, model, dataset, optimization target/algorithm, training hay inference, metric, Android/iOS, on-device/server, thời hạn và hình thức demo. Theo dõi câu hỏi ở [questions.md](questions.md) và quyết định chính thức ở [decisions/](decisions/).
+Use case cửa phòng thi đã được nhóm chọn; hướng T-005 được ghi ở [D-002](decisions/D-002-chon-huong-khao-sat-t005.md). Chưa chốt quy chế kỳ thi/mức tự động hóa, dataset/model/cấu hình cuối, optimization target/algorithm, training hay inference, operating point/metric định lượng, Android/iOS, on-device/server, thời hạn và hình thức demo. Theo dõi câu hỏi ở [questions.md](questions.md) và quyết định chính thức ở [decisions/](decisions/).

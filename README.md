@@ -1,6 +1,6 @@
 # Đồ án tốt nghiệp AI của nhóm hai người
 
-Dự án nghiên cứu ứng dụng nhận dạng khuôn mặt với một thành phần được tối ưu có thể kiểm chứng bằng số liệu, sau đó triển khai bản phù hợp lên mobile. Đây là **định hướng sau buổi gặp đầu tiên**, chưa phải danh sách lựa chọn kỹ thuật đã chốt.
+Dự án nghiên cứu ứng dụng nhận dạng khuôn mặt với một thành phần được tối ưu có thể kiểm chứng bằng số liệu, sau đó triển khai bản phù hợp lên mobile. Đây là **định hướng sau buổi gặp đầu tiên**. Nhóm đã chọn bài toán cửa phòng thi ở [D-001](docs/00-project/decisions/D-001-chon-bai-toan-cua-phong-thi.md) và hướng khảo sát T-005 ở [D-002](docs/00-project/decisions/D-002-chon-huong-khao-sat-t005.md); dataset/model/cấu hình cuối vẫn chờ thí nghiệm.
 
 ## Hai nơi làm việc chung
 
@@ -28,4 +28,4 @@ data/                  Dữ liệu cục bộ; nội dung nhạy cảm không l�
 artifacts/             Checkpoint, log và đầu ra lớn cục bộ
 ```
 
-Các giai đoạn sau hiện chỉ có README ngắn. Mở thêm file khi bắt đầu công việc thực tế để tránh tài liệu rỗng và lựa chọn kỹ thuật quá sớm.
+Giai đoạn 01 và 02 đang làm có DECISION_LOGIC.md để ghi vì sao bước tiếp theo tồn tại và được suy ra từ bước trước. Khi bắt đầu giai đoạn sau, tạo và cập nhật file tương tự song song với công việc thực tế; không tạo trước tài liệu rỗng hoặc chốt kỹ thuật quá sớm.
