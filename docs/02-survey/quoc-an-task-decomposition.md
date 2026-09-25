@@ -18,36 +18,39 @@ Khi thí sinh khai báo mã C, hệ thống truy xuất một ảnh tham chiếu
 
 **Trước ca:** nhập và kiểm tra roster/ảnh tham chiếu → gắn mã, phòng, ca, quyền dự thi → chuẩn bị thiết bị và phiên bản dữ liệu. **Mỗi lượt:** nhận claim → truy hồ sơ → thu một cửa sổ ảnh có hướng dẫn vị trí → tìm mặt/điểm mặt → liên kết đúng người đang làm thủ tục và kiểm tra chất lượng → chuẩn hóa ảnh mặt → tạo biểu diễn → so với ảnh tham chiếu → quyết định xác minh hoặc retry/manual → kiểm tra điều kiện thi → ghi check-in và audit atomically. **Sau ca:** đối soát có mặt/vắng/ngoại lệ.
 
-| Stage | Vấn đề và loại task | Input → output | ML bắt buộc? | Loại giải pháp cần khảo sát |
+| Stage | Việc cần làm | Input → output | Có cần model không? | Loại model/thuật toán |
 |---|---|---|---|---|
-| S0. Chuẩn bị hồ sơ | Dữ liệu nghiệp vụ, enrollment/reference integrity | roster + ảnh → hồ sơ theo mã | Không | Kiểm tra schema, duy nhất mã, phiên bản roster, chất lượng ảnh tối thiểu; nếu ảnh thiếu/sai thì chuyển thủ công |
-| S1. Nhận claim và truy xuất | Database lookup, transaction state | mã + phòng/ca hiện hành → đúng một hồ sơ hoặc lỗi | Không | Tra cứu có kiểm tra mã, quyền truy cập, xử lý mã lạ và race condition |
-| S2. Thu hình | Camera acquisition và giới hạn thời gian | camera + hướng dẫn → cửa sổ frame có timestamp | Không bắt buộc | Vùng đứng, exposure/focus, timeout, retry, đồng bộ thời gian; không giả định mọi frame đều dùng được |
-| S3. Tìm mặt và vị trí đặc trưng | Face detection/localization; có thể dự đoán 5 landmarks cùng lượt | frame → nhiều bbox, landmark, confidence | Có thể dùng detector học máy | Face-specific detector có landmark; so với phương án detector + landmark riêng nếu cần |
-| S4. Chọn đúng người | Target selection, có thể thêm temporal association/tracking | tập mặt qua các frame + vùng đứng → một track mục tiêu hoặc ambiguous | Chưa chắc | Spatial gate, kích thước/khoảng cách, ổn định qua frame, tracking đơn giản; từ chối khi hai người tranh vùng |
-| S5. Chọn ảnh đạt chất lượng | Quality assessment/selection | track mục tiêu → frame hợp lệ hoặc retry | Không bắt buộc | Quy tắc blur, sáng, kích thước, pose/che; learned quality chỉ xét khi quy tắc đơn giản không đủ |
-| S6. Chuẩn hóa mặt | Geometric alignment/preprocessing | bbox + landmarks + ảnh → ảnh mặt cùng quy ước với encoder | Không nếu đã có landmark | Similarity transform/crop; landmark model riêng là nhánh có điều kiện |
-| S7. Tạo biểu diễn | Face representation/embedding | ảnh tham chiếu và ảnh probe → vector đặc trưng | Có, nếu dùng deep face encoder | Mạng trích đặc trưng đã học trên danh tính rộng; trọng số và preprocessing phải định danh cụ thể |
-| S8. So khớp và ra quyết định thị giác | 1:1 verification + calibration | hai embedding/điểm → match, non-match hoặc uncertain | Không nhất thiết có model mới | Similarity/distance, ngưỡng trên development set, vùng retry/manual, không dùng ngưỡng của model khác |
-| S9. Kiểm tra điều kiện thi | Deterministic business validation | hồ sơ + phòng/ca/giờ + match → điều kiện hợp lệ/ngoại lệ | Không | Quy tắc cấu hình theo kỳ thi; sai phòng/ca, đến muộn, eligibility, duplicate |
-| S10. Ghi nhận và đối soát | Database transaction/audit | quyết định + trạng thái trước → check-in hoặc nhật ký ngoại lệ | Không | Ghi atomically/idempotent, audit ai xử lý và lúc nào, đối soát có mặt/vắng |
-| S11. Chống trình ảnh/video giả | Presentation Attack Detection (PAD), **ngoài đóng góp nhận diện chính hiện tại** | tín hiệu thu → nghi tấn công / không chắc | Có thể cần ML/phần cứng riêng | Phân tích như task độc lập nếu tích hợp; không suy từ verification score rằng ảnh là người sống |
+| S0. **Enrollment / reference preparation** | Kiểm tra roster, mã duy nhất và ảnh đăng ký trước ca; gắn đúng ảnh với hồ sơ. | danh sách + ảnh → reference hợp lệ hoặc ngoại lệ | Không bắt buộc; nếu kiểm tra mặt tự động thì dùng lại S3/S5 | Database validation, kiểm tra ảnh; tạo reference embedding bằng cùng S7 khi pipeline đã chọn |
+| S1. **Candidate lookup** | Nhận mã dự thi đã khai báo và lấy đúng một hồ sơ; mã chỉ là claim, không chứng minh danh tính. | mã + kỳ thi → một hồ sơ hoặc lỗi | Không | Database query, kiểm tra quyền và phiên bản roster |
+| S2. **Camera acquisition** | Thu frame của từng lượt, giới hạn thời gian và hướng dẫn người làm thủ tục đứng trong vùng kiểm tra. | camera → frame/chuỗi frame có timestamp | Không | Camera API, focus/exposure, timeout và retry |
+| S3. **Face detection / landmark localization** | Tìm mọi khuôn mặt trong frame và vị trí điểm mặt cần cho alignment. | frame → bbox, confidence, landmarks của từng mặt | Có, thông thường | Face detector có landmark; hoặc detector + landmark estimator riêng |
+| S4. **Subject selection** | Xác định mặt của **người đang làm thủ tục** giữa các mặt nhìn thấy; không tự lấy người nền. | các bbox/track + vùng đứng → một subject hoặc ambiguous | Có thể | ROI/rule, liên kết qua frame hoặc tracking nếu có dữ liệu và nhu cầu |
+| S5. **Face quality check** | Phát hiện ảnh mờ, mặt quá nhỏ, lệch góc, thiếu sáng/che; chọn frame dùng được hoặc yêu cầu chụp lại. | mặt/track → frame hợp lệ hoặc retry | Có thể | Rule đo blur, kích thước, pose, sáng; face-quality model nếu rule chưa đủ |
+| S6. **Face alignment** | Đưa mắt/mũi/miệng về template đúng với encoder, rồi crop/normalize ảnh mặt. | ảnh + bbox/landmarks → face crop chuẩn | Không cần model riêng nếu S3 đã có landmarks | Landmark + geometric transform; estimator riêng chỉ khi có bằng chứng cần |
+| S7. **Feature extraction / face embedding** | Biến ảnh đăng ký và ảnh camera thành embedding có thể so danh tính mới. | hai face crop → hai vector đặc trưng | Có | Pretrained face encoder; architecture/weight/preprocessing khảo sát riêng |
+| S8a. **Verification 1:1** | So embedding camera với embedding của **một** hồ sơ đã khai báo; tính score cùng/khác người. | hai embedding → similarity/distance score | Không cần classifier thí sinh riêng | Cosine similarity hoặc distance phù hợp encoder |
+| S8b. **Decision policy** | Chuyển score thành match, non-match hoặc uncertain để retry/chuyển người phụ trách. | score + quality/status → quyết định có lý do | Không nhất thiết | Threshold được calibrate trên development set; có thể dùng hai ngưỡng |
+| S9. **Business validation** | Kiểm tra đúng phòng, ca/môn, giờ, eligibility và lượt check-in trước. | hồ sơ + cấu hình ca + quyết định mặt → hợp lệ/ngoại lệ | Không | Rule/database; quy tắc do kỳ thi xác định |
+| S10. **Attendance / audit logging** | Ghi check-in, retry hoặc manual override; tránh ghi trùng và cho phép đối soát. | kết quả + trạng thái trước → trạng thái mới + audit log | Không | Backend transaction, idempotency và nhật ký |
+| S11. **PAD / liveness (optional)** | Nếu tích hợp, phát hiện trình ảnh/video hoặc tín hiệu giả mạo; không suy từ score verification. | tín hiệu camera → bona fide/attack/uncertain | Có thể cần model hoặc phần cứng riêng | Presentation Attack Detection; dataset và metric riêng |
 
-**Không ép mọi stage thành một model.** S3 và S7 là hai nhóm model lõi có thể cần benchmark; S4–S6, S8 có thể bắt đầu bằng thuật toán xác định. S9–S10 là phần mềm. Nếu detector đã trả landmark, S3 và phần ước lượng landmark của S6 được gộp thành một lần suy luận; nếu chỉ dùng ảnh tĩnh, tracking của S4 không cần. PAD S11 là mô-đun sản phẩm tùy phạm vi, không nằm trong mục tiêu tối ưu nhận diện T-005.
+**Tên stage dùng thuật ngữ kỹ thuật; phần mô tả tiếng Việt cho biết chính xác thao tác của stage.** S0 và S2 là bước vận hành cần có dù không phải bài toán ML. S8a tính bằng chứng so khớp, còn S8b áp chính sách quyết định; tách chúng để không gọi threshold là một recognition model.
+
+**Không ép mọi stage thành một model.** S3 và S7 là hai nhóm model lõi có thể cần benchmark; S4–S6 và S8a–S8b có thể bắt đầu bằng thuật toán xác định. S9–S10 là phần mềm. Nếu detector đã trả landmark, S3 và phần ước lượng landmark của S6 được gộp thành một lần suy luận; nếu chỉ dùng ảnh tĩnh, tracking của S4 không cần. PAD S11 là mô-đun sản phẩm tùy phạm vi, không nằm trong mục tiêu tối ưu nhận diện T-005.
 
 ## 4. Giao diện giữa các stage và điều kiện lỗi
 
 - **S0–S1:** không có hồ sơ, trùng mã hoặc ảnh tham chiếu sai/không đọc được → dừng xác minh và chuyển người phụ trách; không dùng ảnh người khác làm fallback.
 - **S2–S4:** không tìm thấy mặt, tìm nhiều mặt nhưng không xác định chắc người đang làm thủ tục → retry/manual. Không mặc định lấy mặt lớn nhất hoặc rõ nhất trong cả hành lang.
 - **S5–S7:** ảnh quá mờ/che, landmark sai, preprocessing không tương thích trọng số → retry/manual hoặc lỗi kỹ thuật; tách lỗi này khỏi false non-match của encoder.
-- **S8:** similarity không đủ chắc → vùng uncertain; không tự kết luận thí sinh không được thi chỉ vì score thấp.
+- **S8a–S8b:** similarity không đủ chắc → vùng uncertain; không tự kết luận thí sinh không được thi chỉ vì score thấp.
 - **S9–S10:** match mặt không tự cấp quyền vào phòng; nghiệp vụ phải kiểm tra riêng và tránh hai thiết bị ghi hai lượt cùng lúc.
 
 Để đo pipeline đầu-cuối cần nhãn của **người thực sự làm thủ tục** và claim tương ứng. Dataset chỉ có các bbox mặt mà không có nhãn người mục tiêu không thể đo S4 hay giao dịch cuối. Phần [khảo sát dataset](quoc-an-datasets.md) sẽ đánh dấu chỗ thiếu loại nhãn này thay vì tự gán rằng đã giải quyết.
 
 ## 5. Research pipeline, khác runtime pipeline
 
-Bài toán → bản đồ S0–S11 → yêu cầu dữ liệu theo task → khảo sát nguồn dữ liệu → shortlist có điều kiện → họ phương pháp theo task → lọc candidate → thí nghiệm baseline → phân tích lỗi theo stage → xác định bottleneck thực nghiệm → mới chọn biến/objective/thuật toán tối ưu → ablation → đánh giá cuối. **Benchmark và error analysis là hoạt động nghiên cứu**, không phải model chạy ở cửa. Kết quả của T-005 là thiết kế đủ cụ thể để chạy baseline và nêu các quyết định còn mở; không có số liệu trước khi thí nghiệm.
+Bài toán → bản đồ S0–S11 (S8 tách thành S8a và S8b) → yêu cầu dữ liệu theo task → khảo sát nguồn dữ liệu → shortlist có điều kiện → họ phương pháp theo task → lọc candidate → thí nghiệm baseline → phân tích lỗi theo stage → xác định bottleneck thực nghiệm → mới chọn biến/objective/thuật toán tối ưu → ablation → đánh giá cuối. **Benchmark và error analysis là hoạt động nghiên cứu**, không phải model chạy ở cửa. Kết quả của T-005 là thiết kế đủ cụ thể để chạy baseline và nêu các quyết định còn mở; không có số liệu trước khi thí nghiệm.
 
 ## 6. Điều cần chốt trước khi gọi đây là pipeline triển khai
 
