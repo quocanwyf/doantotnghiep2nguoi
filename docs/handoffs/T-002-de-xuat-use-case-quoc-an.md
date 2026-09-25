@@ -14,3 +14,7 @@
 - PR #1 có thêm [logic phase 01](../01-problem/DECISION_LOGIC.md), nối bài toán cửa phòng thi, lý do luồng khai báo mã + xác minh 1:1 và các yêu cầu phải chuyển sang T-005. [Workflow](../00-project/workflow.md) yêu cầu ghi rationale khi làm từng phase, không tạo trước file cho phase tương lai.
 - Cách kiểm tra: đi theo BP-01/UC-01–UC-03 tới S0–S11 trong bộ T-005; đối chiếu rằng T-004 chưa có biên bản quyết định trong repo và chưa có kết luận về giảm nhân sự từ pilot.
 - Không có mã hay file ngoài Git mới. Checkout riêng của PR đã được kiểm tra; ghi chú lỗi checkout ở phần bàn giao trước phản ánh thời điểm viết phần đó.
+
+## Cập nhật sau quyết định T-004
+
+Quốc An xác nhận ngày 2026-09-25 rằng mình và Minh Hy đã chốt đề tài T-002. [D-001](../00-project/decisions/D-001-chon-bai-toan-cua-phong-thi.md) và [scope](../01-problem/scope.md) đã ghi quyết định; ghi chú “chưa có biên bản” ở phần trên là trạng thái trước lần cập nhật này. Kỳ thi/quy chế cụ thể và phép đo hiệu quả vận hành vẫn mở.

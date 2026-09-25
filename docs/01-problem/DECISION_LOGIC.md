@@ -6,7 +6,7 @@ File này ghi **vì sao mỗi bước của [đề xuất T-002](quoc-an-proposa
 
 - **BP-01, định hướng nhóm cung cấp ngày 2026-09-25:** thiết bị tại cửa phòng thi xử lý bước kiểm tra đầu vào thường lệ để giảm nhu cầu người chỉ đứng đối chiếu ở từng phòng; ghi nhận hợp lệ, muộn, nhầm phòng, chưa đến và ngoại lệ.
 - **T-002, đề xuất cá nhân của Quốc An:** [quoc-an-proposal.md](quoc-an-proposal.md) cụ thể hóa luồng có mã dự thi, ảnh đăng ký, xác minh 1:1, kiểm tra phòng/ca/giờ và ghi lượt.
-- **T-004, trạng thái hồ sơ:** Quốc An thông báo nhóm đã chọn bối cảnh; Sheet và [thư mục quyết định](../00-project/decisions/) chưa có biên bản ghi ngày/người chốt/nguồn. Không coi đây là xác nhận của thầy hoặc quyết định kỹ thuật cuối.
+- **T-004, quyết định nhóm:** Quốc An xác nhận cả Quốc An và Minh Hy đã chốt bối cảnh cửa phòng thi. [D-001](../00-project/decisions/D-001-chon-bai-toan-cua-phong-thi.md) ghi ngày xác nhận, nguồn và giới hạn; không coi đây là xác nhận của thầy hoặc quyết định kỹ thuật cuối.
 
 ## BP-01 → hướng thiết bị tại cửa
 
@@ -16,7 +16,7 @@ File này ghi **vì sao mỗi bước của [đề xuất T-002](quoc-an-proposa
 
 **Alternatives → lý do khảo sát hướng cửa.** Nhân sự đối chiếu hoàn toàn, một điểm kiểm tra tập trung, hoặc thiết bị tại từng cửa. Điểm cửa gắn trực tiếp lượt vào với phòng/ca và có thể xử lý thường lệ ngay nơi phát sinh sự kiện; đổi lại phải giải quyết camera hành lang, hàng chờ, dữ liệu phiên và xử lý ngoại lệ. Lý do này đủ để khảo sát, chưa đủ để kết luận mức tự động hóa được phép hoặc hiệu quả vận hành.
 
-**Decision ở cấp đề xuất T-002.** Hướng thiết bị tại cửa được đề xuất làm use case chính. Cần biên bản T-004 và quy chế của kỳ thi cụ thể trước khi gọi đó là quyết định chính thức của repo hoặc tuyên bố thay thế giám thị.
+**Decision T-004.** Nhóm đã chọn hướng thiết bị tại cửa theo [D-001](../00-project/decisions/D-001-chon-bai-toan-cua-phong-thi.md). Quy chế của kỳ thi cụ thể và bằng chứng pilot vẫn cần trước khi tuyên bố thay thế bước giám thị hoặc giảm nhân sự thực tế.
 
 ## UC-01 → khai báo mã trước → xác minh 1:1
 

@@ -1,6 +1,6 @@
 # Giai đoạn 02 — khảo sát kỹ thuật
 
-Hai thành viên khảo sát **độc lập toàn bộ bài toán đã chọn**: Quốc An làm T-005 cho bối cảnh xác thực thí sinh tại cửa phòng thi; Minh Hy làm T-006 theo phân công riêng. Ở T-007, hai người so sánh kết quả và ghi phương án nghiên cứu thống nhất trong [thư mục quyết định](../00-project/decisions/). Quốc An cho biết bối cảnh của mình đã được chọn ở T-004; biên bản quyết định và Sheet chưa được đồng bộ, nên đây là thông tin cần hoàn tất hồ sơ.
+Hai thành viên đã khảo sát độc lập. Nhóm chọn bối cảnh cửa phòng thi của T-002 ở [D-001](../00-project/decisions/D-001-chon-bai-toan-cua-phong-thi.md); T-007 chọn bộ khảo sát T-005 của Quốc An làm hướng nghiên cứu theo [D-002](../00-project/decisions/D-002-chon-huong-khao-sat-t005.md). [Bản so sánh](selection.md) giải thích vì sao hướng T-006 của Minh Hy không được dùng nguyên dạng cho bài toán 1:1. Việc chọn hướng khảo sát chưa chốt dataset/model/cấu hình cuối.
 
 [Logic quyết định của phase 02](DECISION_LOGIC.md) nối yêu cầu nghiệp vụ, stage, candidate và câu hỏi thí nghiệm; các file dưới đây chứa khảo sát chi tiết.
 
@@ -15,8 +15,8 @@ Hai thành viên khảo sát **độc lập toàn bộ bài toán đã chọn**:
 
 Các tài liệu trên **thay cho** bản khảo sát một file trước đây. Chúng là thiết kế nghiên cứu: chưa có final dataset/model/pipeline/optimization, chưa tải/kiểm tra trọn bộ dữ liệu, chưa chạy benchmark. Candidate shortlist giúp tạo phép thử; không phải kết quả đánh giá. PAD là task bổ trợ riêng; nghiệp vụ phòng/ca/giờ và ghi nhận là phần mềm có test riêng.
 
-## Cổng chuyển sang thực nghiệm và T-007
+## Cổng chuyển sang thực nghiệm sau T-007
 
 Trước khi chạy, xác minh quyền dùng và phiên bản file/weight; chốt protocol, manifest cặp/lượt, tách dev/test theo identity hoặc phiên phù hợp, thiết bị đo, metric chính và operating point. Chạy baseline trước, phân tích lỗi có nhãn rồi mới chọn bottleneck và phương pháp tối ưu. Nếu làm nhiều can thiệp, có ablation đơn lẻ và kết hợp; so với chính baseline gốc lẫn pipeline mạnh khác. Chỉ chốt pipeline cuối khi có bằng chứng trên cùng dữ liệu/split/điều kiện đo.
 
-Bộ khảo sát T-006 của Minh Hy giữ độc lập theo task của bạn ấy. T-007 ghi lý do chọn/loại và điều còn cần hỏi thầy; không tự coi shortlist T-005 là quyết định chung.
+Bộ khảo sát T-006 của Minh Hy vẫn là nguồn đối chiếu độc lập. T-007 đã chọn **hướng T-005** làm cơ sở thử nghiệm, nhưng shortlist trong T-005 vẫn chỉ là candidate có điều kiện; quyết định kỹ thuật cuối đợi kết quả baseline và experiment.

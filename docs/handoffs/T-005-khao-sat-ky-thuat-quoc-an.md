@@ -16,3 +16,7 @@
 - PR #1 có thêm [logic phase 02](../02-survey/DECISION_LOGIC.md), nối từng nhóm S0–S11 với requirement, nguồn dữ liệu, model family/candidate và B0–B4. File này dẫn tới bốn tài liệu khảo sát hiện có, không thay thế chúng.
 - Cách kiểm tra: candidate shortlist vẫn mang trạng thái đáng thử; chưa có run, threshold, dataset/model cuối hoặc quyết định T-007. Hai file DECISION_LOGIC.md chỉ được tạo cho phase 01/02 đang làm.
 - Không có mã hay file ngoài Git mới. Checkout riêng của PR đã được kiểm tra; ghi chú lỗi checkout ở phần bàn giao trước phản ánh thời điểm viết phần đó.
+
+## Cập nhật sau lựa chọn T-007
+
+[Selection](../02-survey/selection.md) và [D-002](../00-project/decisions/D-002-chon-huong-khao-sat-t005.md) ghi hướng T-005 được chọn theo bài toán T-002. T-005 đã đủ **phân tích Survey** về task, dataset, model family và experiment design để review và chuẩn bị baseline; việc kiểm tra file/quyền/trọng số, chạy benchmark và chốt kỹ thuật cuối vẫn chưa làm. Ghi chú “T-007 chưa quyết” ở phần trên là trạng thái trước lần cập nhật này.

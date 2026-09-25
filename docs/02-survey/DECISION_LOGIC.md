@@ -1,6 +1,6 @@
 # Logic quyết định — 02: Khảo sát kỹ thuật
 
-File này là **xương sống suy luận** của bộ T-005: vì sao một stage, yêu cầu dữ liệu, family, candidate và thí nghiệm xuất hiện. Chi tiết cùng nguồn gốc nằm ở [phân rã task](quoc-an-task-decomposition.md), [dataset](quoc-an-datasets.md), [model/phương pháp](quoc-an-models.md) và [thiết kế thí nghiệm](quoc-an-experiments.md). T-005 là khảo sát cá nhân của Quốc An; T-006 độc lập và T-007 chưa có quyết định chung.
+File này là **xương sống suy luận** của bộ T-005: vì sao một stage, yêu cầu dữ liệu, family, candidate và thí nghiệm xuất hiện. Chi tiết cùng nguồn gốc nằm ở [phân rã task](quoc-an-task-decomposition.md), [dataset](quoc-an-datasets.md), [model/phương pháp](quoc-an-models.md) và [thiết kế thí nghiệm](quoc-an-experiments.md). T-005 là khảo sát cá nhân của Quốc An; T-006 độc lập. [D-002](../00-project/decisions/D-002-chon-huong-khao-sat-t005.md) ghi T-007 chọn T-005 làm hướng nghiên cứu của nhóm, nhưng các candidate kỹ thuật vẫn chờ thí nghiệm.
 
 ## 1. Business problem → stage requirements
 
@@ -32,7 +32,7 @@ File này là **xương sống suy luận** của bộ T-005: vì sao một stag
 - **S7 embedding:** cần biểu diễn vẫn so được identity chưa thấy khi train, không phải classifier cố định cho từng thí sinh. MobileFaceNet, EdgeFace, AdaFace R18 và R50 face encoder là candidate khác vai trò về tài nguyên/chất lượng để lọc tiếp; tên architecture/loss chưa đủ, phải pin weight, dữ liệu train, preprocessing và quyền.
 - **S8a/S8b:** similarity và ngưỡng trên development set là đối chứng. Một hay hai ngưỡng là candidate policy; phải đo cả lỗi lẫn tỷ lệ retry/manual. S9/S10 không có model candidate.
 
-**Survey decision hiện có:** shortlist cá nhân T-005 là quyết định *đáng thử*, có điều kiện kiểm tra file/weight, license, schema, protocol và runtime. Nó không chốt dataset/model/pipeline cuối, không thay T-007 và không được biện minh ngược bằng kết quả thí nghiệm tương lai.
+**Survey decision hiện có:** T-007 chọn hướng T-005 vì khớp bài toán cửa phòng thi 1:1 ([bản so sánh](selection.md)). Shortlist trong T-005 là candidate *đáng thử*, có điều kiện kiểm tra file/weight, license, schema, protocol và runtime; chưa chốt dataset/model/pipeline cuối và không được biện minh ngược bằng kết quả thí nghiệm tương lai.
 
 ## 4. Survey uncertainty → experiment → final technical decision
 

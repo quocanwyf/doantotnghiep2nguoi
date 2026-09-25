@@ -1,11 +1,11 @@
 # Câu hỏi chưa chốt
 
-Giữ câu hỏi ở đây đến khi có bằng chứng trả lời và quyết định liên quan. Không xem câu trả lời phỏng đoán là ý thầy.
+Giữ câu hỏi ở đây đến khi có bằng chứng trả lời và quyết định liên quan. Không xem câu trả lời phỏng đoán là ý thầy. Bài toán nhóm đã chọn ở [D-001](decisions/D-001-chon-bai-toan-cua-phong-thi.md); hướng khảo sát ở [D-002](decisions/D-002-chon-huong-khao-sat-t005.md).
 
-1. Hai thành viên đã cùng xác nhận hướng thiết bị tại cửa phòng thi là phạm vi T-004 chưa? Nếu có, biên bản ngày/người chốt/nguồn và loại kỳ thi mục tiêu ở đâu? Quy chế kỳ thi đó cho phép thiết bị hỗ trợ bước nào?
+1. Kỳ thi mục tiêu là kỳ thi nào? Quy chế cụ thể cho phép thiết bị hỗ trợ bước nào, bước nào giám thị vẫn phải làm? Ngày/nguồn buổi Quốc An và Minh Hy thống nhất T-004/T-007 có cần bổ sung vào biên bản không?
 2. Optimization chạy lúc training hay inference có phù hợp kỳ vọng của thầy? Thuật toán tìm kiếm ngoài optimizer huấn luyện như Adam/SGD có là yêu cầu không?
-3. Thành phần nào có vấn đề đáng cải thiện theo baseline, search space và objective function là gì?
-4. Operating point, metric chính, cách chia dữ liệu và giao thức đánh giá cần chốt theo hậu quả false accept/false reject thế nào?
+3. Thành phần nào là bottleneck theo baseline và error analysis, search space/objective function phù hợp là gì?
+4. Operating point, acceptance criteria, metric chính, split và giao thức đánh giá cần chốt theo hậu quả false accept/false reject thế nào?
 5. Dataset/weight công khai nào có quyền và tệp dùng được cho đồ án? Domain gap cửa phòng thi được đánh giá hoặc giới hạn kết luận ra sao? Dữ liệu người thật chỉ được xét khi có quyền phù hợp.
 6. Mobile chạy Android/iOS, on-device/server, offline/online; thiết bị đo và tiêu chí demo tối thiểu là gì?
 7. Mốc nộp, lịch gặp và hình thức báo cáo được yêu cầu là gì?

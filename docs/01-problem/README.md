@@ -11,3 +11,5 @@ Sau khi cả hai hoàn thành, trình bày và hỏi chéo. Task T-004 chọn **
 **Điều kiện chuyển giai đoạn:** một use case và câu hỏi nghiên cứu đủ rõ để khảo sát dữ liệu, baseline, điểm tối ưu và metric.
 
 Logic từ bài toán nghiệp vụ đến câu hỏi khảo sát: [DECISION_LOGIC.md](DECISION_LOGIC.md).
+
+**Trạng thái hiện tại:** nhóm đã chọn hướng cửa phòng thi ở T-004; xem [scope.md](scope.md) và [D-001](../00-project/decisions/D-001-chon-bai-toan-cua-phong-thi.md). Các câu hỏi về quy chế và quy trình cụ thể vẫn mở.
