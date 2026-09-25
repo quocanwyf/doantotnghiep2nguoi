@@ -27,3 +27,9 @@ Nếu chưa dùng PR, ít nhất hai người cần đồng bộ `main` trước
 - Tài liệu không mâu thuẫn với quyết định hoặc trạng thái hiện tại.
 - Task trên Sheet dẫn tới đúng kết quả.
 - Mọi file bị `.gitignore` chặn nhưng cần cho người kia đã có mục bàn giao và tình trạng gửi/nhận.
+
+## Ghi logic quyết định theo tiến độ
+
+Khi bắt đầu một giai đoạn, tạo hoặc cập nhật DECISION_LOGIC.md ngay trong folder đó **cùng lúc với việc đang làm**, không lập trước file rỗng cho các giai đoạn tương lai. File giải thích vì sao bước tiếp theo tồn tại và được suy ra từ bước trước theo chuỗi: Business Problem → Problem Decomposition → Stage Requirements → Data/Technical Requirements → Survey → Candidate Selection → Experiment → Final Technical Decision → Implementation.
+
+Ở Survey, quyết định chỉ là candidate đủ phù hợp để đem thử dựa trên requirement và bằng chứng khảo sát. Experiment kiểm chứng uncertainty còn lại bằng câu hỏi, biến, điều kiện kiểm soát, dữ liệu/split, metric và tiêu chí chấp nhận đã định trước; kết quả mới hỗ trợ quyết định kỹ thuật cuối. Nếu chưa có bằng chứng hoặc nhóm chưa thống nhất, ghi rõ trạng thái mở. DECISION_LOGIC.md là bản đồ lập luận và liên kết, không sao chép deliverable chính hoặc thay thế quyết định chính thức trong docs/00-project/decisions/.

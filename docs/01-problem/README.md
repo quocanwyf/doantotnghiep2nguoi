@@ -9,3 +9,5 @@ Quốc An và Minh Hy **mỗi người tự chuẩn bị một phương án** tr
 Sau khi cả hai hoàn thành, trình bày và hỏi chéo. Task T-004 chọn **một phương án chính** dựa trên tính rõ ràng của bài toán, dữ liệu, khả năng làm baseline/đo cải thiện, khả năng demo mobile và công sức cần có. Ghi phương án được chọn, phương án không chọn và lý do ở `scope.md`; tạo quyết định trong `../00-project/decisions/`. Nếu cần thầy xác nhận, giữ trạng thái chờ xác nhận thay vì coi như đã được thầy duyệt.
 
 **Điều kiện chuyển giai đoạn:** một use case và câu hỏi nghiên cứu đủ rõ để khảo sát dữ liệu, baseline, điểm tối ưu và metric.
+
+Logic từ bài toán nghiệp vụ đến câu hỏi khảo sát: [DECISION_LOGIC.md](DECISION_LOGIC.md).

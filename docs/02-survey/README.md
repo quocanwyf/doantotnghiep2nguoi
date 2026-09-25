@@ -2,6 +2,8 @@
 
 Hai thành viên khảo sát **độc lập toàn bộ bài toán đã chọn**: Quốc An làm T-005 cho bối cảnh xác thực thí sinh tại cửa phòng thi; Minh Hy làm T-006 theo phân công riêng. Ở T-007, hai người so sánh kết quả và ghi phương án nghiên cứu thống nhất trong [thư mục quyết định](../00-project/decisions/). Quốc An cho biết bối cảnh của mình đã được chọn ở T-004; biên bản quyết định và Sheet chưa được đồng bộ, nên đây là thông tin cần hoàn tất hồ sơ.
 
+[Logic quyết định của phase 02](DECISION_LOGIC.md) nối yêu cầu nghiệp vụ, stage, candidate và câu hỏi thí nghiệm; các file dưới đây chứa khảo sát chi tiết.
+
 ## Bộ tài liệu T-005 của Quốc An
 
 Đọc theo thứ tự suy luận, không bắt đầu bằng tên dataset/model:

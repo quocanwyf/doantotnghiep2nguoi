@@ -8,3 +8,9 @@
 - Quyết định hoặc giả định liên quan: Quốc An thông báo nhóm đã chọn bối cảnh T-002 ở T-004. Sheet và docs/00-project/decisions/ chưa có bản ghi ngày/người chốt/nguồn; cần đồng bộ để đây là quyết định chính thức của repo. Chưa chốt dataset, model, ngưỡng hay thuật toán tối ưu.
 - Điều chưa xong, trở ngại, người cần tiếp tục: đồng bộ quyết định T-004; đặc tả nghiệp vụ kịch bản thi, nhất là mức tự động hóa, giấy tờ, đi muộn, sai phòng, nghi giả mạo, người quyết định và mất mạng. Ghi rõ phần nào được đo bằng dataset công khai, phần nào chỉ mô phỏng logic. Công cụ thư mục cục bộ gặp lỗi khởi tạo nên thay đổi được ghi trên nhánh GitHub, chưa kiểm tra checkout cục bộ.
 - File ngoài Git: không có.
+
+## Bổ sung 2026-09-25 — logic quyết định
+
+- PR #1 có thêm [logic phase 01](../01-problem/DECISION_LOGIC.md), nối bài toán cửa phòng thi, lý do luồng khai báo mã + xác minh 1:1 và các yêu cầu phải chuyển sang T-005. [Workflow](../00-project/workflow.md) yêu cầu ghi rationale khi làm từng phase, không tạo trước file cho phase tương lai.
+- Cách kiểm tra: đi theo BP-01/UC-01–UC-03 tới S0–S11 trong bộ T-005; đối chiếu rằng T-004 chưa có biên bản quyết định trong repo và chưa có kết luận về giảm nhân sự từ pilot.
+- Không có mã hay file ngoài Git mới. Checkout riêng của PR đã được kiểm tra; ghi chú lỗi checkout ở phần bàn giao trước phản ánh thời điểm viết phần đó.

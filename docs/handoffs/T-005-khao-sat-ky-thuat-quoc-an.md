@@ -10,3 +10,9 @@
 - **Giả định/quyết định liên quan:** Quốc An cho biết nhóm đã chọn bối cảnh T-002 ở T-004; Sheet và thư mục quyết định chưa có biên bản ghi ngày, người chốt, nguồn. Không suy rằng thầy đã duyệt chi tiết kỹ thuật. Thiết bị mục tiêu và việc bắt buộc train/fine-tune còn mở.
 - **Bước tiếp:** đồng bộ biên bản T-004; kiểm tra quyền/tệp/protocol của candidate shortlist, chọn thiết bị đo và operating point, chạy baseline, phân tích lỗi, rồi xác định hướng tối ưu và ablation. T-007 vẫn cần so với khảo sát độc lập của Minh Hy.
 - **Trở ngại:** công cụ checkout cục bộ gặp lỗi khởi tạo trong lượt này; thay đổi thực hiện trực tiếp trên nhánh GitHub của PR, chưa xác minh checkout cục bộ. Không có file ngoài Git cần bàn giao.
+
+## Bổ sung 2026-09-25 — logic quyết định
+
+- PR #1 có thêm [logic phase 02](../02-survey/DECISION_LOGIC.md), nối từng nhóm S0–S11 với requirement, nguồn dữ liệu, model family/candidate và B0–B4. File này dẫn tới bốn tài liệu khảo sát hiện có, không thay thế chúng.
+- Cách kiểm tra: candidate shortlist vẫn mang trạng thái đáng thử; chưa có run, threshold, dataset/model cuối hoặc quyết định T-007. Hai file DECISION_LOGIC.md chỉ được tạo cho phase 01/02 đang làm.
+- Không có mã hay file ngoài Git mới. Checkout riêng của PR đã được kiểm tra; ghi chú lỗi checkout ở phần bàn giao trước phản ánh thời điểm viết phần đó.

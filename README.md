@@ -28,4 +28,4 @@ data/                  Dữ liệu cục bộ; nội dung nhạy cảm không l�
 artifacts/             Checkpoint, log và đầu ra lớn cục bộ
 ```
 
-Các giai đoạn sau hiện chỉ có README ngắn. Mở thêm file khi bắt đầu công việc thực tế để tránh tài liệu rỗng và lựa chọn kỹ thuật quá sớm.
+Giai đoạn 01 và 02 đang làm có DECISION_LOGIC.md để ghi vì sao bước tiếp theo tồn tại và được suy ra từ bước trước. Khi bắt đầu giai đoạn sau, tạo và cập nhật file tương tự song song với công việc thực tế; không tạo trước tài liệu rỗng hoặc chốt kỹ thuật quá sớm.
