@@ -55,7 +55,7 @@
 
 **Shortlist có điều kiện để benchmark tối đa 3–4 encoder khác vai trò:** một MobileFaceNet pretrained hợp lệ, một EdgeFace compact, một AdaFace R18 và một R50 mạnh để làm điểm tham chiếu. Việc có bốn tên ở đây là **kết quả lọc family/khả dụng**, không phải ấn định final four; số lượng còn lại sau kiểm tra weight, quyền, export và test chạy nhỏ có thể ít hơn. Không benchmark hai weight gần như cùng backbone/training chỉ vì tên pack khác. Nếu một weight chứa detector bundled, tách detector và encoder khi muốn quy kết tác động.
 
-## 6. S8 matching, calibration và retry
+## 6. S8a Verification 1:1 và S8b Decision policy
 
 **Giải pháp cơ bản:** cùng encoder và preprocessing tạo e(reference), e(probe); normalize nếu model yêu cầu; tính cosine similarity hoặc khoảng cách công bố; chọn ngưỡng trên **development set**; trả match/non-match/uncertain. Không nhất thiết thêm neural network “verification” thứ ba. Nếu train một binary classifier trên cặp embedding, phải chứng minh hơn ngưỡng đơn giản và có dữ liệu identity-disjoint đủ lớn; hiện không shortlist.
 
