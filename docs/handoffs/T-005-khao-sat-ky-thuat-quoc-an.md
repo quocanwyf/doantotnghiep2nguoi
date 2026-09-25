@@ -2,7 +2,7 @@
 
 - **Người làm, ngày:** Quốc An, với AI hỗ trợ nghiên cứu và soạn; 2026-09-25.
 - **Task trên Sheet:** [T-005 trong bảng chung](https://docs.google.com/spreadsheets/d/14BQCQ_LbGkZS15Grfi4AZNWBX15h479XjoyQvP9jHcU/edit?gid=0#gid=0).
-- **Commit/PR:** [PR #1 (draft)](https://github.com/quocanwyf/doantotnghiep2nguoi/pull/1). Gói tài liệu T-005 đang trên nhánh PR, chưa merge.
+- **Commit/PR:** [PR #1](https://github.com/quocanwyf/doantotnghiep2nguoi/pull/1). PR ghi lịch sử cập nhật gói tài liệu T-005.
 - **Đầu ra:** [README giai đoạn 02](../02-survey/README.md) dẫn đến bốn file theo thứ tự: [phân rã task](../02-survey/quoc-an-task-decomposition.md), [khảo sát dataset](../02-survey/quoc-an-datasets.md), [khảo sát model/phương pháp](../02-survey/quoc-an-models.md), [thiết kế thí nghiệm](../02-survey/quoc-an-experiments.md). Bản khảo sát một file cũ đã được thay thế theo yêu cầu Quốc An.
 - **Logic chính:** từ claim mã dự thi → truy đúng một hồ sơ → thu/chọn mặt của người làm thủ tục → xác minh 1:1 → kiểm tra phòng/ca/giờ/trạng thái → ghi nhận. Dataset và model được khảo sát theo task/annotation/role, không đặt trước lựa chọn cuối. Nghiệp vụ là deterministic; PAD nếu có là module độc lập. Chỉ chốt optimization sau baseline, error analysis và chứng cứ bottleneck.
 - **Cách kiểm tra:** đọc liên kết và nguồn chính thức trong bốn tài liệu; so stage với use case [T-002](../01-problem/quoc-an-proposal.md); kiểm tra rằng không có ký hiệu/lựa chọn cũ được dùng làm điểm xuất phát. Khi thực nghiệm, xác minh lại file, giấy phép, trọng số, protocol và hash rồi tái lập trên cùng split/phần cứng.

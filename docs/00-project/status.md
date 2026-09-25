@@ -8,7 +8,7 @@
 
 - **T-004:** Quốc An xác nhận mình và Minh Hy chọn đề tài T-002: thiết bị kiểm tra thí sinh tại cửa phòng thi, có mã khai báo và xác minh mặt 1:1. [D-001](decisions/D-001-chon-bai-toan-cua-phong-thi.md) và [scope](../01-problem/scope.md) ghi lý do, phạm vi, nguồn xác nhận và giới hạn. T-003 của Minh Hy là đề xuất độc lập để so sánh, không là bài toán chính.
 - **T-005 ở mức Survey:** [bộ tài liệu Quốc An](../02-survey/README.md) đã có phân rã S0–S11, yêu cầu/shortlist dataset theo stage, model family/candidate và thiết kế baseline/thí nghiệm. [T-007](../02-survey/selection.md) chọn hướng này làm cơ sở nghiên cứu vì khớp T-004; [D-002](decisions/D-002-chon-huong-khao-sat-t005.md) ghi quyết định. Khảo sát T-006 của Minh Hy vẫn được giữ làm nguồn đối chiếu.
-- Hai [PR #1 (T-002/T-005 và quyết định nhóm)](https://github.com/quocanwyf/doantotnghiep2nguoi/pull/1) và [PR #2 (T-003/T-006)](https://github.com/quocanwyf/doantotnghiep2nguoi/pull/2) chưa merge. Hai quyết định T-004/T-007 đã được nhóm chốt theo xác nhận của Quốc An; PR đang chờ rà soát văn bản và merge.
+- [PR #1](https://github.com/quocanwyf/doantotnghiep2nguoi/pull/1) chứa T-002/T-005 và hai quyết định nhóm T-004/T-007; [PR #2](https://github.com/quocanwyf/doantotnghiep2nguoi/pull/2) giữ đề xuất độc lập T-003/T-006 để đối chiếu. Hai quyết định đã được nhóm chốt theo xác nhận của Quốc An.
 
 ## Chưa có bằng chứng để chốt kỹ thuật cuối
 
