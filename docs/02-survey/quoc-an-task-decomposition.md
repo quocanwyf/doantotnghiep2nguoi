@@ -32,11 +32,11 @@ Khi thí sinh khai báo mã C, hệ thống truy xuất một ảnh tham chiếu
 | S8b. **Decision policy** | Chuyển score thành match, non-match hoặc uncertain để retry/chuyển người phụ trách. | score + quality/status → quyết định có lý do | Không nhất thiết | Threshold được calibrate trên development set; có thể dùng hai ngưỡng |
 | S9. **Business validation** | Kiểm tra đúng phòng, ca/môn, giờ, eligibility và lượt check-in trước. | hồ sơ + cấu hình ca + quyết định mặt → hợp lệ/ngoại lệ | Không | Rule/database; quy tắc do kỳ thi xác định |
 | S10. **Attendance / audit logging** | Ghi check-in, retry hoặc manual override; tránh ghi trùng và cho phép đối soát. | kết quả + trạng thái trước → trạng thái mới + audit log | Không | Backend transaction, idempotency và nhật ký |
-| S11. **PAD / liveness (optional)** | Nếu tích hợp, phát hiện trình ảnh/video hoặc tín hiệu giả mạo; không suy từ score verification. | tín hiệu camera → bona fide/attack/uncertain | Có thể cần model hoặc phần cứng riêng | Presentation Attack Detection; dataset và metric riêng |
+| S11. **Presentation Attack Detection (PAD, optional)** | Nếu tích hợp, phát hiện trình ảnh/video hoặc tín hiệu giả mạo; không suy từ score verification. | tín hiệu camera → bona fide/attack/uncertain | Có thể cần model hoặc phần cứng riêng | Presentation Attack Detection; dataset và metric riêng |
 
 **Tên stage dùng thuật ngữ kỹ thuật; phần mô tả tiếng Việt cho biết chính xác thao tác của stage.** S0 và S2 là bước vận hành cần có dù không phải bài toán ML. S8a tính bằng chứng so khớp, còn S8b áp chính sách quyết định; tách chúng để không gọi threshold là một recognition model.
 
-**Không ép mọi stage thành một model.** S3 và S7 là hai nhóm model lõi có thể cần benchmark; S4–S6 và S8a–S8b có thể bắt đầu bằng thuật toán xác định. S9–S10 là phần mềm. Nếu detector đã trả landmark, S3 và phần ước lượng landmark của S6 được gộp thành một lần suy luận; nếu chỉ dùng ảnh tĩnh, tracking của S4 không cần. PAD S11 là mô-đun sản phẩm tùy phạm vi, không nằm trong mục tiêu tối ưu nhận diện T-005.
+**Không ép mọi stage thành một model.** S3 và S7 là hai nhóm model lõi có thể cần benchmark; S4–S6 và S8a–S8b có thể bắt đầu bằng thuật toán xác định. S9–S10 là phần mềm. Nếu detector đã trả landmark, S3 và phần ước lượng landmark của S6 được gộp thành một lần suy luận; nếu chỉ dùng ảnh tĩnh, tracking của S4 không cần. PAD S11 là mô-đun sản phẩm tùy phạm vi, không nằm trong mục tiêu tối ưu nhận diện T-005. “Liveness” thường được dùng khi nói về người thật trước camera, nhưng kiểm thử chống ảnh/video giả trong tài liệu này gọi chính xác là **Presentation Attack Detection**.
 
 ## 4. Giao diện giữa các stage và điều kiện lỗi
 
