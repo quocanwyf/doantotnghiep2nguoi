@@ -1,6 +1,6 @@
 # T-002 — Đề xuất của Quốc An: xác thực thí sinh tại cửa phòng thi
 
-**Trạng thái:** Nhóm đã chọn bối cảnh này ở T-004 theo [D-001](../00-project/decisions/D-001-chon-bai-toan-cua-phong-thi.md), được Quốc An xác nhận ngày 2026-09-25; thầy chưa được ghi nhận là đã xác nhận. [Bộ khảo sát T-005](../02-survey/README.md) là hướng nghiên cứu T-007 theo [D-002](../00-project/decisions/D-002-chon-huong-khao-sat-t005.md). Chưa chốt dataset, model hoặc thuật toán tối ưu.
+**Trạng thái:** Nhóm đã chọn bối cảnh này ở T-004 theo [D-001](../00-project/decisions/T-004-D-001-chon-bai-toan-cua-phong-thi.md), được Quốc An xác nhận ngày 2026-09-25; thầy chưa được ghi nhận là đã xác nhận. [Bộ khảo sát T-005](../02-survey/README.md) là hướng nghiên cứu T-007 theo [D-002](../00-project/decisions/T-007-D-002-chon-huong-khao-sat-t005.md). Chưa chốt dataset, model hoặc thuật toán tối ưu.
 
 ## 1. Vấn đề và giá trị nghiệp vụ
 
@@ -56,7 +56,7 @@ Các điểm có thể chưa tốt chỉ là **giả thuyết cần kiểm chứ
 - Có thể demo giao diện/luồng nghiệp vụ bằng hồ sơ giả lập và đo pipeline nhận diện trên dataset công khai không? Phải nêu rõ giới hạn giữa hai phần.
 - Có thể thử nghiệm trong phạm vi đồ án mà không tuyên bố thay thế các bước giám thị bắt buộc theo quy chế không?
 
-Các bối cảnh đã xem trước đó — điểm danh bằng điện thoại cá nhân, kiosk nhân viên, camera toàn lớp, phòng họp, cửa tòa nhà và quầy lễ tân — là đối chiếu để lý giải lựa chọn. Quốc An **đề xuất bối cảnh phòng thi làm phương án chính** vì sự kiện cần quyết định rõ, danh sách theo phòng/ca có trước, camera mobile có vai trò thật và điều kiện hành lang tạo vấn đề nhận dạng cần kiểm chứng. Quốc An xác nhận nhóm đã chọn phương án này ở T-004; quyết định được ghi tại [D-001](../00-project/decisions/D-001-chon-bai-toan-cua-phong-thi.md).
+Các bối cảnh đã xem trước đó — điểm danh bằng điện thoại cá nhân, kiosk nhân viên, camera toàn lớp, phòng họp, cửa tòa nhà và quầy lễ tân — là đối chiếu để lý giải lựa chọn. Quốc An **đề xuất bối cảnh phòng thi làm phương án chính** vì sự kiện cần quyết định rõ, danh sách theo phòng/ca có trước, camera mobile có vai trò thật và điều kiện hành lang tạo vấn đề nhận dạng cần kiểm chứng. Quốc An xác nhận nhóm đã chọn phương án này ở T-004; quyết định được ghi tại [D-001](../00-project/decisions/T-004-D-001-chon-bai-toan-cua-phong-thi.md).
 
 ## 7. Checkpoint nghiệp vụ sau khi nhóm chọn phương án
 

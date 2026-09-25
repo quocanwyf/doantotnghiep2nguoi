@@ -1,6 +1,6 @@
 # T-005 / Quốc An — Khảo sát dataset theo technical task
 
-**Trạng thái:** candidate survey từ [phân rã S0–S11](quoc-an-task-decomposition.md), chưa tải/kiểm tra toàn bộ tệp, chưa có final dataset. Không có một “dataset của cả hệ thống”. Các số lượng dưới đây là số **nguồn gốc công bố**, chưa phải số mẫu hợp lệ sau lọc. Không commit ảnh mặt hoặc nhãn danh tính.
+**Trạng thái:** candidate survey từ [phân rã S0–S11](T-005-quoc-an-task-decomposition.md), chưa tải/kiểm tra toàn bộ tệp, chưa có final dataset. Không có một “dataset của cả hệ thống”. Các số lượng dưới đây là số **nguồn gốc công bố**, chưa phải số mẫu hợp lệ sau lọc. Không commit ảnh mặt hoặc nhãn danh tính.
 
 ## 1. Dataset requirements trước khi nêu tên tập
 

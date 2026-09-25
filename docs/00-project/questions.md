@@ -1,6 +1,6 @@
 # Câu hỏi chưa chốt
 
-Giữ câu hỏi ở đây đến khi có bằng chứng trả lời và quyết định liên quan. Không xem câu trả lời phỏng đoán là ý thầy. Bài toán nhóm đã chọn ở [D-001](decisions/D-001-chon-bai-toan-cua-phong-thi.md); hướng khảo sát ở [D-002](decisions/D-002-chon-huong-khao-sat-t005.md).
+Giữ câu hỏi ở đây đến khi có bằng chứng trả lời và quyết định liên quan. Không xem câu trả lời phỏng đoán là ý thầy. Bài toán nhóm đã chọn ở [D-001](decisions/T-004-D-001-chon-bai-toan-cua-phong-thi.md); hướng khảo sát ở [D-002](decisions/T-007-D-002-chon-huong-khao-sat-t005.md).
 
 1. Kỳ thi mục tiêu là kỳ thi nào? Quy chế cụ thể cho phép thiết bị hỗ trợ bước nào, bước nào giám thị vẫn phải làm? Ngày/nguồn buổi Quốc An và Minh Hy thống nhất T-004/T-007 có cần bổ sung vào biên bản không?
 2. Optimization chạy lúc training hay inference có phù hợp kỳ vọng của thầy? Thuật toán tìm kiếm ngoài optimizer huấn luyện như Adam/SGD có là yêu cầu không?

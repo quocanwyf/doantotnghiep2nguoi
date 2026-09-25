@@ -2,7 +2,7 @@
 
 - **Ngày khảo sát:** 2026-09-24.
 - **Task:** [T-006 trên Sheet](https://docs.google.com/spreadsheets/d/14BQCQ_LbGkZS15Grfi4AZNWBX15h479XjoyQvP9jHcU/edit?gid=0#gid=0); Minh Hy thực hiện, Quốc An review.
-- **Trạng thái:** phương án khảo sát độc lập để so sánh ở T-007, **chưa phải quyết định của nhóm hay xác nhận của thầy**. Trên Sheet, T-004 chọn use case vẫn chưa hoàn tất. Vì người dùng yêu cầu khảo sát T-006 ngay, tài liệu này lấy [use case A do Minh Hy đề xuất](../01-problem/minh-hy-proposal.md) làm **giả định làm việc**: từng người chủ động check-in trước camera điện thoại, hệ thống nhận dạng 1:N có quyền từ chối. Nếu T-004 chọn ảnh toàn lớp, phải khảo sát lại kích thước mặt, detector, dữ liệu và tiêu chí thời gian.
+- **Trạng thái:** phương án khảo sát độc lập để so sánh ở T-007, **chưa phải quyết định của nhóm hay xác nhận của thầy**. Trên Sheet, T-004 chọn use case vẫn chưa hoàn tất. Vì người dùng yêu cầu khảo sát T-006 ngay, tài liệu này lấy [use case A do Minh Hy đề xuất](../01-problem/T-003-minh-hy-proposal.md) làm **giả định làm việc**: từng người chủ động check-in trước camera điện thoại, hệ thống nhận dạng 1:N có quyền từ chối. Nếu T-004 chọn ảnh toàn lớp, phải khảo sát lại kích thước mặt, detector, dữ liệu và tiêu chí thời gian.
 
 ## 1. Câu hỏi nghiên cứu và phạm vi
 
@@ -33,7 +33,7 @@
 
 **Ưu tiên chọn nguồn:** nếu chỉ kiểm tra ROI, dùng gói pretrained hợp lệ và ảnh tự thu cho E/C/V/T; DigiFace-1M là nguồn dự phòng cho nghiên cứu thay đổi trọng số. [VGGFace2 hiện không cung cấp đường tải dataset trên trang chính thức](https://www.robots.ox.ac.uk/~vgg/data/vgg_face2/), nên không xây kế hoạch phụ thuộc vào đó. Dataset huấn luyện đã dùng cho trọng số `MBF@WebFace600K` không phải dữ liệu của nhóm; cần ghi rõ tính phụ thuộc đó trong báo cáo.
 
-**Quy mô mẫu:** số người/lượt chỉ chốt sau khi kiểm tra khả năng thu. Nếu muốn tuyên bố FPIR < 1% với 95% tin cậy một phía và quan sát 0 lần nhận nhầm, cần khoảng **299 lượt âm độc lập** (`1 - 0,05^(1/n) < 0,01`); nhiều lượt từ cùng một người/buổi có tương quan nên thực tế cần thiết kế nhiều người và nhiều buổi. Khi chưa đủ mẫu, ghi số lỗi/tổng lượt và khoảng tin cậy; không tuyên bố đạt ngưỡng 1%. Các ngưỡng 1%, 2 giây ở [T-003](../01-problem/minh-hy-proposal.md) chỉ là ví dụ thảo luận, chưa phải tiêu chí được chốt.
+**Quy mô mẫu:** số người/lượt chỉ chốt sau khi kiểm tra khả năng thu. Nếu muốn tuyên bố FPIR < 1% với 95% tin cậy một phía và quan sát 0 lần nhận nhầm, cần khoảng **299 lượt âm độc lập** (`1 - 0,05^(1/n) < 0,01`); nhiều lượt từ cùng một người/buổi có tương quan nên thực tế cần thiết kế nhiều người và nhiều buổi. Khi chưa đủ mẫu, ghi số lỗi/tổng lượt và khoảng tin cậy; không tuyên bố đạt ngưỡng 1%. Các ngưỡng 1%, 2 giây ở [T-003](../01-problem/T-003-minh-hy-proposal.md) chỉ là ví dụ thảo luận, chưa phải tiêu chí được chốt.
 
 ## 3. Một đến hai baseline khả thi
 

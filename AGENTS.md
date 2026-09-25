@@ -22,4 +22,6 @@
 - Không commit ảnh khuôn mặt, danh tính cá nhân, mật khẩu, file môi trường, checkpoint hoặc đầu ra lớn. Xem `docs/00-project/external-assets.md`.
 - Chỉ cập nhật task trên Sheet sau khi có đầu ra hoặc trạng thái thực tế; đính kèm đường dẫn commit/PR/tài liệu.
 
+- File Markdown/tài liệu là đầu ra riêng của một task phải bắt đầu bằng mã task dạng `T-008-ten-ngan.md`; tài liệu quyết định gắn task giữ cả mã quyết định, ví dụ `T-004-D-001-ten-ngan.md`. Cập nhật mọi link khi đổi tên. Quy tắc này chưa áp dụng cho mã nguồn. File dùng chung của phase/dự án như `README.md`, `DECISION_LOGIC.md`, `status.md`, `questions.md` và template giữ tên chức năng.
+
 Ưu tiên Markdown tiếng Việt, file tên không dấu. Không tự chọn model, dataset, thuật toán tối ưu, mobile stack hoặc deadline khi chưa có quyết định.

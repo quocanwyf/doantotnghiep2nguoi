@@ -21,6 +21,12 @@ Nhóm gồm **Quốc An (TV-A)** và **Minh Hy (TV-B)**. Hướng dẫn để Mi
 
 Nếu chưa dùng PR, ít nhất hai người cần đồng bộ `main` trước khi sửa và review thay đổi quan trọng trước khi push. Tránh hai người cùng sửa một file chung trong thời gian dài.
 
+## Đặt tên tài liệu theo task
+
+Mỗi file Markdown là **đầu ra riêng của một task** có tiền tố mã task: `T-002-quoc-an-proposal.md`, `T-005-quoc-an-datasets.md`, `T-008-requirements.md`. File quyết định phát sinh từ task giữ cả hai mã, ví dụ `T-004-D-001-chon-bai-toan.md`; note bàn giao vốn đã có tiền tố task. Khi đổi tên phải sửa link trong repo, PR/Sheet đang dẫn đến đầu ra đó.
+
+File dùng chung của phase hoặc dự án như `README.md`, `DECISION_LOGIC.md`, `status.md`, `questions.md` và template giữ tên chức năng vì nhiều task cùng cập nhật. Quy ước này áp dụng cho tài liệu Markdown; tên file mã nguồn sẽ quyết sau khi bắt đầu lập trình.
+
 ## Điều kiện bàn giao xong
 
 - Kết quả có đường dẫn và cách kiểm tra/tái lập.

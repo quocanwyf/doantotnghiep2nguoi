@@ -3,7 +3,7 @@
 - **Trạng thái:** Nhóm đã chốt; chưa ghi nhận xác nhận của thầy.
 - **Ngày ghi nhận:** 2026-09-25. Ngày hai thành viên thảo luận/chốt trước đó chưa được cung cấp.
 - **Người chốt:** Quốc An và Minh Hy, theo xác nhận trực tiếp của Quốc An trong trao đổi ngày 2026-09-25.
-- **Nguồn:** Xác nhận trên; [đề xuất T-002 của Quốc An](../../01-problem/quoc-an-proposal.md) và [đề xuất T-003 của Minh Hy](https://github.com/quocanwyf/doantotnghiep2nguoi/pull/2). Đây là quyết định của nhóm, không suy ra thầy đã duyệt quy trình kỹ thuật hay mức thay thế giám thị.
+- **Nguồn:** Xác nhận trên; [đề xuất T-002 của Quốc An](../../01-problem/T-002-quoc-an-proposal.md) và [đề xuất T-003 của Minh Hy](https://github.com/quocanwyf/doantotnghiep2nguoi/pull/2). Đây là quyết định của nhóm, không suy ra thầy đã duyệt quy trình kỹ thuật hay mức thay thế giám thị.
 
 ## Vấn đề và phương án
 
@@ -17,4 +17,4 @@ Trong T-002, mã chọn hồ sơ chứ không chứng minh danh tính; bước t
 
 ## Bằng chứng, giới hạn và ảnh hưởng
 
-Bằng chứng cho lựa chọn phạm vi là yêu cầu nghiệp vụ và hai đề xuất, **không phải** benchmark/pilot. Chưa có số đo giảm nhân sự, chưa chọn loại kỳ thi/quy chế cụ thể, dataset, model, threshold hay mobile stack. [Scope phase 01](../../01-problem/scope.md) ghi ranh giới; [logic 01](../../01-problem/DECISION_LOGIC.md) nối sang yêu cầu kỹ thuật. Quyết định này là đầu vào bắt buộc cho T-007 và khảo sát 1:1 ở T-005. Khi có ý kiến thầy/đơn vị tổ chức, ghi biên bản trước rồi cập nhật phạm vi và quyết định nếu cần.
+Bằng chứng cho lựa chọn phạm vi là yêu cầu nghiệp vụ và hai đề xuất, **không phải** benchmark/pilot. Chưa có số đo giảm nhân sự, chưa chọn loại kỳ thi/quy chế cụ thể, dataset, model, threshold hay mobile stack. [Scope phase 01](../../01-problem/T-004-scope.md) ghi ranh giới; [logic 01](../../01-problem/DECISION_LOGIC.md) nối sang yêu cầu kỹ thuật. Quyết định này là đầu vào bắt buộc cho T-007 và khảo sát 1:1 ở T-005. Khi có ý kiến thầy/đơn vị tổ chức, ghi biên bản trước rồi cập nhật phạm vi và quyết định nếu cần.
