@@ -13,3 +13,7 @@ Sau khi cả hai hoàn thành, trình bày và hỏi chéo. Task T-004 chọn **
 Logic từ bài toán nghiệp vụ đến câu hỏi khảo sát: [DECISION_LOGIC.md](DECISION_LOGIC.md).
 
 **Trạng thái hiện tại:** nhóm đã chọn hướng cửa phòng thi ở T-004; xem [T-004-scope.md](T-004-scope.md) và [D-001](../00-project/decisions/T-004-D-001-chon-bai-toan-cua-phong-thi.md). Các câu hỏi về quy chế và quy trình cụ thể vẫn mở.
+
+## Đặc tả nghiệp vụ sau khi chọn bài toán
+
+[T-008 — yêu cầu nghiệp vụ cửa phòng thi](T-008-requirements.md) ghi actor, input/output, trạng thái, ngoại lệ, rủi ro và chính sách còn cần nhóm quyết. Đây là bản đang cùng Quốc An xây dựng; kỳ thi mục tiêu chưa chốt, nên các mốc giờ và quyền xử lý chưa được coi là quy định chính thức. [Logic phase 01](DECISION_LOGIC.md) giải thích vì sao đặc tả này là đầu vào cho T-009/T-010.

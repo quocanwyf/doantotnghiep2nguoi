@@ -10,6 +10,9 @@
 - **T-005 ở mức Survey:** [bộ tài liệu Quốc An](../02-survey/README.md) đã có phân rã S0–S11, yêu cầu/shortlist dataset theo stage, model family/candidate và thiết kế baseline/thí nghiệm. [T-007](../02-survey/T-007-selection.md) chọn hướng này làm cơ sở nghiên cứu vì khớp T-004; [D-002](decisions/T-007-D-002-chon-huong-khao-sat-t005.md) ghi quyết định. Khảo sát T-006 của Minh Hy vẫn được giữ làm nguồn đối chiếu.
 - [PR #1](https://github.com/quocanwyf/doantotnghiep2nguoi/pull/1) chứa T-002/T-005 và hai quyết định nhóm T-004/T-007; [PR #2](https://github.com/quocanwyf/doantotnghiep2nguoi/pull/2) giữ đề xuất độc lập T-003/T-006 để đối chiếu. Hai quyết định đã được nhóm chốt theo xác nhận của Quốc An.
 
+## Đợt việc tiếp theo đang làm
+
+[T-008 — đặc tả nghiệp vụ cửa phòng thi](../01-problem/T-008-requirements.md) đang được Quốc An cùng AI xây dựng từ D-001. Quốc An xác nhận chưa chọn kỳ thi cụ thể; các quy tắc giờ, quyền xử lý và mức tự động hóa được trình bày như phương án cần duyệt, không phải quy chế đã xác nhận. T-009 kiểm tra candidate dữ liệu/weight, T-010 khóa protocol, T-011 chạy baseline và T-012 phân tích lỗi sẽ đi sau các đầu vào tương ứng. Task, phân công và trạng thái chi tiết ở Sheet chung.
 ## Chưa có bằng chứng để chốt kỹ thuật cuối
 
 T-005 **hoàn thiện phần phân tích/survey**, chưa hoàn tất việc kiểm tra tệp/quyền dùng dữ liệu và trọng số, pin preprocessing/weight, chọn main test và thiết bị, khóa split/metric/operating point, chạy baseline hoặc xác định bottleneck. Vì vậy shortlist dataset/model, threshold, hướng tối ưu và mobile stack vẫn là candidate/câu hỏi; chưa có kết quả benchmark hay pilot để tuyên bố giảm nhân sự. Dữ liệu công khai cho phần thị giác và fixture giả lập cho logic nghiệp vụ không thay thế đánh giá tại kỳ thi thật.

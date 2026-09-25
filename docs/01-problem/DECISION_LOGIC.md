@@ -37,3 +37,7 @@ Xác minh khuôn mặt **không tự trả lời** đúng phòng, đúng ca, đ�
 5. Với dữ liệu công khai cho thị giác và hồ sơ giả lập cho nghiệp vụ, kết luận nào chỉ là benchmark/prototype, kết luận nào cần pilot thực địa?
 
 **Vì sao có 02:** các câu hỏi trên xác định output và rủi ro của từng bước. Survey phải suy ra stage requirements, data/technical requirements, candidate và experiment từ chúng; không bắt đầu bằng một dataset/model đã có. Các giả định còn mở tiếp tục ở [questions.md](../00-project/questions.md) cho tới khi có nguồn và quyết định.
+
+## T-008 → đặc tả nghiệp vụ trước protocol
+
+D-001 đã chọn thiết bị tại cửa nhưng chưa chọn kỳ thi, quy chế, quyền xử lý ngoại lệ hoặc mốc giờ. Quốc An xác nhận ngày 2026-09-25 rằng nhóm sẽ cùng xây một bộ nghiệp vụ có thể cấu hình trước khi gắn vào kỳ thi cụ thể. Vì thế [T-008](T-008-requirements.md) chuyển mục tiêu cửa phòng thi thành BR-01–BR-08, tách tình trạng hồ sơ, kết quả từng lần thử và hiện diện sau ca; mỗi quy tắc chưa có nguồn được giữ ở trạng thái đề xuất/câu hỏi. Bước này tồn tại để T-009 biết cần dữ liệu gì và T-010 biết phải kiểm thử, đo và đặt tiêu chí chấp nhận gì. Chỉ sau khi chính sách kỳ thi và quyền người xử lý được xác nhận mới khóa quy tắc vận hành thật; không suy chúng từ dataset/model hoặc từ một quy chế của kỳ thi chưa chọn.
