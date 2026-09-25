@@ -10,7 +10,7 @@ Mục tiêu sản phẩm là giảm tải thao tác kiểm tra thường lệ t�
 
 ## 2. Problem formulation: hệ thống cần xác minh cái gì?
 
-Khi thí sinh khai báo mã C, hệ thống truy xuất một ảnh tham chiếu R(C) và thu ảnh/video Q của người đứng trước camera. Câu hỏi thị giác là **face verification 1:1, open-set theo nghĩa có thể gặp người không thuộc hồ sơ**: quyết định liệu R(C) và mặt mục tiêu trong Q có cùng identity không. Cặp khác người phải được phép trả về “không khớp”. Mã C chỉ chọn ảnh để so, không phải bằng chứng danh tính.
+Khi thí sinh khai báo mã C, hệ thống truy xuất một ảnh tham chiếu R(C) và thu ảnh/video Q của người đứng trước camera. Câu hỏi thị giác là **face verification 1:1 với cả claim đúng và claim giả**: quyết định liệu R(C) và mặt mục tiêu trong Q có cùng identity không. Cặp khác người phải được phép trả về “không khớp”. Mã C chỉ chọn ảnh để so, không phải bằng chứng danh tính.
 
 **Face identification 1:N** sẽ hỏi “người này là ai trong cả danh sách?” khi chưa có claim; không phải luồng đã chọn. **Closed-set classification** với một output class cho từng thí sinh càng không phù hợp: danh sách/phòng thay đổi theo kỳ thi, người ngoài danh sách phải bị từ chối và không thể train lại classifier sau mỗi lần thêm hồ sơ. Việc huấn luyện một face encoder trên các identity của tập train có thể dùng classification/margin loss, nhưng đó là **training objective**, không phải classifier thí sinh ở runtime. Metric learning cũng thuộc cách học embedding, không phải một stage suy luận riêng.
 
