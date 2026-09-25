@@ -1,6 +1,6 @@
 # T-002 — Đề xuất của Quốc An: xác thực thí sinh tại cửa phòng thi
 
-**Trạng thái:** Quốc An thông báo nhóm đã chọn bối cảnh này ở T-004; Sheet và thư mục quyết định chưa có biên bản tương ứng nên cần đồng bộ hồ sơ. [T-005 của Quốc An](../02-survey/quoc-an-survey.md) khảo sát kỹ thuật cho phương án này. Chưa chốt dataset, model hoặc thuật toán tối ưu.
+**Trạng thái:** Quốc An thông báo nhóm đã chọn bối cảnh này ở T-004; Sheet và thư mục quyết định chưa có biên bản tương ứng nên cần đồng bộ hồ sơ. [Bộ khảo sát T-005 của Quốc An](../02-survey/README.md) khảo sát kỹ thuật cho phương án này. Chưa chốt dataset, model hoặc thuật toán tối ưu.
 
 ## 1. Vấn đề và giá trị nghiệp vụ
 
