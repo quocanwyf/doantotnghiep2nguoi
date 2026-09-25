@@ -10,8 +10,8 @@
 | S4 chọn người đang làm thủ tục | frame/video có nhiều người, nhãn **người mục tiêu của một giao dịch**, track ID, vùng đứng, thời điểm bắt đầu/kết thúc | Development để thiết kế luật chọn; test theo cảnh/camera khác | Nhiều bbox đơn thuần không xác định ai đã khai báo mã |
 | S5 chất lượng và S6 căn chỉnh | nhãn mờ/sáng/pose/che nếu đánh giá quality trực tiếp; landmark chuẩn nếu đánh giá alignment; quan trọng hơn là identity và kết quả verification trước/sau chọn ảnh | Component test; development của chính sách quality; external test dưới điều kiện xấu | Điểm “ảnh rõ” không tự chứng minh giảm false match |
 | S7 encoder nếu train/fine-tune | nhiều identity, nhiều ảnh/identity, nguồn/điều khoản rõ, split identity-disjoint với test; đủ độ đa dạng và compute | Train/validation riêng; không lấy người của benchmark làm lớp train rồi báo test trên họ | Một tập vài chục người không đủ chứng minh encoder tổng quát |
-| S8 verification 1:1 | identity, ảnh reference và probe khác lần thu; genuine/impostor claims hoặc protocol cặp; cần cả người không khớp | Development/threshold calibration, main test, external stress test tách bạch | Tập ảnh đã crop không đo lỗi detection, target selection hay latency camera |
-| S2/S4/S5/S8 video qua cửa | sequence gốc, timestamp/frame order, identity, ảnh tham chiếu tách khỏi probe, variation vị trí/ánh sáng; lý tưởng có người nền gắn nhãn | End-to-end vision test và latency proxy | Video một người không đo chọn đúng người giữa nhiều mặt |
+| S8a Verification 1:1 / S8b Decision policy | identity, ảnh reference và probe khác lần thu; genuine/impostor claims hoặc protocol cặp; cần cả người không khớp | Development/threshold calibration, main test, external stress test tách bạch | Tập ảnh đã crop không đo lỗi detection, target selection hay latency camera |
+| S2/S4/S5/S8a video qua cửa | sequence gốc, timestamp/frame order, identity, ảnh tham chiếu tách khỏi probe, variation vị trí/ánh sáng; lý tưởng có người nền gắn nhãn | End-to-end vision test và latency proxy | Video một người không đo chọn đúng người giữa nhiều mặt |
 | S9–S10 nghiệp vụ | roster, room/session/time/eligibility/check-in state giả lập và expected transition | Software test fixture | Không là face dataset; pass business test không chứng minh nhận diện |
 | S11 PAD tùy chọn | bona fide và nhiều loại trình ảnh/video trên thiết bị thu, nhãn tấn công | Chỉ đánh giá riêng nếu tích hợp | PAD accuracy không thay FMR/FNMR xác minh |
 
@@ -46,7 +46,7 @@ Nếu detector đã xuất 5 điểm và nhận diện đầu-cuối tốt, phé
 
 **Kết luận tạm:** không gán training dataset khi chưa quyết định có train/fine-tune và chưa biết compute. Tuyệt đối không fine-tune trên test identity của tập đánh giá rồi báo kết quả tổng quát.
 
-## 5. S8 — candidate cho xác minh 1:1 và ngoại suy
+## 5. S8a Verification 1:1 — candidate cho xác minh và ngoại suy
 
 **Nhu cầu:** cặp cùng/khác người, ảnh tham chiếu khác điều kiện với probe, threshold calibration tách test. Tìm ba miền: ảnh tĩnh chuẩn, ảnh khó về chất lượng, video/camera cửa. Số cặp lớn không tương đương số **người độc lập** lớn.
 
@@ -74,7 +74,7 @@ WIDER FACE có nhiều bbox nhưng không biết người nào vừa khai báo C
 - **S4 target selection:** chưa có benchmark giao dịch công khai đủ nhãn; synthetic rule fixtures chỉ kiểm tra logic, không chứng minh thị giác thực địa.
 - **S5 quality / S6 alignment:** WFLW/300-W chỉ khi nghiên cứu landmark; XQLFW đo ảnh khác chất lượng qua verification, không phải ground truth “chất lượng tốt”.
 - **S7 encoder training:** chưa gán dữ liệu; DigiFace-1M là candidate có điều kiện nếu train/fine-tune trở thành yêu cầu.
-- **S8 verification:** LFW smoke; XQLFW, YouTube Faces và ChokePoint là shortlist theo ba mục tiêu stress khác nhau. Chưa có final main set.
+- **S8a verification / S8b calibration:** LFW smoke; XQLFW, YouTube Faces và ChokePoint là shortlist theo ba mục tiêu stress khác nhau. Chưa có final main set.
 - **S9–S10 nghiệp vụ:** fixtures giả lập theo bảng trạng thái và expected outcome.
 - **S11 PAD:** không khảo sát dataset ở T-005 core; nếu thêm mô-đun này, mở protocol/dataset riêng.
 
