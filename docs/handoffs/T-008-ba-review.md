@@ -1,5 +1,7 @@
 # T-008 — Bàn giao bản review BA, task còn đang làm
 
+> **Ghi chú cập nhật 2026-09-26:** đây là bàn giao lịch sử của bản BA trước refactor. [T-008 hiện tại](../01-problem/T-008-requirements.md) đã chuyển thành Generic Exam Entry Business Baseline; G9/GI/GO và yêu cầu có As-Is để freeze bên dưới không còn là kế hoạch hiện hành. Bước tiếp theo là Quốc An và Minh Hy review cấu trúc generic, authority, policy/state và downstream contract ở mục 20; task vẫn chưa freeze.
+
 - **Ngày / người làm:** 2026-09-26, Quốc An với AI hỗ trợ; Minh Hy là người review theo Sheet.
 - **Trạng thái:** bàn giao phần cập nhật tài liệu để nhóm review; chưa hoàn tất/freeze T-008.
 - **Nguồn:** bản phân tích 20 mục đã thảo luận và phản hồi BA của Quốc An trong chat: giữ nền tảng, bổ sung Core Decisions, As-Is và gates, không viết lại từ đầu để chọn công nghệ.

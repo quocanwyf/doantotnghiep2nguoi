@@ -12,7 +12,7 @@
 
 ## Đợt việc tiếp theo đang làm
 
-[T-008 — phân tích nghiệp vụ cửa phòng thi](../01-problem/T-008-requirements.md) đã được rà soát BA: có Core Decisions, As-Is còn thiếu bằng chứng, To-Be đề xuất, bảng scenario/rule/requirement và gates cho T-009. Tài liệu vẫn ở discovery, chưa freeze và chưa chọn kỳ thi/quy chế. T-009 được audit nguồn/khả dụng song song; các kết luận phụ thuộc định nghĩa attendance, bằng chứng xác minh, nguồn roster và authority phải chờ G9 tương ứng. T-010 chỉ khóa phép thử khi câu hỏi ảnh hưởng protocol/tiêu chí đã được xử lý. Task và phân công ở Sheet chung.
+[T-008 — Generic Exam Entry Business Baseline](../01-problem/T-008-requirements.md) đang chờ nhóm review, chưa freeze. Bản refactor định nghĩa workflow, authority, exception, state, policy có thể cấu hình và capability cho app; mục 20 nối BR/FR với câu hỏi TQ-001–TQ-008. Chưa chọn kỳ thi/quy chế cụ thể; chưa có As-Is thực địa để kết luận giảm nhân sự. T-009 có thể audit candidate theo capability đã xác định, ghi rõ giả định/gap; T-010 khóa profile, protocol, metric và tiêu chí chấp nhận trước phép thử. Task và phân công ở Sheet chung.
 
 ## Chưa có bằng chứng để chốt kỹ thuật cuối
 
@@ -20,7 +20,7 @@ T-005 **hoàn thiện phần phân tích/survey**, chưa hoàn tất việc ki�
 
 ## Bước tiếp theo theo thứ tự
 
-1. **Review văn bản quyết định và đặc tả nghiệp vụ:** Minh Hy review D-001/D-002, scope và selection; bổ sung ngày/nguồn buổi thống nhất nếu có. Hai người đặc tả kỳ thi mục tiêu, quy chế, actor, luồng lượt vào, trạng thái/ngoại lệ, quyền xử lý và sửa sai. Ghi biên bản riêng trước khi xem điều gì là thầy xác nhận.
+1. **Review T-008 làm generic baseline:** Quốc An và Minh Hy duyệt Core Decisions, luồng P-001–P-012, authority, ngoại lệ, state, policy và contract TQ; ghi người/ngày/nguồn cùng phần còn mở khi freeze. Kỳ thi/quy chế cụ thể là profile cấu hình sau; khảo sát As-Is thực địa cần trước khi tuyên bố hiệu quả vận hành.
 2. **Cổng B0 trước thí nghiệm:** kiểm tra file, annotation, quyền dùng dataset/weight, khả năng chạy và preprocessing; chọn protocol reference/probe 1:1, manifest/split dev–test–external không rò rỉ, thiết bị đo và metric FMR/FNMR cùng retry/manual, latency. Đặt acceptance criteria theo rủi ro nghiệp vụ trước khi xem test.
 3. **Baseline rồi quyết định điểm tối ưu:** chỉ giữ candidate vượt cổng B0, chạy đối chứng cùng dữ liệu/split/thiết bị, phân tích lỗi theo stage và tác động đầu-cuối. Sau đó mới chọn bottleneck, biến/search space/objective và phép thử cải thiện/ablation. Final technical decision phụ thuộc kết quả này.
 

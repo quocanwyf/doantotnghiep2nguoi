@@ -16,4 +16,4 @@ Logic từ bài toán nghiệp vụ đến câu hỏi khảo sát: [DECISION_LOG
 
 ## Đặc tả nghiệp vụ sau khi chọn bài toán
 
-[T-008 — phân tích nghiệp vụ cửa phòng thi](T-008-requirements.md) là bản discovery sau review BA, chưa freeze. Đọc mục 1 (Core Decisions), mục 2 (As-Is → bottlenecks → To-Be), mục 18 (gates) và mục 20 (điều kiện bàn giao) trước các matrix tham chiếu. As-Is thực địa còn thiếu; các BR/FR là ứng viên để review, chưa phải specification triển khai. [Logic phase 01](DECISION_LOGIC.md) giải thích vì sao các câu hỏi này tạo đầu vào cho T-009/T-010.
+[T-008 — Generic Exam Entry Business Baseline](T-008-requirements.md) là bản thiết kế nghiệp vụ tham chiếu đang chờ nhóm review, chưa freeze. Đọc mục 1 (Core Flow/Decisions), mục 3 (cấu trúc generic, policy cấu hình, triển khai kỹ thuật), mục 18 (phần còn mở) và mục 20 (contract cho task sau). BR/FR mô tả cấu trúc và capability đề xuất, không phải đặc tả kỹ thuật đã duyệt. Thiếu As-Is thực địa chỉ giới hạn kết luận về hiệu quả tại kỳ thi thật. [Logic phase 01](DECISION_LOGIC.md) nối các nhu cầu này với T-009/T-010/T-011.
