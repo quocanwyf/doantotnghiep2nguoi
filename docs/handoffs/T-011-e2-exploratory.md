@@ -8,3 +8,7 @@
 - **Việc tiếp theo:** T-012 phân tích 908 ảnh detector báo nhiều mặt và 291 ảnh không phát hiện để đặt giả thuyết coverage; kiểm một encoder khác trên cùng protocol; tìm main test phù hợp hơn. E1 cần archive/nhãn detection; E3 cần giải quyết ý review T-008 và implementation; M1 cần điều kiện đo kiểm soát. Không chốt model/threshold cuối từ run này.
 - **File ngoài Git:** XQLFW ZIP/pairs, buffalo_sc ZIP, ONNX giải nén và JSON run ở máy chạy; nguồn và hash trong [external-assets](../00-project/external-assets.md). Chưa gửi trực tiếp cho Minh Hy; tải lại từ nguồn công khai và đối chiếu hash.
 - **Commit/PR:** [commit mã run 03c68d6](https://github.com/quocanwyf/doantotnghiep2nguoi/commit/03c68d6d358aa09d4bfbd30a5c0641ad9358a0b2); [draft PR #7](https://github.com/quocanwyf/doantotnghiep2nguoi/pull/7). Không merge khi các giới hạn trên chưa được nhóm hiểu rõ.
+
+## Bổ sung chẩn đoán coverage (2026-09-26)
+
+[Phân tích hậu nghiệm](../03-baseline/runs/T-011-E2-coverage-diagnosis.md) và script scripts/t011_xqlfw_coverage.py xác nhận 1.399/1.785 cặp bị loại có ít nhất một ảnh nhiều mặt. Chạy cùng ZIP/hash và cấu hình detector; JSON tổng hợp nằm ngoài Git ở artifacts/t011-xqlfw-coverage.json. Chưa có nhãn để biết box nào là người mục tiêu, nên chưa đổi rule chọn mặt hoặc kết quả E2 gốc.

@@ -54,3 +54,7 @@ Kết quả cho thấy pipeline **chạy được trên ảnh thật**, nhưng 1
 XQLFW là ảnh web/crop, không có claim phòng thi, roster, camera/ánh sáng cửa phòng, target giữa nhiều người, chính sách vào hoặc attendance. Fold chính thức trùng identity, overlap với dữ liệu train WebFace600K của pretrained weight chưa kiểm chứng. Việc loại cặp không ngẫu nhiên có thể làm số liệu lỗi bị lệch. Không có E1 detector benchmark trên ảnh nguyên khung, E3 workflow implementation hay M1 vận hành ở run này.
 
 JSON tổng hợp nằm cục bộ trong thư mục artifacts bị ignore; không đưa archive ảnh, tên identity, embedding, checkpoint hoặc raw prediction vào Git. Nguồn và hash file ngoài Git ghi trong [external-assets](../../00-project/external-assets.md).
+
+## Chẩn đoán coverage hậu nghiệm
+
+[Phân tích T-011](T-011-E2-coverage-diagnosis.md) phân tách lý do loại 1.785 cặp trên đúng input/detector của run này. Đây là quan sát sau khi xem kết quả; không sửa quy tắc hoặc số đo E2 gốc.
