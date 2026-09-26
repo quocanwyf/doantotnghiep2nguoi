@@ -2,7 +2,7 @@
 
 - **Người làm, ngày:** Quốc An, 2026-09-26; Minh Hy review trước khi freeze.
 - **Task trên Sheet:** [T-010, dòng 11](https://docs.google.com/spreadsheets/d/14BQCQ_LbGkZS15Grfi4AZNWBX15h479XjoyQvP9jHcU/edit?gid=0#gid=0).
-- **Commit/PR:** [draft PR #6](https://github.com/quocanwyf/doantotnghiep2nguoi/pull/6), base main; không merge trước review.
+- **Commit/PR:** [PR #6 sẵn sàng review](https://github.com/quocanwyf/doantotnghiep2nguoi/pull/6), base main; không merge trước review.
 - **File chính:** [T-010-protocol.md](../03-baseline/T-010-protocol.md), [decision logic](../03-baseline/DECISION_LOGIC.md), [README](../03-baseline/README.md).
 - **Cách kiểm tra / kết quả thực tế:** đọc trace E1/E2/E3/M1 và freeze gate. XQLFW archive 195.229.543 byte, SHA-256 1AF459679FBA23A12F4D83C82A81523EB930A4AEC759EEBEFCBDDE69A678962C, kiểm CRC và đối chiếu 6.000 pairs: 0 path thiếu; cả 45/45 cặp fold có identity overlap. Không chạy model hay xem benchmark score.
 - **Quyết định / giả định:** Theo yêu cầu Quốc An ngày 2026-09-26, đã tự rà và chốt phương pháp đo E1/E2/E3/M1; E2 đầu tiên dùng XQLFW 10 fold, mỗi fold đánh giá với threshold chọn từ 9 fold còn lại, MobileFaceNet làm mốc ban đầu sau khi pin cấu hình run. XQLFW chưa là main identity-disjoint test; T-008 PR #3 và T-009 PR #5 còn draft. Không có model/dataset/threshold/acceptance target cuối.
