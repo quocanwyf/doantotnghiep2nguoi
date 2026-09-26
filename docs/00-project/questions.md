@@ -12,3 +12,7 @@ Giữ câu hỏi ở đây đến khi có bằng chứng trả lời và quyết
 8. Ai có quyền xử lý ngoại lệ, sửa lượt ghi nhận; quy tắc muộn, nhầm phòng, trùng lượt và “chưa đến” của kỳ thi mục tiêu là gì?
 
 Khi giải quyết câu hỏi, dẫn đến biên bản/nguồn và tạo file quyết định nếu đó là lựa chọn chính thức.
+
+## Câu hỏi còn mở của generic baseline T-008
+
+OQ-001–OQ-023 được quản lý tại [T-008, mục 18](../01-problem/T-008-requirements.md#18-open-questions--deferred-policies). Nhóm cần review semantics của workflow/authority/roster để freeze cấu trúc; giá trị policy theo kỳ thi, điều kiện triển khai và câu hỏi nghiên cứu có thể tiếp tục mở theo đúng phạm vi. T-009 audit candidate với giả định/gap được ghi rõ; T-010 khóa profile và protocol trước phép thử. Chưa có xác minh As-Is thực địa và chưa thể tuyên bố giảm nhân sự.

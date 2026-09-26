@@ -13,3 +13,7 @@ Sau khi cả hai hoàn thành, trình bày và hỏi chéo. Task T-004 chọn **
 Logic từ bài toán nghiệp vụ đến câu hỏi khảo sát: [DECISION_LOGIC.md](DECISION_LOGIC.md).
 
 **Trạng thái hiện tại:** nhóm đã chọn hướng cửa phòng thi ở T-004; xem [T-004-scope.md](T-004-scope.md) và [D-001](../00-project/decisions/T-004-D-001-chon-bai-toan-cua-phong-thi.md). Các câu hỏi về quy chế và quy trình cụ thể vẫn mở.
+
+## Đặc tả nghiệp vụ sau khi chọn bài toán
+
+[T-008 — Generic Exam Entry Business Baseline](T-008-requirements.md) là bản thiết kế nghiệp vụ tham chiếu đang chờ nhóm review, chưa freeze. Đọc mục 1 (Core Flow/Decisions), mục 3 (cấu trúc generic, policy cấu hình, triển khai kỹ thuật), mục 18 (phần còn mở) và mục 20 (contract cho task sau). BR/FR mô tả cấu trúc và capability đề xuất, không phải đặc tả kỹ thuật đã duyệt. Thiếu As-Is thực địa chỉ giới hạn kết luận về hiệu quả tại kỳ thi thật. [Logic phase 01](DECISION_LOGIC.md) nối các nhu cầu này với T-009/T-010/T-011.
