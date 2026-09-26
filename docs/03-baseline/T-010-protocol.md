@@ -48,7 +48,7 @@ Pool ban đầu:
 - **Preprocessing:** mỗi candidate dùng alignment/color/normalization đúng implementation/weight đã pin; không ép một crop tùy tiện cho mọi model.
 - **Metric:** ROC, FMR/FNMR theo threshold, TAR tại các FMR được protocol cho phép báo cáo, EER khi phù hợp.
 - **Quy tắc threshold:** chọn/tune trên dev; test chỉ dùng để đánh giá sau khi config và operating point đã khóa. Ghi số genuine/impostor attempts, số identity, khoảng tin cậy và phạm vi FMR dữ liệu có thể ước lượng; không nội suy operating point cực thấp từ vài nghìn cặp.
-- **Điều kiện so sánh:** hiện chỉ MobileFaceNet vượt runtime smoke T-009; một encoder không tạo được kết luận A tốt hơn B. EdgeFace/AdaFace/R50 phải có weight ID, quyền, checksum, chạy ảnh hợp lệ và preprocessing được pin trước khi vào cùng protocol. Mỗi encoder phải công bố crop/align riêng; nếu khác nhau, kết quả bao gồm ảnh hưởng preprocessing và không quy toàn bộ chênh lệch cho backbone.
+- **Điều kiện so sánh:** hiện chỉ MobileFaceNet vượt runtime smoke T-009; một encoder không tạo được kết luận A tốt hơn B. EdgeFace/AdaFace/R50 phải có weight ID, điều kiện dùng phù hợp phạm vi đồ án, checksum, chạy ảnh hợp lệ và preprocessing được pin trước khi vào cùng protocol. Mỗi encoder phải công bố crop/align riêng; nếu khác nhau, kết quả bao gồm ảnh hưởng preprocessing và không quy toàn bộ chênh lệch cho backbone.
 
 ### E3 — Uncertain / retry / manual-review behavior
 **Câu hỏi / giả thuyết:** với một policy profile được duyệt, workflow có giữ đúng invariant và chuyển tới người có quyền khi bằng chứng thiếu/không chắc không? Fixture phải có khả năng bác bỏ giả thuyết bằng expected outcome.
@@ -86,7 +86,7 @@ Ghi riêng thời gian xử lý tự động mỗi attempt, thời gian chờ đ
 
 Không dataset nào được gọi là `main test`, `dev` hay `external` cho đến khi:
 1. file ảnh/annotation thực tải và parse được;
-2. quyền/điều kiện sử dụng của ảnh, annotation và protocol được ghi rõ;
+2. nguồn phát hành/hướng dẫn đánh giá phù hợp phạm vi đồ án học thuật đã xác nhận; ghi riêng giới hạn phân phối file và triển khai;
 3. schema nhãn đáp ứng đúng câu hỏi thí nghiệm;
 4. manifest có identity/session/frame information đủ để kiểm leakage;
 5. protocol pairs/path thực sự trỏ tới file tồn tại;
@@ -95,7 +95,7 @@ Không dataset nào được gọi là `main test`, `dev` hay `external` cho đ�
 
 Candidate từ T-009:
 - detection: ưu tiên kiểm WIDER FACE; FDDB là external/dự phòng nếu cần và phải có quy tắc ellipse riêng;
-- verification: XQLFW có file pairs đã kiểm, nhưng archive ảnh/path/rights chưa đủ để khóa làm main test;
+- verification: XQLFW đã có pairs và archive/path được kiểm bổ sung; có thể thử pair-fold 1:1 học thuật, nhưng chưa chọn làm main test vì split/domain cần đối chiếu với mục tiêu E2;
 - external portal/video: ChokePoint chỉ dùng nếu archive/rights/label mapping được xác minh;
 - LFW chỉ smoke/reference, không dùng làm bằng chứng triển khai cửa phòng thi.
 
@@ -105,13 +105,13 @@ Candidate từ T-009:
 
 Header protocol là 10 fold × 300 genuine + 300 impostor. Kiểm trực tiếp cho thấy mọi cặp fold đều có ít nhất một identity trùng (45/45 cặp fold). Vì vậy protocol chính thức có thể dùng như **benchmark cặp ảnh** theo fold, nhưng không được gọi là dev/test identity-disjoint. Nếu muốn đánh giá unseen identity, phải thiết kế manifest **mới** theo identity, bỏ cặp bắc qua split, báo số cặp/identity còn lại và không gọi kết quả đó là protocol XQLFW chính thức. Hai cách đánh giá không được trộn khi chọn threshold hoặc diễn giải kết quả.
 
-Tác giả cho tải dữ liệu công khai, nhưng archive chỉ có ảnh JPG; [MIT của repo mã](https://github.com/Martlgap/xqlfw/blob/main/LICENSE) không tự xác nhận quyền sử dụng ảnh gốc/ảnh dẫn xuất LFW cho toàn bộ mục đích. Do quyền ảnh chưa được ghi rõ ở mức cần cho đồ án và domain ảnh web/crop khác camera phòng thi, **XQLFW vẫn chưa vượt toàn bộ data gate** và chưa được chọn làm main test. Cần ghi phạm vi sử dụng được xác nhận trước khi chạy; nếu không xác nhận được, chọn nguồn khác và ghi lý do.
+Theo phạm vi **đồ án tốt nghiệp để học/nghiên cứu** mà Quốc An đã xác nhận ngày 2026-09-26, [trang tải của tác giả](https://martlgap.github.io/xqlfw/pages/download.html) và [hướng dẫn đánh giá trong repo](https://github.com/Martlgap/xqlfw) là căn cứ để **chạy phép thử học thuật cục bộ** với XQLFW; thiếu giấy phép phân phối ảnh riêng không phải lý do chặn phép thử này. [MIT của repo mã](https://github.com/Martlgap/xqlfw/blob/main/LICENSE) không tự mở rộng sang quyền công bố lại ảnh hay dùng trong sản phẩm. XQLFW **chưa được chọn làm main test** vì official folds trùng identity và ảnh web/crop khác miền phòng thi; có thể dùng cho câu hỏi pair-fold/stress sau khi pin weight, preprocessing, protocol và tách dev/test đúng cách. Không commit hoặc phân phối archive ảnh.
 
 | Vai trò cần khóa | Candidate hiện có | Bằng chứng đã có | Thiếu trước freeze | Trạng thái |
 |---|---|---|---|---|
 | E1 dev/test detection | WIDER FACE từ T-009 | Nguồn và schema công bố | Archive ảnh/nhãn, quyền, manifest/split, cách chấm | Chưa chọn |
-| E2 main verification | Chưa chọn | XQLFW đã kiểm pairs + archive nhưng là tập stress khác miền | Quyền ảnh, protocol đúng mục tiêu unseen identity hoặc tập khác, split/target | Chưa chọn |
-| E2 external stress | XQLFW có điều kiện | 6.000 pairs có ảnh, ZIP nguyên vẹn; official folds trùng identity | Quyền ảnh, vai trò external và ngưỡng phát triển từ tập độc lập | Có điều kiện |
+| E2 main verification | Chưa chọn | XQLFW đã kiểm pairs + archive, có thể đánh giá học thuật nhưng là tập stress khác miền | Protocol đúng mục tiêu unseen identity hoặc tập khác, split/target | Chưa chọn |
+| E2 external stress | XQLFW có thể thử học thuật | 6.000 pairs có ảnh, ZIP nguyên vẹn; official folds trùng identity | Pin vai trò pair-fold/external, dev/held-out folds và cách báo overlap; threshold từ phần dev độc lập | Sẵn sàng thiết kế run, chưa chấm |
 | Portal/video external | ChokePoint có điều kiện | Protocol và quyền nghiên cứu phi thương mại công bố | File/nhãn/reference-probe thực, chi phí lưu trữ | Có điều kiện |
 | E3 workflow | Fixture giả lập từ T-008 dự thảo | Scenario/BR/FR/TQ và state semantics | Review T-008, profile policy, expected outcome có người duyệt | Có thể thiết kế, chưa chấm |
 | M1 thiết bị | PC tham chiếu; thiết bị đích TBD | Runtime smoke T-009 trên PC | Thông số thiết bị, tải đến, điểm bắt/kết thúc thời gian | Chưa khóa |
@@ -206,7 +206,7 @@ T-010 chỉ được coi là **locked** khi:
 6. acceptance target và policy profile có nguồn/người duyệt; nếu còn TBD, chỉ được khóa **protocol đo mô tả**, không khóa kết luận pass/fail hay final technical decision;
 7. Minh Hy review protocol **trước khi nhóm xem baseline**.
 
-**Trạng thái hiện tại: CHƯA FROZEN.** T-008/T-009 còn draft, chưa có main dataset vượt toàn bộ gate, chưa có target hardware hoặc target rủi ro nghiệp vụ. T-011 không được trình bày như locked comparative baseline. Có thể chuẩn bị code/fixture và kiểm thử khả dụng không nhìn test score; run mô tả sau này phải ghi rõ scope và limitation.
+**Trạng thái hiện tại: CHƯA FROZEN.** T-008/T-009 còn draft, chưa có main dataset vượt toàn bộ gate, chưa có target hardware hoặc target rủi ro nghiệp vụ. T-011 không được trình bày như locked comparative baseline. Có thể chuẩn bị code/fixture và chạy phép thử học thuật thăm dò với XQLFW theo protocol có dev/held-out rõ ràng; ghi kết quả là provisional, không dùng để chốt main test, threshold triển khai hay final technical decision. Run mô tả phải ghi scope và limitation.
 
 Mọi thay đổi sau freeze phải có revision/experiment mới và lý do.
 
@@ -226,7 +226,7 @@ T-011 chỉ tạo **evidence thực nghiệm**; chưa chọn final model/pipelin
 ## 11. Điểm đang mở
 
 - T-008 PR #3 chưa review xong.
-- Main detection và main verification dataset chưa vượt đầy đủ file/label/rights/domain gate. XQLFW đã kiểm archive/pairs nhưng quyền ảnh còn cần xác nhận; 10 fold chính thức trùng identity, không chứng minh unseen identity.
+- Main detection và main verification dataset chưa được khóa theo câu hỏi/split/domain cần đánh giá. XQLFW đã kiểm archive/pairs và có thể dùng cho phép thử học thuật pair-fold; 10 fold chính thức trùng identity, không chứng minh unseen identity hay hiệu quả cửa phòng thi.
 - Target hardware, tải đến và As-Is vận hành chưa xác nhận; PC chỉ là môi trường tham chiếu.
 - Policy profile/authority và acceptance target nghiệp vụ cho FMR/FNMR, retry/manual, latency chưa được nhóm duyệt.
 - EdgeFace/AdaFace/R50 chưa qua runtime/preprocessing gate tương đương MobileFaceNet; E2 hiện chưa có so sánh nhiều encoder hợp lệ.
