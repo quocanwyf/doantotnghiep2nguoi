@@ -1,12 +1,21 @@
 # T-010 — Khóa giao thức baseline trước khi chạy
 
-**Ngày thiết kế:** 2026-09-26. **Người thực hiện:** Quốc An. **Trạng thái:** dự thảo để Minh Hy review; chưa khóa dữ liệu/tiêu chí chấp nhận, chưa chạy baseline, chưa xem kết quả so sánh và chưa chọn model cuối.
+**Ngày thiết kế:** 2026-09-26. **Người thực hiện:** Quốc An. **Trạng thái:** đã tự rà soát và chốt phương pháp đo cùng phạm vi phép thử E2 học thuật đầu tiên; từng run vẫn phải qua gate dữ liệu/cấu hình bên dưới. Chưa chạy baseline, chưa xem kết quả so sánh và chưa chọn model cuối. Minh Hy vẫn là người review độc lập theo Sheet.
 
 ## 1. Mục tiêu và ranh giới
 
 T-010 chuyển capability/rủi ro nghiệp vụ từ T-008 và các candidate đủ điều kiện từ T-009 thành một **protocol có thể chạy lại** cho T-011. Mục tiêu là khóa câu hỏi, dữ liệu, split, preprocessing, biến kiểm soát, metric, thiết bị và cách ghi nhận kết quả **trước khi xem benchmark**.
 
 T-010 không chứng minh model nào tốt hơn, không tối ưu threshold trên test set, không tự đặt acceptance target chưa được nhóm chốt và không thay đổi yêu cầu nghiệp vụ để làm một candidate kỹ thuật trở nên phù hợp.
+
+### Phạm vi được chốt ở lượt này
+
+Theo yêu cầu Quốc An ngày 2026-09-26, T-010 chốt **cách đặt câu hỏi và đo** cho E1 detection, E2 verification, E3 logic nghiệp vụ và M1 vận hành. E2 có một phép thử học thuật đầu tiên đủ cụ thể để T-011 chuẩn bị: XQLFW 1:1 theo file pairs/fold của tác giả, dùng MobileFaceNet trong `buffalo_sc` làm mốc khả dụng ban đầu. Đây là quyết định **về thiết kế phép thử**, không là lựa chọn dataset/model cuối của hệ thống.
+
+- Giữ thứ tự 10 fold × 600 cặp từ file pairs gốc. Với mỗi fold đánh giá, dùng 9 fold còn lại để chọn threshold trên các score đã chuẩn hóa cùng chiều (score cao hơn = match). Trên dev, chọn threshold trong các score quan sát sao cho |FMR − FNMR| nhỏ nhất; nếu hòa, chọn FMR thấp hơn, rồi threshold cao hơn. Áp dụng nguyên threshold đó lên fold đánh giá. Cùng quy tắc cho mọi encoder được thêm **trước khi xem điểm của encoder đó**. Báo từng fold và tổng hợp dự đoán ngoài fold; không chọn lại threshold sau khi xem fold đánh giá.
+- Báo FMR/FNMR tại threshold được chọn trong 9 fold, ROC/EER mô tả và số cặp genuine/impostor thực tế. Không tự đặt target FMR hoặc kết luận đạt yêu cầu cửa phòng thi. Identity có thể trùng giữa các fold, nên gọi đúng là **pair-fold evaluation**, không gọi unseen-identity test.
+- Trước khi chạy, T-011 phải pin hash weight cụ thể, alignment/color/normalization, phiên bản runtime, thiết bị tham chiếu và manifest fold. Nếu một mục chưa pin, run đó vẫn ở trạng thái chuẩn bị; không điền điểm giả. AdaFace/EdgeFace/R50 chỉ vào so sánh sau cùng gate và dùng lại protocol đã chốt.
+- E1 chưa có archive/nhãn detection được kiểm; E3 chưa có implementation và profile được duyệt; M1 chưa có thiết bị đích hoặc tải đến. Các nhánh này giữ **thiết kế phép đo**, chưa là run bị khóa hay kết quả. Không lấy phép thử E2 để thay bằng chứng của chúng.
 
 Đầu vào hiện tại:
 - T-008 ở PR #3 vẫn đang được Minh Hy review; capability/TQ từ đó là baseline tạm thời và phải đối chiếu lại trước khi khóa protocol.
@@ -197,16 +206,16 @@ Không âm thầm thay dataset, weight, threshold hoặc preprocessing giữa c�
 
 ## 9. Freeze gate trước T-011
 
-T-010 chỉ được coi là **locked** khi:
+Baseline so sánh đầy đủ của T-010 chỉ được coi là **locked** khi:
 1. T-008 đã review đủ để không còn thay đổi capability trực tiếp ảnh hưởng experiment, hoặc điểm mở đã được ghi rõ;
 2. dataset cho từng run vượt data gate;
 3. weight/preprocessing được pin;
 4. split/manifest đóng băng;
 5. metric và procedure đo được chốt;
 6. acceptance target và policy profile có nguồn/người duyệt; nếu còn TBD, chỉ được khóa **protocol đo mô tả**, không khóa kết luận pass/fail hay final technical decision;
-7. Minh Hy review protocol **trước khi nhóm xem baseline**.
+7. Minh Hy review protocol **trước khi nhóm gọi kết quả là locked comparative baseline**. Phép thử học thuật thăm dò E2 có thể chạy trước, nhưng phải báo provisional và không dùng để chốt model/threshold cuối.
 
-**Trạng thái hiện tại: CHƯA FROZEN.** T-008/T-009 còn draft, chưa có main dataset vượt toàn bộ gate, chưa có target hardware hoặc target rủi ro nghiệp vụ. T-011 không được trình bày như locked comparative baseline. Có thể chuẩn bị code/fixture và chạy phép thử học thuật thăm dò với XQLFW theo protocol có dev/held-out rõ ràng; ghi kết quả là provisional, không dùng để chốt main test, threshold triển khai hay final technical decision. Run mô tả phải ghi scope và limitation.
+**Trạng thái hiện tại: phương pháp đo đã chốt, baseline so sánh đầy đủ CHƯA FROZEN.** T-008/T-009 còn draft, chưa có main dataset vượt toàn bộ gate, chưa có target hardware hoặc target rủi ro nghiệp vụ. T-011 không được trình bày như locked comparative baseline. Có thể chuẩn bị code/fixture và chạy phép thử học thuật thăm dò với XQLFW theo protocol có dev/held-out rõ ràng; ghi kết quả là provisional, không dùng để chốt main test, threshold triển khai hay final technical decision. Run mô tả phải ghi scope và limitation.
 
 Mọi thay đổi sau freeze phải có revision/experiment mới và lý do.
 

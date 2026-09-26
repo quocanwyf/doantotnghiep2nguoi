@@ -12,7 +12,7 @@
 ## Quy tắc
 
 - Không gọi candidate nào là tốt nhất ở T-010.
-- Không dùng dataset chưa qua file/label/rights/schema gate.
+- Không dùng dataset chưa qua file/label/schema và điều kiện dùng phù hợp phạm vi đồ án học thuật. Xem quyền phân phối lại hoặc triển khai thực tế riêng.
 - Không tune threshold trên test.
 - Không dùng external/test set để sửa config rồi báo lại cùng tập đó.
 - Acceptance target chưa có quyết định nghiệp vụ phải để TBD.
@@ -21,6 +21,6 @@
 
 ## Quyết định hiện tại và điều kiện bước sau
 
-T-010 mới ở mức **design draft**, chưa là protocol locked. Kiểm archive XQLFW cho thấy 6.000 pair đều có ảnh nhưng 10 fold chính thức trùng identity giữa các fold; nguồn công bố cho tải, quyền ảnh dẫn xuất chưa được xác nhận đầy đủ. Vì vậy XQLFW chưa tự động thành main test hoặc bằng chứng unseen identity. Dataset detection, quyền ảnh, policy profile, mục tiêu chấp nhận và thiết bị đích còn mở.
+Quốc An giao Codex tự rà và chốt T-010 ngày 2026-09-26. **Phương pháp đo đã chốt; E2 học thuật có protocol pair-fold XQLFW cụ thể để chuẩn bị**, với MobileFaceNet làm mốc ban đầu. Từng run vẫn cần pin file/weight/preprocessing/thiết bị trước khi chạy. Kiểm archive XQLFW cho thấy 6.000 pair đều có ảnh nhưng 10 fold trùng identity giữa các fold; vì vậy phép thử này không tự động thành main test hoặc bằng chứng unseen identity. Dataset detection, policy profile, mục tiêu chấp nhận và thiết bị đích còn mở.
 
 Có thể review cách đo và chuẩn bị fixture/code mà không xem locked test. T-011 chỉ chạy so sánh được gọi là locked khi dữ liệu, split, weight/preprocessing, metric, điều kiện đo và review của Minh Hy đã được ghi; nếu target nghiệp vụ vẫn TBD, chỉ báo số liệu mô tả và không kết luận pass/fail hoặc model cuối.
