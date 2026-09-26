@@ -1,6 +1,6 @@
 # Trạng thái dự án
 
-- Cập nhật: 2026-09-25
+- Cập nhật: 2026-09-26
 - Giai đoạn: phạm vi bài toán 01 đã được nhóm chọn; khảo sát 02 đã chọn hướng để chuẩn bị thí nghiệm.
 - Thành viên: Quốc An (TV-A), Minh Hy (TV-B).
 
@@ -12,7 +12,8 @@
 
 ## Đợt việc tiếp theo đang làm
 
-[T-008 — đặc tả nghiệp vụ cửa phòng thi](../01-problem/T-008-requirements.md) đang được Quốc An cùng AI xây dựng từ D-001. Quốc An xác nhận chưa chọn kỳ thi cụ thể; các quy tắc giờ, quyền xử lý và mức tự động hóa được trình bày như phương án cần duyệt, không phải quy chế đã xác nhận. T-009 kiểm tra candidate dữ liệu/weight, T-010 khóa protocol, T-011 chạy baseline và T-012 phân tích lỗi sẽ đi sau các đầu vào tương ứng. Task, phân công và trạng thái chi tiết ở Sheet chung.
+[T-008 — phân tích nghiệp vụ cửa phòng thi](../01-problem/T-008-requirements.md) đã được rà soát BA: có Core Decisions, As-Is còn thiếu bằng chứng, To-Be đề xuất, bảng scenario/rule/requirement và gates cho T-009. Tài liệu vẫn ở discovery, chưa freeze và chưa chọn kỳ thi/quy chế. T-009 được audit nguồn/khả dụng song song; các kết luận phụ thuộc định nghĩa attendance, bằng chứng xác minh, nguồn roster và authority phải chờ G9 tương ứng. T-010 chỉ khóa phép thử khi câu hỏi ảnh hưởng protocol/tiêu chí đã được xử lý. Task và phân công ở Sheet chung.
+
 ## Chưa có bằng chứng để chốt kỹ thuật cuối
 
 T-005 **hoàn thiện phần phân tích/survey**, chưa hoàn tất việc kiểm tra tệp/quyền dùng dữ liệu và trọng số, pin preprocessing/weight, chọn main test và thiết bị, khóa split/metric/operating point, chạy baseline hoặc xác định bottleneck. Vì vậy shortlist dataset/model, threshold, hướng tối ưu và mobile stack vẫn là candidate/câu hỏi; chưa có kết quả benchmark hay pilot để tuyên bố giảm nhân sự. Dữ liệu công khai cho phần thị giác và fixture giả lập cho logic nghiệp vụ không thay thế đánh giá tại kỳ thi thật.

@@ -39,3 +39,9 @@ File dùng chung của phase hoặc dự án như `README.md`, `DECISION_LOGIC.m
 Khi bắt đầu một giai đoạn, tạo hoặc cập nhật DECISION_LOGIC.md ngay trong folder đó **cùng lúc với việc đang làm**, không lập trước file rỗng cho các giai đoạn tương lai. File giải thích vì sao bước tiếp theo tồn tại và được suy ra từ bước trước theo chuỗi: Business Problem → Problem Decomposition → Stage Requirements → Data/Technical Requirements → Survey → Candidate Selection → Experiment → Final Technical Decision → Implementation.
 
 Ở Survey, quyết định chỉ là candidate đủ phù hợp để đem thử dựa trên requirement và bằng chứng khảo sát. Experiment kiểm chứng uncertainty còn lại bằng câu hỏi, biến, điều kiện kiểm soát, dữ liệu/split, metric và tiêu chí chấp nhận đã định trước; kết quả mới hỗ trợ quyết định kỹ thuật cuối. Nếu chưa có bằng chứng hoặc nhóm chưa thống nhất, ghi rõ trạng thái mở. DECISION_LOGIC.md là bản đồ lập luận và liên kết, không sao chép deliverable chính hoặc thay thế quyết định chính thức trong docs/00-project/decisions/.
+
+## Phân biệt thẩm quyền quyết định xuyên suốt project
+
+Theo phản hồi review T-008 của Quốc An ngày 2026-09-26, mọi quyết định quan trọng cần phân biệt: **Business decision** (phê duyệt chính sách/phạm vi), **System decision** (áp dụng quy tắc đã được duyệt), **Human-authorized decision** (người có quyền xử lý ca cụ thể), và **Technical implementation** (cách thực hiện). Model hoặc kết quả kỹ thuật không tự tạo quyền cho vào, từ chối, override hay kết luận vắng. Ghi nguồn, người/phạm vi quyền và bằng chứng; thiếu căn cứ thì giữ câu hỏi mở.
+
+Discovery có thể giữ nhiều scenario/BR/FR để review nhưng phải nêu Core Flow/Core Decisions, phân biệt As-Is có nguồn với To-Be đề xuất, đánh dấu ASSUMPTION/TBD và chỉ rõ câu hỏi nào chặn quyết định tiếp theo. Freeze đầu vào nghiên cứu phải có phiên bản, người/ngày chốt, phạm vi và phần còn mở; không đồng nghĩa chấp thuận vận hành thật.

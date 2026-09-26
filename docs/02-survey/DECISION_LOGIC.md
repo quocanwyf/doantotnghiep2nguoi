@@ -47,3 +47,7 @@ File này là **xương sống suy luận** của bộ T-005: vì sao một stag
 Với mỗi phép thử phải có **question/hypothesis → variables → controlled conditions → dataset/split → metrics và lý do → acceptance criteria trước test → result → interpretation → decision**. Cùng dữ liệu/split/protocol/thiết bị cho so sánh trực tiếp; dev chọn cấu hình, locked test để kết luận. Nếu thiếu nhãn, chỉ báo metric của stage đo được. Sau baseline và error analysis mới chọn bottleneck, search space/objective/thuật toán tối ưu; ablation tách tác động khi đổi nhiều thứ. **Chưa có run nên final technical decision vẫn mở.**
 
 **Vì sao bước sau tồn tại:** 03/04 chỉ mở khi candidate, protocol và câu hỏi kiểm chứng đã đủ cụ thể; 05 tổng hợp kết quả để chốt kỹ thuật trong điều kiện project; 06 triển khai cấu hình đã kiểm chứng. Khi bắt đầu từng phase, tạo DECISION_LOGIC.md tại đó và nối lại ID/nguồn/run tương ứng, không tạo trước file rỗng.
+
+## T-008 → giới hạn kết luận tại T-009
+
+Review BA của [T-008](../01-problem/T-008-requirements.md) làm rõ As-Is chưa được quan sát, To-Be là đề xuất và ranh giới quyền chưa chốt cho kỳ thi thật. T-009 tiếp tục audit nguồn/khả dụng theo T-005/T-007; trước kết luận candidate phù hợp, đối chiếu G9 tại mục 18: attendance, bằng chứng xác minh, cách xác định hồ sơ, nguồn roster, mục đích/quyền dữ liệu và authority. Ghi giả định và kết luận có điều kiện nếu gate chưa giải quyết. Nếu phát hiện nghiệp vụ đổi loại bài toán, nhóm review D-001/D-002 trước khi thay hướng; không tự coi T-008 đã freeze hoặc survey đã thành final technical decision.

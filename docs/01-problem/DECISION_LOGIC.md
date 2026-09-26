@@ -38,6 +38,14 @@ Xác minh khuôn mặt **không tự trả lời** đúng phòng, đúng ca, đ�
 
 **Vì sao có 02:** các câu hỏi trên xác định output và rủi ro của từng bước. Survey phải suy ra stage requirements, data/technical requirements, candidate và experiment từ chúng; không bắt đầu bằng một dataset/model đã có. Các giả định còn mở tiếp tục ở [questions.md](../00-project/questions.md) cho tới khi có nguồn và quyết định.
 
-## T-008 → đặc tả nghiệp vụ trước protocol
+## T-008 → discovery nghiệp vụ → gates cho nghiên cứu
 
-D-001 đã chọn thiết bị tại cửa nhưng chưa chọn kỳ thi, quy chế, quyền xử lý ngoại lệ hoặc mốc giờ. Quốc An xác nhận ngày 2026-09-25 rằng nhóm sẽ cùng xây một bộ nghiệp vụ có thể cấu hình trước khi gắn vào kỳ thi cụ thể. Vì thế [T-008](T-008-requirements.md) chuyển mục tiêu cửa phòng thi thành BR-01–BR-08, tách tình trạng hồ sơ, kết quả từng lần thử và hiện diện sau ca; mỗi quy tắc chưa có nguồn được giữ ở trạng thái đề xuất/câu hỏi. Bước này tồn tại để T-009 biết cần dữ liệu gì và T-010 biết phải kiểm thử, đo và đặt tiêu chí chấp nhận gì. Chỉ sau khi chính sách kỳ thi và quyền người xử lý được xác nhận mới khóa quy tắc vận hành thật; không suy chúng từ dataset/model hoặc từ một quy chế của kỳ thi chưa chọn.
+**Context / Question.** D-001 chọn bối cảnh cửa phòng thi; kỳ thi, quy chế và As-Is thực địa chưa được xác minh. T-008 tồn tại để làm rõ công việc nào cần hỗ trợ, kết quả cần chứng minh và ai có quyền quyết định trước khi đánh giá mức phù hợp của candidate.
+
+**Requirements / Alternatives.** [T-008](T-008-requirements.md) giữ phân tích chi tiết nhưng thêm sáu Core Decisions và chuỗi As-Is → giả thuyết bottleneck → To-Be. Đối chiếu hoàn toàn thủ công, thiết bị hỗ trợ người duyệt và tự xử lý lượt thường lệ là các mức vận hành cần xem xét theo quyền và tổng công sức, không tự coi cách tự động hơn là hiệu quả hơn.
+
+**Evidence / Review decision.** Theo phản hồi BA của Quốc An ngày 2026-09-26, bản chi tiết được đưa vào repo với nhãn discovery, giữ BR-001–BR-017 và FR-001–FR-019 là ứng viên, thêm mapping BR-01–BR-08 cũ. Đây là quyết định cách tổ chức/review tài liệu; chưa có bằng chứng As-Is, chưa có quyết định quy chế hoặc kỹ thuật mới.
+
+**Why / Next.** Định nghĩa attendance, bằng chứng xác minh, nguồn roster và authority có thể đổi loại bài toán. Vì vậy mục 18 phân OQ thành G9 (chặn kết luận phụ thuộc tại T-009), GI (trước implementation, có checkpoint T-010 khi cần) và GO (được giữ mở tới checkpoint). T-009 vẫn audit nguồn/khả dụng song song; không kết luận phù hợp khi gate liên quan chưa giải quyết. Mục 20 nêu điều kiện freeze đầu vào nghiên cứu, khác với phê duyệt triển khai.
+
+**Giới hạn.** Chưa freeze T-008. D-001/D-002 là hướng nhóm đã chọn, không chứng minh một kỳ thi cho phép tự động quyết định. Nếu discovery mâu thuẫn hướng cũ, nhóm review quyết định có nguồn; không âm thầm đổi hoặc biện minh ngược từ candidate. Nguyên tắc Business decision / System decision / Human-authorized decision / Technical implementation được duy trì trong [workflow](../00-project/workflow.md).

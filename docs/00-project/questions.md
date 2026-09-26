@@ -12,3 +12,7 @@ Giữ câu hỏi ở đây đến khi có bằng chứng trả lời và quyết
 8. Ai có quyền xử lý ngoại lệ, sửa lượt ghi nhận; quy tắc muộn, nhầm phòng, trùng lượt và “chưa đến” của kỳ thi mục tiêu là gì?
 
 Khi giải quyết câu hỏi, dẫn đến biên bản/nguồn và tạo file quyết định nếu đó là lựa chọn chính thức.
+
+## Câu hỏi discovery T-008 và thời điểm chặn
+
+Danh sách chi tiết OQ-001–OQ-023 và nguồn/ảnh hưởng/gate được quản lý tại [T-008, mục 18](../01-problem/T-008-requirements.md#18-open-questions); không sao chép thành danh sách thứ hai ở đây. G9 chặn kết luận phù hợp phụ thuộc tại T-009, GI chặn implementation (một số checkpoint phải trước T-010), GO được giữ mở tới checkpoint. Tất cả còn mở; T-009 vẫn có thể audit nguồn/khả dụng có điều kiện. Điều kiện freeze tại mục 20 chưa đạt; không coi việc bổ sung văn bản là đã xác minh nghiệp vụ.

@@ -1,116 +1,601 @@
-# T-008 — Yêu cầu nghiệp vụ cho thiết bị tại cửa phòng thi
+# T-008 — Exam Room Entry & Candidate Check-in Business Analysis
 
-**Trạng thái:** bản nghiệp vụ đang cùng Quốc An xây dựng; kỳ thi mục tiêu chưa chốt theo phản hồi ngày 2026-09-25. Cần nhóm rà soát các điểm chưa có nguồn. **Phạm vi đã chốt:** [D-001](../00-project/decisions/T-004-D-001-chon-bai-toan-cua-phong-thi.md) chọn bài toán T-002; [D-002](../00-project/decisions/T-007-D-002-chon-huong-khao-sat-t005.md) chọn khảo sát T-005. Tài liệu này xác định hệ thống cần làm gì trước khi khóa giao thức baseline T-010. Nó không chọn dataset, model, ngưỡng xác minh hoặc quy chế cho một kỳ thi cụ thể.
+**Trạng thái:** DISCOVERY / REVIEW — chưa freeze, chưa phải specification triển khai.
+**Cập nhật:** 2026-09-26. Quốc An phụ trách; Minh Hy review theo Sheet.
+**Nguồn:** yêu cầu và phản hồi BA của Quốc An trong trao đổi T-008; [T-002](T-002-quoc-an-proposal.md), [D-001](../00-project/decisions/T-004-D-001-chon-bai-toan-cua-phong-thi.md), [D-002](../00-project/decisions/T-007-D-002-chon-huong-khao-sat-t005.md). Chưa có quan sát/phỏng vấn quy trình một kỳ thi cụ thể.
 
-## Nhiệm vụ T-008 — làm gì và để trả lời câu hỏi nào?
+Bản này đưa nội dung phân tích 20 mục đã thảo luận vào repository, giữ ID và các matrix để review. Thay đổi BA tập trung ở lớp đọc nhanh, As-Is → bottlenecks → To-Be, đánh giá giả định, phân loại requirement và gates ở mục 18/20. Các bảng chi tiết là danh mục phân tích, không phải danh sách chức năng đã cam kết xây.
 
-**Câu hỏi trung tâm:** Trong một ca thi có danh sách thí sinh theo phòng, khi một người tới cửa khai báo mã, hệ thống và người phụ trách cần làm gì để xác định đúng người, đúng ca/phòng, ghi nhận đúng trạng thái và xử lý sai lệch có thể đối soát?
+- **CONFIRMED:** có nguồn trực tiếp; xác nhận định hướng không đồng nghĩa đã có bằng chứng hiệu quả thực tế.
+- **ASSUMPTION:** giả định hoặc đề xuất cần xác minh/duyệt.
+- **OPEN QUESTION:** câu hỏi có ID OQ-xxx cần trả lời.
+- **TBD:** giá trị/chính sách chưa thể xác định.
 
-**Đầu vào đã có:** bài toán/giới hạn từ T-002 và D-001; phân rã stage T-005; các câu hỏi mở của nhóm. Kỳ thi cụ thể, quy chế áp dụng, mốc giờ và quyền duyệt ngoại lệ **chưa được chốt**. Nguồn nào là quyết định nhóm, nguồn nào chỉ là ví dụ tham khảo phải được ghi tách biệt.
+Mọi process, state, BR, FR, NFR và control đề xuất dưới đây là **ASSUMPTION** trừ khi ghi khác. “The system shall” là cách diễn đạt requirement ứng viên, chưa biểu thị đã phê duyệt.
 
-**Công việc cần làm:**
+## 1. Executive Summary
 
-1. Mô tả người tham gia, quy trình kiểm tra hiện tại theo thông tin có nguồn, rồi luồng mục tiêu **trước ca → từng lượt tại cửa → sau ca**. Chỗ chưa có quan sát thực tế phải ghi là giả định cần xác minh.
-2. Với lượt thường lệ và từng ngoại lệ (mã/hồ sơ lỗi, ảnh kém, không khớp, sai phòng/ca, đến muộn, trùng lượt, chưa đến, lỗi thiết bị), ghi theo cùng khuôn: **input/bối cảnh → điều kiện/quy tắc → output/trạng thái → ai xử lý → vết cần lưu → bước kế**. Không dùng một nhãn chung che nhiều nguyên nhân khác nhau.
-3. Xác định dữ liệu nghiệp vụ tối thiểu và nguồn/chủ thể được sửa; tách tình trạng hồ sơ, kết quả một lần thử và trạng thái hiện diện sau ca. Nêu ranh giới máy tự xử lý và quyết định phải chuyển người có quyền.
-4. Suy mục tiêu đo và rủi ro từ nghiệp vụ: nhận nhầm, từ chối nhầm, hàng chờ, retry/manual, ghi trùng, vắng sai. Ghi câu hỏi và biến chính sách còn mở để T-009 kiểm tra dữ liệu và T-010 khóa giao thức/tiêu chí chấp nhận.
+Mục tiêu là hỗ trợ kiểm tra tại cửa phòng thi và giảm công đối chiếu thường lệ. T-008 làm rõ công việc thực tế, quyền quyết định và bằng chứng cần có trước khi đánh giá giải pháp.
 
-**Đầu ra:** một file [T-008-requirements.md](T-008-requirements.md) dễ đọc, có luồng và bảng tình huống đủ để người khác đi từ bài toán tới các yêu cầu BR và biết vì sao T-009/T-010 tồn tại. Bố cục, sơ đồ và mức gộp bảng có thể đổi sau khi Quốc An nghiên cứu cách trình bày; các mục 1–9 bên dưới là **bản nháp nội dung**, không phải khuôn bắt buộc.
+### Core Business Flow / Core Decisions — đọc trước các matrix
 
-**Điều kiện hoàn tất:** luồng thường lệ và ngoại lệ được mô tả nhất quán; mỗi kết quả có người chịu trách nhiệm và cách ghi vết; yêu cầu có nguồn hoặc được đánh dấu giả định; những quy tắc chưa chốt nằm trong danh sách câu hỏi; Quốc An rà soát nội dung, Minh Hy review theo workflow. T-008 không chọn dataset, model, threshold, thuật toán tối ưu hay khẳng định áp dụng được cho một kỳ thi cụ thể.
+**Chuẩn bị roster và trách nhiệm → tiếp nhận lượt đến → tìm đúng hồ sơ → kiểm tra điều kiện → ghi nhận theo quyền hoặc chuyển người xử lý → đối soát cuối ca → sửa sai có căn cứ.**
 
-## 1. Vấn đề, mục tiêu và giới hạn bằng chứng
+Sáu vấn đề cốt lõi cần nhóm review:
 
-Theo [đề xuất T-002](T-002-quoc-an-proposal.md), khâu kiểm tra đầu vào hiện cần đối chiếu người đến với hồ sơ, phòng và ca, rồi ghi nhận. Việc này lặp lại ở nhiều cửa phòng; người đến muộn, nhầm phòng và trường hợp chưa đến cần được theo dõi để đối soát. Quy trình thực tế, số người bố trí và thời gian xử lý của **kỳ thi mục tiêu** chưa được khảo sát, nên đây là mô tả bối cảnh của nhóm, chưa phải số đo hiện trường.
+1. **Đang thay đổi công việc nào?** As-Is chưa được quan sát; cần biết ai đối chiếu, bằng gì, mất bao lâu và xử lý lỗi thế nào. Chưa có căn cứ tuyên bố giảm nhân sự.
+2. **Kết quả cần chứng minh điều gì?** Một attempt, check-in hoàn tất, quyền vào phòng và attendance cuối ca là bốn khái niệm khác nhau. Định nghĩa attendance còn mở — OQ-001.
+3. **Hồ sơ và bằng chứng đến từ đâu?** Cần nguồn roster, cách xác định hồ sơ và tiêu chí kiểm tra được chấp nhận — OQ-003, OQ-006, OQ-013.
+4. **Ai được quyết định?** Tách quyền ghi nhận, cho vào, override và sửa sai. Thiết bị chỉ hành động trong quyền đã được phê duyệt — OQ-009, OQ-010.
+5. **Nếu không chắc hoặc thiết bị hỏng thì sao?** Cần người nhận ngoại lệ, cách ghi nhận thay thế và đối soát; hiện chưa xác nhận khả năng bố trí thực tế — OQ-011, OQ-018.
+6. **Điều gì phải chốt trước bước sau?** Các OQ có thể đổi loại bài toán chặn kết luận phù hợp tại T-009; chi tiết vận hành được giữ mở theo gates, không chờ giải quyết toàn bộ mới nghiên cứu.
 
-Mục tiêu hệ thống là hỗ trợ thiết bị tại cửa xử lý **lượt thường lệ** và ghi nhận trạng thái có lý do, để giảm công đối chiếu lặp lại. Trường hợp không chắc hoặc trái quy tắc phải chuyển người có thẩm quyền. Chưa có pilot để kết luận giảm được bao nhiêu người hoặc thiết bị được thay bước kiểm tra bắt buộc nào.
+Tách bốn kết quả: **lượt xuất hiện/kiểm tra → hoàn tất check-in → cho phép vào → attendance cuối ca**. Không có ghi nhận điện tử chưa đủ để kết luận vắng; check-in tại cửa chưa chứng minh đã tham dự thi.
 
-## 2. Actor và quyền cần làm rõ
+**Cách đọc:** mục 1–5 để review nền tảng; mục 6–17 là các bảng tham chiếu; mục 18 và 20 xác định bước tiếp theo và điều kiện freeze. Mục 14 phân biệt requirement cần giữ với chi tiết còn quá sớm.
 
-| Actor | Vai trò theo đề xuất đã chốt | Quyền cần xác nhận với kỳ thi mục tiêu |
+## 2. Business Problem & Objectives
+
+| ID | Vấn đề nghiệp vụ | Căn cứ / trạng thái |
 |---|---|---|
-| Đơn vị tổ chức | Cung cấp và chốt danh sách, ảnh tham chiếu, phân phòng, ca và mốc giờ | Ai phê duyệt phiên bản danh sách, quyền sửa và thời hạn lưu dữ liệu |
-| Thí sinh | Khai báo mã cho lượt tại cửa, đứng trong vùng thu ảnh, nhận hướng dẫn thử lại | Cách khai báo mã và giấy tờ còn phải xuất trình |
-| Giám thị/người phụ trách | Xem trạng thái, xử lý lượt được chuyển đến, đối soát sau ca | Ai được cho phép vào muộn, giải quyết nhầm phòng, ghi đè hoặc hủy lượt |
-| Thiết bị/hệ thống | Tra hồ sơ theo mã; thu bằng chứng; trả trạng thái; ghi vết | Mức tự động ghi nhận và bước nào vẫn bắt buộc do người thực hiện |
+| BP-001 | Công việc đối chiếu đầu vào tại từng phòng tạo nhu cầu bố trí người thực hiện. | CONFIRMED — bối cảnh/mục tiêu nhóm cung cấp; khối lượng thực tế chưa đo. |
+| BP-002 | Cần phân biệt hợp lệ, đến muộn, nhầm phòng, chưa đến và ngoại lệ liên quan. | CONFIRMED — phạm vi nhóm đã nêu. |
+| BP-003 | Cần khả năng đối soát và sửa ghi nhận sai/thiếu có căn cứ. | CONFIRMED — yêu cầu phân tích, chưa có thống kê sự cố thực tế. |
+| BP-004 | Quy trình cần tiếp tục khi automation thất bại. | CONFIRMED — mục tiêu human fallback; tính khả thi chưa xác minh. |
 
-Không gán cho thiết bị quyền quyết định thí sinh được dự thi, miễn kiểm tra giấy tờ hoặc mở cửa vật lý khi chưa có quy chế và người chốt quyền.
+Mục tiêu đề xuất: giảm tổng công sức; ghi nhận đúng người/ca/phòng; chuyển ngoại lệ đúng người; điều tra và sửa được; duy trì vận hành khi có sự cố. Cần tính cả chuẩn bị dữ liệu, hỗ trợ, review, phục hồi và đối soát để tránh chỉ chuyển công việc sang chỗ khác.
 
-## 3. Đầu vào, đầu ra và ranh giới một lượt
+### Current Process (As-Is) — khoảng trống cần khảo sát
 
-**Trước ca:** cần có mã thí sinh duy nhất trong phạm vi kỳ thi, ảnh tham chiếu có nguồn và quyền dùng, phòng, ca/môn, điều kiện dự thi, thời gian áp dụng và phiên bản danh sách. Thiếu, trùng hoặc mâu thuẫn dữ liệu là ngoại lệ để người phụ trách sửa tại nguồn; thiết bị không tự điền một hồ sơ khác.
+**Chưa có As-Is được xác minh.** Mô tả đối chiếu thủ công là bối cảnh do nhóm cung cấp, chưa chứng minh từng bước dưới đây đang diễn ra tại một đơn vị cụ thể. Bảng này là kế hoạch thu thập bằng chứng, không phải flow hiện trường đã xác nhận.
 
-**Khi có người đến:** đầu vào của một lượt là mã người đó khai báo, phòng/ca mà thiết bị đang phục vụ, ảnh/chuỗi ảnh thu trong vùng làm thủ tục và thời điểm. Mã chỉ chọn **một hồ sơ để kiểm tra**, không chứng minh danh tính. Đầu ra phải tách được: bằng chứng cùng/khác người hoặc không đủ chắc; kết quả quy tắc phòng/ca/giờ/lượt trước; trạng thái hành động có lý do; và sự kiện ghi nhận nếu được phép. Tách này giúp truy lỗi là do ảnh, xác minh hay quy tắc nghiệp vụ.
-
-**Sau ca:** đối soát những người đã ghi nhận, người còn chưa có lượt hợp lệ và mọi trường hợp chờ xử lý. “Chưa đến” là kết quả đối soát sau một mốc thời gian do kỳ thi xác định, không phải nhãn suy từ ảnh hay trạng thái gán ngay khi bắt đầu ca.
-
-## 4. Yêu cầu có thể truy ngược
-
-| ID | Yêu cầu nghiệp vụ | Vì sao cần | Bước sau sử dụng |
+| Phần cần tìm hiểu | Nội dung cần quan sát/hỏi | Bằng chứng cần ghi | Dùng để quyết định |
 |---|---|---|---|
-| BR-01 | Mỗi lượt gắn với đúng kỳ thi, phòng, ca và phiên bản danh sách. | Cùng một mã hoặc phòng có thể xuất hiện ở ngữ cảnh khác; cần tránh đối chiếu sai phiên. | T-010 định nghĩa fixture, protocol và kiểm thử rule. |
-| BR-02 | Mã khai báo tra về đúng một hồ sơ hoặc lỗi rõ ràng; không xem mã là bằng chứng danh tính. | Người khác có thể biết hoặc cầm mã. | T-009 kiểm tra loại dữ liệu claim/reference; T-010 tạo cặp đúng và giả. |
-| BR-03 | Bằng chứng khuôn mặt phải thuộc người đang làm thủ tục; ảnh kém, không có mặt hoặc nhiều người gây mơ hồ phải có đường thử lại/chuyển xử lý. | Hành lang có người nền; chọn nhầm mặt có thể dẫn tới chấp nhận sai. | T-009 kiểm tra nhãn người mục tiêu/domain gap; T-010 đo retry và lỗi theo stage. |
-| BR-04 | So người trước camera với ảnh của hồ sơ đã khai báo theo bài toán 1:1; trả bằng chứng và mức không chắc thay vì ép mọi lượt thành chấp nhận/từ chối. | Mã chỉ là claim; nhận nhầm và từ chối nhầm có hậu quả khác nhau. | T-009 lọc dữ liệu/model candidate; T-010 định nghĩa FMR/FNMR và operating point. |
-| BR-05 | Xác minh danh tính không thay kiểm tra phòng, ca, giờ, điều kiện dự thi và lượt đã ghi nhận. | Một người đúng danh tính vẫn có thể sai phòng/ca hoặc đến ngoài quy tắc. | T-010 kiểm thử rule/database độc lập với phần thị giác. |
-| BR-06 | Trường hợp không chắc, sai quy tắc hoặc lỗi dữ liệu được chuyển cho người có quyền; điểm xác minh thấp không tự tước quyền dự thi. | Cần đường sửa sai và tránh hậu quả false reject không kiểm soát. | T-010 đo tỷ lệ retry/manual và định nghĩa tiêu chí xử lý. |
-| BR-07 | Ghi nhận lượt phải tránh trùng và có vết thời điểm, kết quả, lý do, người/nguồn thực hiện và mọi sửa đổi. | Cần đối soát khi có nhiều lượt hoặc quyết định thủ công. | T-010/T-011 kiểm thử tính nhất quán, idempotency và audit. |
-| BR-08 | Danh sách sau ca phân biệt người đã có lượt hợp lệ, đang chờ xử lý và người chưa có lượt sau mốc đối soát. | “Chưa đến” và “bị từ chối” không cùng nghĩa. | T-010 định nghĩa kịch bản nghiệp vụ và metric đầu-cuối. |
+| Chuẩn bị trước ca | Ai tạo/import, chia phòng, sửa lỗi và bàn giao roster? | Vai trò, nguồn danh sách, phiên bản; công sức chuẩn bị. | DATA-001; phần việc To-Be có thể làm tăng. |
+| Đối chiếu tại cửa | Người kiểm tra làm từng bước gì, dùng hồ sơ/giấy tờ gì, ai cho vào? | Trình tự, phương tiện, quyền thực tế, thời gian chờ và thời gian xử lý riêng. | OQ-003, OQ-005, OQ-009; bước nào được hỗ trợ. |
+| Ngoại lệ | Nhầm phòng, late, thiếu hồ sơ, không khớp được chuyển cho ai? | Đường chuyển giao, thời gian xử lý, kết quả và căn cứ. | Chi phí review/fallback, BR-008. |
+| Ghi nhận và cuối ca | Ai ghi hiện diện, kết luận vắng và đối chiếu với nguồn nào? | Biểu mẫu/quy trình đã lược dữ liệu cá nhân, lỗi phát hiện, công sức đối soát. | Định nghĩa attendance; BR-011, BR-012. |
+| Gián đoạn và khiếu nại | Khi thiếu dữ liệu/thiết bị hoặc có ghi sai thì tiếp tục và sửa thế nào? | Quy trình thay thế, quyền sửa, dấu vết đang giữ. | Tính khả thi của BR-010, BR-013. |
 
-Các BR-03/04 nêu **năng lực cần có**, chưa chỉ định detector, encoder, threshold hoặc cách chọn người mục tiêu. [Phân rã T-005](../02-survey/T-005-quoc-an-task-decomposition.md) mới ánh xạ sang stage kỹ thuật S0–S10.
+Mỗi ghi nhận As-Is cần ngày/bối cảnh, nguồn/người cung cấp theo vai trò, cách thu thập, trường hợp quan sát và giới hạn. Chưa có thì ghi **TBD**, không điền số ước đoán thành baseline. Chỉ ghi dữ liệu cá nhân nếu có mục đích và quyền phù hợp.
 
-## 5. Đề xuất trạng thái và quy tắc chưa được xác nhận
+### Problems/Bottlenecks — giả thuyết cần kiểm chứng
 
-Để viết fixture và giao diện, cần phân biệt ba lớp thông tin: **tình trạng hồ sơ trong danh sách**, **kết quả từng lần thử tại cửa**, và **trạng thái hiện diện sau ca**. Không ghi đè cả ba bằng một nhãn “hợp lệ/không hợp lệ”.
-
-| Tình huống | Hành động hệ thống đề xuất ở mức an toàn | Quy tắc còn cần chốt |
+| Giả thuyết | Cần bằng chứng gì? | Nếu không được chứng minh |
 |---|---|---|
-| Mã không có, trùng mã, ảnh tham chiếu lỗi | Dừng tra/xác minh và chuyển người phụ trách | Ai sửa nguồn dữ liệu, có cho tiếp tục bằng quy trình khác không |
-| Không có mặt, ảnh kém, nhiều mặt trong vùng | Hướng dẫn thử lại; hết số lần/giới hạn thì chuyển người phụ trách | Số lần thử, timeout và cách chọn vùng làm thủ tục |
-| Bằng chứng 1:1 không khớp hoặc không chắc | Chuyển kiểm tra thủ công, giữ điểm và lý do; không tự kết luận mất quyền dự thi | Ngưỡng, tài liệu kiểm tra bổ sung, người quyết định |
-| Khớp mặt nhưng sai phòng/ca/môn | Báo đúng loại xung đột và chuyển người phụ trách | Có hướng dẫn chuyển phòng hay quy trình thay đổi phân phòng không |
-| Đến ngoài khoảng giờ, lượt đã ghi trước | Không tự ghi lượt thường lệ lần nữa; chuyển xử lý | Mốc “muộn”, quyền chấp nhận, quy tắc sửa/hủy trùng |
-| Không có lượt hợp lệ khi tới mốc đối soát | Hiển thị “chưa có lượt ghi nhận” để đối soát | Khi nào mới được gọi là “chưa đến/vắng” và ai xác nhận |
+| Đối chiếu thường lệ chiếm phần lớn công sức | Phân bố thời gian các bước và công sức theo vai trò. | Xem lại giá trị của việc tự động hóa bước này. |
+| Ngoại lệ làm chậm hàng chờ | Tần suất, thời gian và đường xử lý ngoại lệ. | Không mặc định cần tổ chức luồng review riêng. |
+| Ghi nhận phân tán gây sai/thiếu | Mẫu sai lệch và lịch sử đối soát có nguồn. | Chỉ giữ như risk cần đánh giá, không mô tả như sự cố đã xảy ra. |
+| Thiết bị giúp giảm tổng công sức | So As-Is/To-Be cùng phạm vi, khối lượng và độ phức tạp lượt. | Không tuyên bố giảm nhân lực chỉ vì thao tác tại cửa nhanh hơn. |
 
-Đây là **hành động đề xuất để không che lỗi**, chưa phải quy định của bất kỳ kỳ thi nào. Một lượt được tự ghi nhận chỉ khi tất cả điều kiện nghiệp vụ đã được phê duyệt và bằng chứng kỹ thuật đạt mức chấp nhận; mức tự động hóa cụ thể còn mở.
+### Proposed Process (To-Be)
 
-## 6. Rủi ro và cách suy tiêu chí đo
+Luồng mục 6–8 là đề xuất để giải quyết các nhu cầu trên: hỗ trợ lượt thường lệ, chuyển ngoại lệ có trách nhiệm, giữ bằng chứng và đối soát. Sự hợp lý hiện dựa trên logic nghiệp vụ; hiệu quả cần bằng chứng As-Is và đánh giá To-Be. Nếu chỉ dùng kịch bản giả lập, kết luận phải giới hạn ở tính nhất quán/khả thi của kịch bản đó.
 
-- **Chấp nhận nhầm người:** có thể ghi nhận sai danh tính và làm sai đối soát. T-010 phải đo false match tại một operating point được chọn trên development set; kết quả test không được dùng để sửa ngưỡng sau đó.
-- **Từ chối nhầm người hợp lệ:** gây chậm, ùn hàng hoặc phải can thiệp thủ công. Vì vậy cần đo false non-match, tỷ lệ retry/manual và thời gian từng lượt, đồng thời giữ đường xử lý con người.
-- **Sai người mục tiêu, sai danh sách hoặc sai rule:** có thể tạo lỗi đầu-cuối dù face verification riêng tốt. Cần kịch bản và nhãn theo từng stage; accuracy một model không đại diện toàn hệ thống.
-- **Mục tiêu giảm nhân sự:** cần pilot với quy trình và quy chế thật, số lượt/giờ, số người bố trí, thời gian xử lý và khối lượng ngoại lệ. Baseline trên dữ liệu công khai chỉ chứng minh hiệu năng kỹ thuật trong điều kiện đo đã ghi.
+## 3. Scope & Boundaries
 
-Chưa đặt ngưỡng số cho FMR/FNMR, latency, retry, số lần thử, RAM hay thời gian phục vụ vì chưa có kỳ thi, thiết bị và mức rủi ro được chốt. T-010 phải ghi tiêu chí chấp nhận **trước** khi xem kết quả test.
+Phạm vi phân tích: chuẩn bị roster và ca/phòng → tiếp nhận tại cửa → xử lý ngoại lệ/fallback → đối soát/correction sau ca.
 
-## 7. Cấu hình nghiệp vụ để cùng nhóm lựa chọn
+Chưa chốt kỳ thi, quy chế, mức tự động hóa, kiểm soát cửa vật lý, quản lý re-entry hoặc định nghĩa attendance. Giảm việc đối chiếu không đồng nghĩa bỏ nhân sự hỗ trợ hay thay vai trò giám thị.
 
-Quốc An xác nhận ngày 2026-09-25 rằng nhóm **chưa chốt kỳ thi cụ thể** và muốn cùng xây bộ nghiệp vụ trước. Vì vậy, prototype cần mô tả một **phiên thi giả lập có phòng, ca, danh sách và ảnh tham chiếu**, rồi tách chính sách từng kỳ thi thành cấu hình được người tổ chức phê duyệt. Không dùng một mốc giờ hoặc quyền xử lý tự nghĩ ra như thể áp dụng cho mọi kỳ thi.
+**Quan hệ với quyết định đã có:** D-001/D-002 ghi hướng nghiên cứu nhóm đã chọn, gồm đề xuất khai báo hồ sơ và kiểm tra danh tính trong T-002/T-005. T-008 không hủy các quyết định đó, cũng không dùng chúng làm bằng chứng rằng một kỳ thi thật cho phép quy trình ấy. Nhu cầu nghiệp vụ được mô tả độc lập với phương thức; nếu discovery phát hiện mâu thuẫn với hướng đã chọn, đưa về nhóm review quyết định trước khi thay phạm vi.
 
-| Nhóm chính sách | Phương án nghiên cứu/đề xuất | Điều cần chốt trước khi vận hành thật |
+T-008 không chọn model, dataset, thuật toán, threshold, cấu trúc database hoặc kiến trúc triển khai.
+
+## 4. Confirmed Facts, Assumptions & Open Questions
+
+| ID | Điều đã biết | Status / nguồn |
 |---|---|---|
-| Mức tự động hóa | Thiết bị xử lý và ghi vết lượt thường lệ; ca ngoại lệ sang người phụ trách. Có thể chạy chế độ chỉ hỗ trợ đối chiếu nếu quy chế yêu cầu con người quyết định. | Kỳ thi nào cho phép tự ghi nhận và bước nào bắt buộc giám thị thực hiện |
-| Mốc thời gian | Cấu hình giờ mở lượt, mốc bắt đầu thi, mốc xem là muộn và mốc đối soát vắng; mọi mốc có nguồn. | Giá trị và hệ quả của từng mốc theo quy chế/ban tổ chức |
-| Lượt trùng và sửa sai | Không tự tạo hai lượt hợp lệ cho cùng người + ca; mọi sửa đổi có người, lý do, thời điểm và trạng thái trước/sau. | Ai được hủy/ghi đè, có cần duyệt hai cấp hay biên bản không |
-| Sai phòng/ca | Hiển thị phòng/ca theo roster và chuyển người phụ trách; không tự đổi phân phòng. | Có cho hướng dẫn sang phòng khác; ai được thay roster |
-| Không khớp hoặc ảnh kém | Có retry trong giới hạn; sau đó chuyển thủ công, lưu lý do kỹ thuật và nghiệp vụ riêng. | Số lần thử, bằng chứng bổ sung và người ra quyết định |
-| “Chưa đến” | Chỉ là trạng thái báo cáo sau mốc đối soát; không dùng để suy người đó không có quyền thi. | Mốc chốt danh sách vắng và nguồn xác nhận cuối |
+| CF-001 | Nhóm định hướng thiết bị hỗ trợ tại cửa phòng thi. | CONFIRMED — D-001 và yêu cầu T-008. |
+| CF-002 | Mục tiêu giảm công đối chiếu và ghi nhận tình trạng thí sinh. | CONFIRMED — yêu cầu nhóm. |
+| CF-003 | Chưa chọn kỳ thi/quy chế cụ thể. | CONFIRMED — phản hồi Quốc An. |
+| CF-004 | T-008 phân tích nghiệp vụ trước khi chốt giải pháp. | CONFIRMED — chỉ dẫn T-008. |
+| CF-005 | Phải xét automation thất bại và human fallback. | CONFIRMED — yêu cầu phân tích, chưa phải năng lực đã có. |
 
-**Hai chế độ sản phẩm cần so sánh:** (A) thiết bị đưa kết quả và giám thị xác nhận mọi lượt; (B) thiết bị tự ghi nhận lượt thường lệ theo chính sách được duyệt, giám thị xử lý ngoại lệ. D-001 đặt **B là mục tiêu nghiên cứu** để giảm công đối chiếu lặp lại, nhưng với kỳ thi có quy định người phải đối chiếu trực tiếp thì chỉ được trình bày A như hỗ trợ, không tuyên bố B được áp dụng. Hiệu quả giảm nhân sự của B vẫn cần pilot.
+| ID | Giả định còn yếu | Bằng chứng cần / ảnh hưởng nếu sai |
+|---|---|---|
+| A-001 | Có roster đáng tin cậy và quan hệ hồ sơ–ca/phòng. | Cần nguồn, người chịu trách nhiệm, mẫu cấu trúc không chứa dữ liệu riêng; sai thì phải bổ sung tạo/xác nhận hồ sơ. OQ-013. |
+| A-002 | Điểm kiểm tra được gắn rõ một ca/phòng. | Cần xác nhận có dùng chung/đổi ca; sai thì phải review ngữ cảnh lượt. OQ-008. |
+| A-003 | Có người nhận ngoại lệ và đủ quyền quyết định. | Cần phân vai và khả năng bố trí; thiếu thì quy trình bị kẹt. OQ-009, OQ-011. |
+| A-004 | Có cách ghi nhận thay thế khả dụng khi thiết bị hỏng. | Cần phương án và diễn tập; chưa có thì chưa chứng minh continuity. OQ-018. |
+| A-005 | Có bằng chứng bổ sung nếu attendance nghĩa là thực sự tham dự thi. | Cần nguồn đối soát độc lập; thiếu thì chỉ kết luận được hoạt động ở cửa. OQ-001, OQ-015. |
+| A-006 | Thay đổi/override quy được trách nhiệm và giữ lịch sử. | Cần xác nhận quyền và quy trình; thiếu thì không giải thích được correction. OQ-009, OQ-012. |
 
-**Tham chiếu để kiểm tra ranh giới, không phải quy tắc mặc định:** [Quy chế thi tốt nghiệp THPT ban hành cùng Thông tư 24/2024/TT-BGDĐT](https://vqa.moet.gov.vn/uploads/news/2024_12/final-quy-che-thi-tot-nghiep-thpt.pdf), mục trách nhiệm thí sinh và nhiệm vụ giám thị, có yêu cầu con người đối chiếu danh sách ảnh/giấy tờ và quy định riêng về mốc đến chậm, báo vắng. Vì nhóm chưa chọn kỳ thi THPT và văn bản có thể được sửa đổi, T-008 không lấy các mốc hay quyền trong đó áp thẳng cho prototype. Nếu về sau chọn kỳ thi này, cần kiểm tra bản có hiệu lực tại thời điểm áp dụng và ghi nguồn trong quyết định.
+Tất cả A-001–A-006 là ASSUMPTION. “Hợp lệ”, “đến muộn”, “không xác minh được”, “chưa đến” và “override” cần định nghĩa theo nguồn, không dùng như nhãn có nghĩa mặc định. Mục 18 phân loại câu hỏi theo thời điểm thực sự chặn công việc.
 
-## 8. Câu hỏi cần nhóm/đơn vị tổ chức trả lời
+## 5. Actors, Responsibilities & Decision Authority
 
-1. Kỳ thi mục tiêu và quy chế nào là nguồn chuẩn? Bước nào thiết bị được hỗ trợ hoặc tự ghi nhận, bước nào giám thị vẫn phải làm?
-2. Quy trình hiện tại có số đo về số người tại cửa, thời gian/lượt, tắc hàng và lỗi để so với pilot không?
-3. Ai chốt danh sách/ảnh và phiên bản dữ liệu; ai có quyền sửa dữ liệu hoặc ghi nhận ngoại lệ?
-4. Mốc giờ và quyền xử lý đến muộn, nhầm phòng/ca, trùng lượt, rút lui hoặc chưa đến là gì?
-5. Thiết bị chạy trong điều kiện camera/ánh sáng/kết nối nào; tối thiểu cần chạy offline hay có thể dùng backend?
-6. Dữ liệu ảnh tham chiếu được lấy, lưu, truy cập và xóa theo quy trình nào; demo chỉ dùng dữ liệu công khai/giả lập ở phần nào?
+Các vai trò dưới đây là đề xuất; một người có thể kiêm nhiệm nếu được phê duyệt.
 
-Các câu hỏi này được theo dõi chung tại [questions.md](../00-project/questions.md). Khi có câu trả lời từ thầy hoặc đơn vị tổ chức, cần biên bản nguồn trước khi đổi thành quyết định/chính sách.
+| Actor | Trách nhiệm | Quyền đọc/ghi đề xuất | Giới hạn quyết định |
+|---|---|---|---|
+| Candidate | Cung cấp thông tin, thực hiện kiểm tra, phản ánh sai lệch. | Xem hướng dẫn/kết quả lượt của mình; cung cấp thông tin. | Không tự sửa roster/attendance. |
+| Check-in Device/System | Áp dụng quy tắc, ghi event, phát hiện mâu thuẫn, chuyển ngoại lệ. | Đọc dữ liệu tối thiểu; ghi attempt và kết quả hệ thống. | Chỉ tự quyết định trong phạm vi được ủy quyền. |
+| Entry Operator / Invigilator | Hỗ trợ và ghi nhận tình huống tại chỗ. | Xem hồ sơ cần xử lý; bổ sung bằng chứng/yêu cầu review. | Hỗ trợ không mặc định có quyền override, sửa roster hoặc kết luận vắng. |
+| Authorized Exam Staff | Xử lý ngoại lệ trong phạm vi được giao. | Xem case; ghi quyết định/lý do. | Quyền theo loại quyết định. |
+| Attendance Reconciler / Approver | Đối chiếu nguồn và xác nhận/mở lại attendance. | Đọc roster/event/nguồn đối soát; ghi kết luận. | Vai trò và phạm vi quyền cụ thể TBD. |
+| Exam Administrator / Roster Owner | Chuẩn bị dữ liệu và chính sách, xác nhận hiệu lực. | Tạo/import/cập nhật theo quyền. | Quản trị hệ thống không mặc định có mọi quyền nghiệp vụ. |
+| Exam Management System / Candidate Database | Cung cấp dữ liệu từ nguồn được công nhận. | Cung cấp roster và cập nhật được phép. | Nguồn ưu tiên khi có xung đột TBD. |
 
-## 9. Điều kiện bàn giao sang T-009/T-010
+Nguyên tắc xuyên suốt project:
 
-T-008 tạo bản đồ yêu cầu BR-01–BR-08 và các giả định còn mở. **T-009** dùng BR-02–BR-04 để kiểm tra candidate dữ liệu/weight; **T-010** dùng BR-01, BR-05–BR-08 và rủi ro ở mục 6 để khóa fixture, protocol và tiêu chí chấp nhận. Chỉ xem T-008 hoàn tất sau khi nhóm review quy trình, quyền xử lý và trạng thái; những điểm chưa có nguồn vẫn được ghi là câu hỏi, không tự điền bằng suy đoán.
+- **Business decision:** tổ chức/nhóm có quyền phê duyệt chính sách.
+- **System decision:** hệ thống áp dụng một chính sách đã được phê duyệt.
+- **Human-authorized decision:** người có quyền xử lý một trường hợp hoặc ngoại lệ.
+- **Technical implementation:** cách thực hiện kiểm tra và lưu kết quả.
+
+Khi thẩm quyền tự động chưa rõ, hệ thống ghi bằng chứng/flag/recommend và chuyển review. Không tự suy quyền từ chối, cho vào hoặc miễn một bước kiểm tra từ kết quả kỹ thuật.
+
+## 6. End-to-End Business Process
+
+| ID | Bước To-Be | Đầu ra và vì sao cần bước sau |
+|---|---|---|
+| P-001 | Xác định ca/phòng, chính sách và trách nhiệm. | Có ngữ cảnh để chuẩn bị nguồn và quyền. |
+| P-002 | Kiểm tra/xác nhận roster có hiệu lực. | Có hồ sơ dùng được hoặc ngoại lệ dữ liệu cần giải quyết. |
+| P-003 | Kiểm tra sẵn sàng và mở phiên check-in. | Có dữ liệu, người trực và phương án fallback. |
+| P-004 | Tiếp nhận và bắt đầu attempt. | Có dấu vết kể cả chưa tìm được hồ sơ. |
+| P-005 | Xác định candidate record. | Có đối tượng để kiểm tra hoặc case mơ hồ/không tìm thấy. |
+| P-006 | Kiểm tra ca, phòng, thời gian và lượt trước. | Biết điều kiện thường lệ và sai lệch. |
+| P-007 | Kiểm tra danh tính/điều kiện đầu vào theo quy trình. | Có bằng chứng và giới hạn của kết quả. |
+| P-008 | Áp dụng quy tắc, xác định thẩm quyền. | Tách kết quả kiểm tra khỏi quyền ghi nhận/cho vào. |
+| P-009 | Ghi kết quả và thông báo bước tiếp. | Check-in hoàn tất hoặc case được chuyển rõ ràng. |
+| P-010 | Xử lý ngoại lệ/fallback/correction. | Có quyết định chịu trách nhiệm, liên kết attempt. |
+| P-011 | Đóng tiếp nhận thường lệ và đối soát. | Tổng hợp nguồn điện tử/thủ công, case và khoảng mất dữ liệu. |
+| P-012 | Xác nhận báo cáo và tiếp nhận correction. | Attendance có căn cứ và lịch sử thay đổi. |
+
+```mermaid
+flowchart TD
+    A["P-001: Ngữ cảnh và trách nhiệm"] --> B["P-002: Roster có hiệu lực"]
+    B --> C{"Đã sẵn sàng?"}
+    C -->|Chưa| D["Xử lý vấn đề chuẩn bị"] --> C
+    C -->|Có| E["P-003: Mở phiên"]
+    E --> F["P-004: Tiếp nhận attempt"]
+    F --> G{"Hỗ trợ được lượt này?"}
+    G -->|Có| H["P-005: Xác định hồ sơ"]
+    H --> I{"Hồ sơ xác định rõ?"}
+    I -->|Có| J["P-006: Kiểm tra ca, phòng, giờ, lượt trước"]
+    J --> K{"Đủ điều kiện tiếp tục thường lệ?"}
+    K -->|Có| L["P-007: Kiểm tra theo quy trình"]
+    L --> M{"P-008: Đủ căn cứ và thẩm quyền?"}
+    M -->|Có| N["P-009: Ghi kết quả và hướng dẫn"]
+    G -->|Không| R["P-010: Review hoặc fallback"]
+    I -->|Chưa| R
+    K -->|Chưa| R
+    M -->|Chưa| R
+    R --> T{"Có quyết định hoặc cách tiếp tục?"}
+    T -->|Có| N
+    T -->|Chưa| U["Giữ pending và chuyển giao người phụ trách"]
+    E -->|Đóng tiếp nhận theo quyền| V["P-011: Đối soát"]
+    N -->|Tổng hợp cuối ca| V
+    U -->|Case còn mở cuối ca| V
+    V --> W["P-012: Báo cáo kết luận và trường hợp chưa xác định"]
+```
+
+Review có thể yêu cầu thực hiện lại bước kiểm tra, xác nhận hoàn tất hoặc kết thúc lượt chưa hoàn tất; outcome phụ thuộc chính sách và quyền. Luồng thường lệ không bỏ qua P-007 chỉ vì tìm được đúng hồ sơ.
+
+## 7. Main Flow
+
+**Điều kiện trước đề xuất:** đã mở phiên; roster có hiệu lực; quy trình kiểm tra và phạm vi quyền được phê duyệt.
+
+1. Ghi nhận một attempt khi thí sinh đến.
+2. Dùng thông tin được cung cấp để tìm candidate record; phương thức cụ thể TBD.
+3. Kiểm tra đúng ca/phòng, thời gian và kết quả trước đó.
+4. Thực hiện kiểm tra danh tính và điều kiện đầu vào theo quy trình.
+5. Tổng hợp bằng chứng và xác định quyền kết luận.
+6. Khi đủ điều kiện/quyền, ghi một kết quả check-in có hiệu lực.
+7. Thông báo kết quả và hướng dẫn theo quyết định.
+8. Nếu cần chứng minh việc thực sự vào phòng/tham dự thi, dùng nguồn bằng chứng riêng đã được chấp nhận.
+
+**Sau lượt:** có kết quả truy vết được, chưa mặc định có attendance cuối ca. Thứ tự kiểm tra ngữ cảnh trước bước tốn công là ASSUMPTION cần đối chiếu với As-Is.
+
+## 8. Alternative & Exception Flows
+
+| ID | Luồng | Xử lý đề xuất |
+|---|---|---|
+| AF-001 | Tìm hồ sơ bằng cách khác | Người hỗ trợ tìm theo quyền, ghi phương thức và kết quả; loại mã/thẻ TBD. |
+| AF-002 | Kiểm tra lại | Tạo attempt mới liên kết lượt trước; điều kiện/giới hạn thử lại TBD. |
+| AF-003 | Quay lại sau check-in | Phân biệt hỏi lại, retry và re-entry; không tạo attendance mới. |
+| EF-001 | Sai lệch hồ sơ/ca/phòng hoặc chưa rõ | Tạo case và chuyển đúng người; không tự suy quyền cho vào. |
+| EF-002 | Không thực hiện được kiểm tra | Ghi unavailable và nguyên nhân biết được; chuyển fallback. |
+| EF-003 | Thiết bị/nguồn dữ liệu không hoạt động | Kích hoạt cách vận hành đã phê duyệt và duy trì dấu vết. |
+| EF-004 | Phát hiện ghi sai | Mở correction, giữ bản gốc và xem ảnh hưởng tới attendance. |
+
+**Đối soát cuối ca:** người có quyền đóng tiếp nhận thường lệ → xác định roster có hiệu lực → tập hợp nguồn điện tử/thủ công và khoảng gián đoạn → phân loại có bằng chứng/chưa ghi nhận/mâu thuẫn/pending → xác minh → kết luận theo quyền hoặc giữ chưa xác định → phát hành báo cáo có phiên bản/case còn mở → correction khi có bằng chứng mới.
+
+Không có check-in điện tử không tự chuyển thành absent. Case còn mở có người chịu trách nhiệm và bước tiếp theo ngay cả khi tiếp nhận thường lệ đã đóng.
+
+## 9. Scenario Matrix
+
+Giữ 24 scenario để review coverage; bảng không khẳng định cả 24 đều là chức năng phải triển khai ngay. “Bằng chứng” không mặc định là ảnh/video/sinh trắc học.
+
+| Scenario | Preconditions | Detection Condition | System Action | Recorded State | Human Responsible | Next Step | Audit Evidence | Status |
+|---|---|---|---|---|---|---|---|---|
+| SC-001 — Hợp lệ, đúng người/phòng/ca | Roster, quy trình có hiệu lực | Các kiểm tra đạt, đủ quyền | Ghi một kết quả; hướng dẫn | RECORDED | Người vận hành/người duyệt theo quyền | Thực hiện hướng xử lý được cho phép | Hồ sơ, attempt, kết quả, quyền | ASSUMPTION |
+| SC-002 — Nhầm phòng | Xác định được hồ sơ | Phòng nguồn khác điểm hiện tại | Flag; hướng dẫn/review | REVIEW_PENDING; cờ wrong room | Người hỗ trợ/người có quyền | Xác minh phân phòng/chuyển điểm | Phiên bản roster, hai phòng, quyết định | ASSUMPTION |
+| SC-003 — Nhầm ca | Có ca của hồ sơ | Không khớp ca hoạt động | Flag; chuyển review | REVIEW_PENDING; cờ wrong session | Người có quyền | Kiểm tra lịch/thay đổi hợp lệ | Ca nguồn/hiện tại, quyết định | ASSUMPTION |
+| SC-004 — Có khả năng đến muộn | Có thời gian lượt đến | So mốc có nguồn nếu có | Giữ thời gian; chỉ gắn late khi đủ căn cứ | Cờ thời gian/review | Người được quyền xử lý late | Áp dụng chính sách | Mốc, thời gian, độ tin cậy, quyết định | TBD |
+| SC-005 — Thông tin không khớp | Đã chọn hồ sơ | Mâu thuẫn thông tin/quan sát | Tạo case; giữ sai lệch | REVIEW_PENDING | Người xác minh/roster owner | Xác minh hoặc sửa nguồn theo quyền | Nội dung, nguồn, lý do | ASSUMPTION |
+| SC-006 — Kiểm tra danh tính không đạt | Thực hiện được kiểm tra | Không đáp ứng tiêu chí được duyệt | Ghi kết quả; review; không tự kết luận giả mạo | Attempt kết luận; check-in chưa hoàn tất | Người có quyền | Kiểm tra bổ sung/quyết định | Kết quả, quy trình, nguyên nhân biết được | ASSUMPTION |
+| SC-007 — Không thể xác minh | Thiếu dữ liệu/phương tiện | Không đủ điều kiện kiểm tra | Phân biệt unavailable và không đạt | REVIEW_PENDING | Người nhận fallback | Phương án được duyệt | Dữ liệu thiếu, lỗi, cách thay thế | ASSUMPTION |
+| SC-008 — Nhiều lần thử | Có attempt trước | Tương tác lặp | Liên kết attempt; giữ lần trước | Attempt mới; giữ kết quả hiệu lực | Người hỗ trợ khi cần | Retry/review theo chính sách | Chuỗi attempt, thời gian, lý do | ASSUMPTION |
+| SC-009 — Check-in trùng | Có kết quả hiệu lực | Yêu cầu ghi thêm cùng người/ca | Hiển thị kết quả trước; tránh trùng | Giữ RECORDED | Người xử lý khi mâu thuẫn | Kết thúc hoặc mở case | Bản ghi trước và yêu cầu mới | ASSUMPTION |
+| SC-010 — Thiết bị hỏng | Điểm đang hoạt động | Không phục vụ được | Fallback; đánh dấu gián đoạn | Lượt thủ công/INTERRUPTED | Người vận hành/được quyền fallback | Tiếp tục, đối soát khi phục hồi | Sự cố, thời gian, người ghi, bản gốc | ASSUMPTION |
+| SC-011 — Mất mạng/database | Cần truy cập nguồn | Nguồn không khả dụng | Nêu giới hạn; dùng phương án được duyệt | Review/fallback; chờ đối soát | Người vận hành | Khôi phục, xét dữ liệu cũ/xung đột | Nguồn, phiên bản, thời gian, lượt phát sinh | ASSUMPTION |
+| SC-012 — Không tìm thấy hồ sơ | Đã nhận thông tin tra cứu | Không có kết quả phù hợp | Ghi attempt chưa liên kết; review | Case mở, attempt chưa gắn hồ sơ | Roster owner/người có quyền | Xác minh nguồn hoặc thông tin | Thông tin tối thiểu, nguồn đã kiểm tra | ASSUMPTION |
+| SC-013 — Manual override | Case cần ngoại lệ | Đề nghị xử lý khác luồng thường lệ | Kiểm tra phạm vi quyền; ghi riêng | Theo quyết định; giữ cờ gốc | Người có quyền tương ứng | Áp dụng, đối soát | Actor, quyền, lý do, trước/sau | TBD |
+| SC-014 — Không có ghi nhận xuất hiện | Hồ sơ trong roster đối soát | Không tìm thấy bằng chứng | Danh sách chưa ghi nhận | UNRECORDED; attendance chưa xác nhận | Người đối soát | Xét fallback/case trước kết luận | Nguồn đã xét, khoảng mất dữ liệu | ASSUMPTION |
+| SC-015 — Check-in sai phát hiện sau | Có kết quả hiệu lực | Bằng chứng mâu thuẫn | Disputed; mở correction | DISPUTED | Người có quyền correction | Giữ/sửa sau xác minh | Bản gốc, bằng chứng mới, ảnh hưởng báo cáo | ASSUMPTION |
+| SC-016 — Ghi vắng sai phát hiện sau | Đã xác nhận vắng | Có bằng chứng trái kết luận | Mở lại attendance; giữ lịch sử | Attendance về review | Người có quyền đối soát/correction | Xác minh và phát hành bản sửa | Kết luận cũ, nguồn mới, trước/sau | ASSUMPTION |
+| SC-017 — Rời đi rồi quay lại | Có lịch sử trước | Yêu cầu xử lý lượt quay lại | Tách retry và re-entry | Giữ check-in; cờ yêu cầu nếu thuộc scope | Người có quyền ra/vào | Theo chính sách re-entry | Kết quả cũ, yêu cầu, quyết định | TBD |
+| SC-018 — Roster đổi trong ca | Phiên đang mở | Nguồn đổi ca/phòng/tư cách hồ sơ | Ghi phiên bản; tìm kết quả bị ảnh hưởng | Review hồ sơ xung đột | Roster owner/người đối soát | Xác minh hiệu lực | Trước/sau, nguồn, hiệu lực, người xác nhận | ASSUMPTION |
+| SC-019 — Case còn mở khi đóng | Có review chưa hoàn tất | Bắt đầu đối soát | Giữ case và người nhận | Attendance chưa xác định | Người đối soát/người xử lý case | Tiếp tục hoặc báo cáo ngoại lệ | Case, người nhận, điều còn thiếu | ASSUMPTION |
+| SC-020 — Chưa biết ghi thành công hay chưa | Gián đoạn khi ghi | Thiếu xác nhận kết quả | Tra kết quả trước khi ghi mới | Chờ đối soát | Người vận hành | Tra cứu, đối soát, thông báo | Thao tác gốc, kết quả lưu, retry | ASSUMPTION |
+| SC-021 — Bỏ dở lượt | Attempt đang mở | Người rời đi/quy trình dừng | Giữ dấu vết và lý do biết được | INTERRUPTED | Người vận hành khi cần | Lượt mới nếu quay lại; xét cuối ca | Tiến độ, thời gian, lý do | ASSUMPTION |
+| SC-022 — Hồ sơ mơ hồ/trùng | Tra cứu nhiều kết quả | Chưa xác định duy nhất | Không tự chọn; review | Case mở | Roster owner/người xác minh | Làm rõ hồ sơ | Các tham chiếu, nguồn, quyết định | ASSUMPTION |
+| SC-023 — Sai ngữ cảnh/giờ không tin cậy | Điểm đã cấu hình | Sai ca/phòng hoặc thời gian | Dừng kết luận bị ảnh hưởng; fallback/review | Kết quả cần đối soát | Người vận hành/người có quyền | Sửa ngữ cảnh, rà soát ảnh hưởng | Trước/sau, khoảng thời gian, hồ sơ | ASSUMPTION |
+| SC-024 — Không có người nhận ngoại lệ | Cần human decision | Không liên hệ được người đủ quyền | Giữ pending; tuyến escalation | REVIEW_PENDING | Vai trò trực/escalation TBD | Chờ/phương án đã phê duyệt | Lần chuyển giao, thời gian chờ | TBD |
+
+## 10. Business Rules
+
+Các BR là ASSUMPTION. Chưa đặt số phút trễ, số retry, threshold hay mặc định mọi rule đều được override.
+
+| ID | Business Rule | Source | Phụ thuộc chưa chốt |
+|---|---|---|---|
+| BR-001 | Kết quả gắn với ngữ cảnh ca/phòng và nguồn roster có hiệu lực khi xử lý. | P-001–P-003; SC-018, SC-023 | Nguồn chuẩn/hiệu lực. |
+| BR-002 | Chỉ hoàn tất thường lệ khi candidate record được xác định rõ. | P-005; SC-012, SC-022 | Cách xác định hồ sơ. |
+| BR-003 | Sai lệch ca/phòng cần được giải quyết theo quyền trước khi hoàn tất ở điểm hiện tại. | P-006; SC-002, SC-003 | Quyền sửa phân phòng/ngoại lệ. |
+| BR-004 | Late và quyền tiếp tục dựa chính sách có hiệu lực; giữ riêng thời gian quan sát. | SC-004, SC-023 | Mốc và cách xử lý TBD. |
+| BR-005 | Tách không đạt, không thực hiện được, chưa rõ; không tự biến thành success hoặc kết luận giả mạo. | P-007; SC-006, SC-007 | Tiêu chí/quy trình kiểm tra. |
+| BR-006 | Quyền hoàn tất check-in và cho vào được xác định riêng; hệ thống chỉ tự quyết trong quyền. | P-008; SC-001, SC-013 | Mức tự động hóa/quyền cuối. |
+| BR-007 | Nhiều attempt không tạo nhiều kết quả attendance có hiệu lực cho cùng người/ca; giữ lịch sử attempt. | SC-008, SC-009, SC-020 | Cách xử lý đăng ký trùng. |
+| BR-008 | Case chưa rõ có trạng thái, vai trò nhận và bước tiếp; quá thời gian chờ không mặc định bị từ chối. | P-010; SC-019, SC-024 | Escalation/thời hạn. |
+| BR-009 | Override đúng loại/phạm vi quyền; ghi actor, thời gian, lý do, trước/sau và bằng chứng. | SC-013 | Rule nào được ngoại lệ. |
+| BR-010 | Fallback giữ đủ dấu vết đối soát; không tự ghi đè xung đột thiếu căn cứ. | SC-010, SC-011, SC-020 | Phương án fallback. |
+| BR-011 | Thiếu check-in điện tử chưa đủ kết luận absent; xét thủ công, lỗi hệ thống và case mở. | SC-014, SC-016, SC-019 | Định nghĩa attendance/căn cứ vắng. |
+| BR-012 | Attendance cuối ca cần bằng chứng và người có quyền; chưa đủ thì giữ chưa xác định. | P-011, P-012 | Người xác nhận/điều kiện khóa báo cáo. |
+| BR-013 | Correction giữ bản gốc/lý do; xác định báo cáo và hồ sơ bị ảnh hưởng. | SC-015, SC-016 | Quyền/thời hạn correction. |
+| BR-014 | Lượt quay lại không tạo attendance mới; quyền tái nhập là chính sách riêng. | AF-003; SC-017 | Re-entry có thuộc scope. |
+| BR-015 | Chỉ thu/hiển thị/lưu dữ liệu phục vụ kiểm tra, xử lý, đối soát; xác định quyền xem và retention. | P-004–P-012; RISK-012 | Danh mục/quyền/thời gian lưu. |
+| BR-016 | Đổi roster/ngữ cảnh cho phép xác định kết quả cũ bị ảnh hưởng để review. | SC-018, SC-023 | Quyền cập nhật/hiệu lực. |
+| BR-017 | Đóng tiếp nhận không xóa/tự kết luận case mở; chuyển sang đối soát. | P-011; SC-019 | Xử lý sau đóng. |
+
+## 11. Candidate / Check-in State Model
+
+**Mô hình khái niệm đề xuất, chưa phải enum/database/API contract.** Giữ riêng trạng thái attempt, kết quả check-in, attendance và cờ tình huống. Late/sai phòng có thể đồng thời tồn tại; chúng không thay trạng thái chính. Roster giữ trạng thái/hiệu lực riêng.
+
+### Trạng thái một attempt
+
+| State | Meaning / entry condition | Who creates it | Allowed transitions | Terminal? | Sửa và audit |
+|---|---|---|---|---|---|
+| STARTED | Tiếp nhận lượt | Hệ thống/người ghi fallback | IN_PROGRESS, INTERRUPTED | Không | Ghi thời gian, nguồn. |
+| IN_PROGRESS | Đang kiểm tra | Hệ thống/người xử lý | CONCLUDED, INTERRUPTED | Không | Giữ bước đã làm và kết quả. |
+| CONCLUDED | Có kết quả: hoàn tất, chuyển review hoặc chưa đáp ứng | Chủ thể trong phạm vi quyền | Lượt mới/correction có liên kết | Có, cho attempt | Không sửa mất bản gốc. |
+| INTERRUPTED | Dừng trước kết quả đầy đủ | Hệ thống/người vận hành | Lượt mới nếu tiếp tục | Có, cho attempt | Ghi nguyên nhân biết được. |
+
+Attempt kết thúc không có nghĩa case đã giải quyết. Hồ sơ chưa rõ: giữ attempt/case chưa liên kết, không tạo candidate giả.
+
+### Kết quả check-in theo người/ca
+
+| State | Meaning / entry condition | Who creates it | Allowed transitions | Terminal? / quyền sửa |
+|---|---|---|---|---|
+| UNRECORDED | Chưa có kết quả hiệu lực | Từ roster hoặc correction | REVIEW_PENDING, RECORDED | Không; theo workflow được cấp quyền. |
+| REVIEW_PENDING | Cần xử lý trước xác nhận | Hệ thống/người vận hành tạo case | RECORDED; UNRECORDED khi case kết thúc chưa hoàn tất | Không; có quyết định/lý do. |
+| RECORDED | Có check-in được xác nhận | Hệ thống được ủy quyền/người có quyền | DISPUTED khi có mâu thuẫn | Ổn định cho lượt thường lệ; correction vẫn được xét. |
+| DISPUTED | Kết quả đã ghi đang được xem xét | Quy trình correction | RECORDED nếu giữ; UNRECORDED nếu hủy hiệu lực | Không; người có quyền quyết, giữ bản gốc. |
+
+```mermaid
+stateDiagram-v2
+    [*] --> UNRECORDED: Hồ sơ thuộc phạm vi theo dõi
+    UNRECORDED --> REVIEW_PENDING: Cần xử lý ngoại lệ
+    UNRECORDED --> RECORDED: Đủ điều kiện và thẩm quyền
+    REVIEW_PENDING --> RECORDED: Review xác nhận hoàn tất
+    REVIEW_PENDING --> UNRECORDED: Case kết thúc, chưa có check-in
+    RECORDED --> DISPUTED: Có bằng chứng mâu thuẫn
+    DISPUTED --> RECORDED: Giữ kết quả có căn cứ
+    DISPUTED --> UNRECORDED: Hủy hiệu lực theo quyền
+```
+
+### Attendance cuối ca
+
+| State | Meaning / entry condition | Chủ thể | Đường ra / sửa |
+|---|---|---|---|
+| UNFINALIZED | Chưa đối soát xong hoặc mở lại | Khởi tạo/người có quyền | Sang một kết luận bên dưới. |
+| PRESENT_CONFIRMED | Đủ căn cứ “tham dự” theo định nghĩa đã duyệt | Người/vai trò được quyền | Mở lại UNFINALIZED khi có correction. |
+| ABSENT_CONFIRMED | Đủ căn cứ vắng sau đối soát | Người/vai trò được quyền | Mở lại khi có bằng chứng mới. |
+| UNDETERMINED | Đã review nhưng chưa đủ căn cứ | Người đối soát | UNFINALIZED khi xử lý tiếp. |
+
+Kết luận có hiệu lực cho một phiên bản báo cáo; không bất biến. Mở lại ghi actor/lý do/nguồn/trước–sau. Đổi liên kết nhầm người là correction cho cả hồ sơ cũ và mới. Các state attendance chỉ được chốt sau OQ-001/OQ-015; tên state không giải quyết thay câu hỏi nghiệp vụ.
+
+## 12. Data Requirements
+
+“Cần” dưới đây là cần cho quy trình đề xuất, chưa phải schema hoặc danh mục dữ liệu triển khai đã duyệt.
+
+| ID | Nhóm dữ liệu | Cần theo nghiệp vụ đề xuất | Có thể cần / TBD | Source |
+|---|---|---|---|---|
+| DATA-001 | Candidate/Roster | Tham chiếu hồ sơ; thông tin phân biệt; quan hệ ca/phòng; nguồn/phiên bản/hiệu lực | Thuộc tính nhận dạng và bằng chứng theo phương thức được duyệt | BR-001–BR-003, BR-016 |
+| DATA-002 | Session/Room | Định danh; trạng thái tiếp nhận; chính sách hiệu lực; vai trò phụ trách | Mốc giờ, sơ đồ hướng dẫn, điểm dùng chung | BR-001, BR-004, BR-006 |
+| DATA-003 | Attempt | Tham chiếu lượt; thời gian và độ tin cậy; điểm tiếp nhận; hồ sơ nếu xác định; kết quả/cờ; nguồn điện tử/thủ công; lượt trước | Bằng chứng bổ sung theo phương thức | BR-005, BR-007, BR-010 |
+| DATA-004 | Check-in/Entry Decision | Kết quả; cơ sở; actor/quyền tự động; thời gian; ca/phòng; attempt/case | Quyết định cho vào riêng nếu thuộc scope | BR-006, BR-009 |
+| DATA-005 | Review/Override | Lý do tạo; vai trò/người nhận; trạng thái; bằng chứng; quyết định; quyền; trước/sau | Phê duyệt bổ sung nếu có quy định | BR-008, BR-009, BR-013 |
+| DATA-006 | Attendance/Reconciliation | Roster; nguồn đã xét; kết luận; case mở; người/thời gian xác nhận; phiên bản báo cáo | Bằng chứng tham dự trong phòng nếu cần | BR-011, BR-012, BR-017 |
+| DATA-007 | Sự cố/Fallback/Recovery | Khoảng gián đoạn; phạm vi ảnh hưởng; bản gốc; người ghi; thời gian sự kiện/nhập; kết quả đối soát | Mức chi tiết điều tra vận hành | BR-010, BR-016 |
+| DATA-008 | Quyền/lịch sử thay đổi | Actor/role, phạm vi quyền; thay đổi chính sách/quyền; trước/sau, lý do, thời gian | Thời gian lưu, cách thu hồi quyền | BR-006, BR-009, BR-015 |
+
+Không mặc định thu ảnh, video, bản sao giấy tờ hoặc dữ liệu sinh trắc học. Dữ liệu bổ sung phải có mục đích, requirement sử dụng, quyền truy cập và thời gian lưu. Thông tin đo hàng chờ/công sức chỉ thu trong kế hoạch đánh giá đã duyệt, không suy ra cần theo dõi liên tục mọi người tại cửa.
+
+## 13. Audit & Traceability Requirements
+
+Cần tái dựng hồ sơ/nguồn nào đã dùng, kết quả do ai đưa ra, cơ sở là gì, thời gian có nghĩa gì, có sự cố liên quan không và ai sửa kết quả sau đó.
+
+| ID | Nhu cầu audit đề xuất | Ví dụ |
+|---|---|---|
+| AUD-001 | Liên kết roster → attempt → case → decision → attendance/report. | Check-in gắn nhầm người. |
+| AUD-002 | Tách thời điểm xảy ra và ghi/nhập; đánh dấu độ không chắc. | Nhập lại bản ghi sau sự cố. |
+| AUD-003 | Giữ bản gốc và correction. | Sửa kết luận vắng. |
+| AUD-004 | Truy thẩm quyền/chính sách có hiệu lực lúc quyết định. | Kiểm tra override. |
+| AUD-005 | Ghi nguồn đã đối soát và khoảng mất dữ liệu. | Thiếu event điện tử khi thiết bị hỏng. |
+| AUD-006 | Người có quyền truy cập bằng chứng trong thời hạn được duyệt. | Giải quyết khiếu nại. |
+
+Audit một lượt chỉ chứng minh điều được quan sát/ghi; không chứng minh đã ngồi thi nếu thiếu nguồn tương ứng.
+
+## 14. Functional Requirements
+
+### Review BA: giữ nhu cầu nào, hoãn chi tiết nào?
+
+Giữ 19 FR làm **requirement ứng viên**; không biến danh sách này thành backlog triển khai. Các ưu tiên P1/P2 bên dưới là đề xuất cho việc review tính đúng đắn/đo lường, không phải cam kết release.
+
+| Nhóm xử lý | FR liên quan | Điều cần giữ ở discovery | Điều chưa nên khóa |
+|---|---|---|---|
+| Core — làm rõ để định hình bài toán | FR-001, FR-003–FR-009, FR-012 | Ngữ cảnh, hồ sơ, bằng chứng, quyền, chống trùng, ngoại lệ và đối soát | Phương thức kiểm tra, outcome theo quy chế và mức tự động hóa trước G9 |
+| Giữ nguyên tắc, hoãn đặc tả chi tiết | FR-002, FR-010, FR-011, FR-014, FR-016–FR-018 | Dữ liệu đổi phải review; override/correction/fallback có trách nhiệm và dấu vết | Cấu trúc version, biểu mẫu, cấp phê duyệt, cơ chế sync, retention và cấu trúc lưu trữ |
+| Phụ thuộc scope — chưa cam kết xây đầy đủ | FR-013, FR-015 | Nêu rõ attendance khác check-in; phân biệt lượt quay lại với lượt mới | Quản lý attendance trong phòng và re-entry trước khi có quyết định scope |
+| Kế hoạch đánh giá, chưa cần dashboard | FR-019 | Đo tổng công sức và thời gian để kiểm chứng mục tiêu | Màn hình báo cáo, theo dõi liên tục hoặc chỉ số số học chưa có baseline |
+
+Khái niệm dễ trùng đã được tách: attempt khác kết quả hiệu lực; override là quyết định ngoại lệ trong quyền, correction là sửa kết quả sai; audit ở mục 13 là bằng chứng còn FR-017 là năng lực truy cập; NFR là phẩm chất vận hành còn risk giải thích vì sao cần phẩm chất đó.
+
+| ID | Requirement | Source | Priority | Status |
+|---|---|---|---|---|
+| FR-001 | The system shall associate each active check-in point with an authorized room, session, roster source and policy context. | P-001–P-003; BR-001; SC-023 | P1 | ASSUMPTION |
+| FR-002 | The system shall expose roster readiness issues and identify records affected by roster or context changes. | P-002; BR-016; SC-018, SC-022 | P1 | ASSUMPTION |
+| FR-003 | The system shall support recording an attempt before a candidate record is uniquely resolved and preserve its later linkage. | P-004, P-005; BR-002; SC-012 | P1 | ASSUMPTION |
+| FR-004 | The system shall identify room and session discrepancies against the effective roster. | P-006; BR-003; SC-002, SC-003 | P1 | ASSUMPTION |
+| FR-005 | The system shall retain observed timing separately from policy-based lateness and entry decisions. | BR-004; SC-004, SC-023 | P1 | ASSUMPTION |
+| FR-006 | The system shall distinguish completed, unmet, unavailable and inconclusive verification outcomes. | P-007; BR-005; SC-006, SC-007 | P1 | ASSUMPTION |
+| FR-007 | The system shall record check-in completion or entry authorization only through an explicitly authorized workflow. | P-008, P-009; BR-006; SC-001, SC-013 | P1 | ASSUMPTION |
+| FR-008 | The system shall preserve repeated attempts while preventing duplicate effective attendance caused by repeated submissions. | BR-007; SC-008, SC-009, SC-020 | P1 | ASSUMPTION |
+| FR-009 | The system shall route unresolved cases to a responsible role and expose their status and next action. | P-010; BR-008; SC-019, SC-024 | P1 | ASSUMPTION |
+| FR-010 | The system shall validate override authority and retain its reason, evidence, actor, timing and before/after outcome. | BR-009; SC-013; AUD-004 | P1 | ASSUMPTION |
+| FR-011 | The system shall support reconciliation of authorized fallback records without silent overwriting or duplicate outcomes. | BR-010; SC-010, SC-011, SC-020 | P1 | ASSUMPTION |
+| FR-012 | The system shall produce an end-of-session reconciliation view covering unrecorded candidates, open cases, manual records and known data gaps. | P-011; BR-011, BR-017; SC-014, SC-019 | P1 | ASSUMPTION |
+| FR-013 | The system shall retain attendance conclusions with their evidence basis, authorized approver and report version. | P-012; BR-012; AUD-001 | P1 | ASSUMPTION |
+| FR-014 | The system shall support authorized correction and reopening while preserving prior outcomes and identifying affected reports and candidate records. | BR-013; SC-015, SC-016; AUD-003 | P1 | ASSUMPTION |
+| FR-015 | The system shall distinguish a repeat interaction or re-entry request from a new attendance outcome. | BR-014; SC-017 | P1 | ASSUMPTION |
+| FR-016 | The system shall restrict data access and retention according to approved purposes, roles and policy. | BR-015; DATA-001–DATA-008; RISK-012 | P1 | ASSUMPTION |
+| FR-017 | The system shall provide authorized access to linked audit evidence for investigation and reconciliation. | AUD-001–AUD-006; BR-009–BR-013 | P1 | ASSUMPTION |
+| FR-018 | The system shall support the opening and closing workflow and preserve unresolved work when routine intake closes. | P-003, P-011; BR-017 | P1 | ASSUMPTION |
+| FR-019 | The system shall make operational counts and timings available for evaluating workload, waiting, exceptions and recovery. | BP-001, BP-004; RISK-002, RISK-006, RISK-007 | P2 | ASSUMPTION |
+
+## 15. Non-functional / Operational Requirements
+
+Nhu cầu là ASSUMPTION; target định lượng TBD. Các mục có thể dùng để đặt câu hỏi khảo sát trước khi trở thành requirement nghiệm thu.
+
+| ID | Khía cạnh | Nhu cầu nghiệp vụ / cơ sở đặt target |
+|---|---|---|
+| NFR-001 | Throughput | Đáp ứng lượng đến tập trung; cần số thí sinh, phân bố lượt và số điểm phục vụ. |
+| NFR-002 | Queue/waiting time | Đo riêng thường lệ và review, tính cả hàng chờ thủ công. |
+| NFR-003 | Availability | Xác định khung cần phục vụ và mức gián đoạn fallback xử lý được. |
+| NFR-004 | Offline/fallback | Tiếp tục khi mất dịch vụ; có thể là nguồn khả dụng được duyệt, điểm khác hoặc thủ công; chưa chọn cách. |
+| NFR-005 | Reliability | Kết quả hiển thị và kết quả hiệu lực nhất quán; biểu diễn rõ thao tác chưa biết đã lưu chưa. |
+| NFR-006 | Auditability | Tái dựng diễn biến/quyền trong thời gian lưu được duyệt. |
+| NFR-007 | Recoverability | Xác định lượt mất/chưa đối soát/xung đột; thời gian phục hồi và mức mất dữ liệu TBD. |
+| NFR-008 | Security/privacy | Chỉ xem/sửa theo quyền; tránh lộ thông tin không cần thiết ở cửa. |
+| NFR-009 | Operator usability | Người dùng hiểu kết quả, nguyên nhân review và bước tiếp; cần kiểm tra với người dùng thực tế. |
+| NFR-010 | Time/context integrity | Nhận biết thời gian/ngữ cảnh không tin cậy trước khi dùng để kết luận. |
+
+Không đặt số giây, tỷ lệ sẵn sàng hoặc giới hạn phần cứng từ suy đoán. Target cần cho thí nghiệm phải được chốt tại T-010 trước phép đo tương ứng; không hoãn tới khi đã xem kết quả.
+
+## 16. Human Fallback & Recovery
+
+**Khi chưa chắc:** tạo case liên kết attempt → nêu nguyên nhân/điều còn thiếu → chuyển người có quyền → thực hiện kiểm tra bổ sung được duyệt → ghi quyết định riêng với kết quả gốc. Nếu chưa có người nhận, giữ pending và tuyến escalation; cách phục vụ thí sinh lúc chờ là TBD.
+
+**Khi thiết bị/nguồn không hoạt động:**
+
+1. Xác định sự cố, phạm vi và thời điểm.
+2. Người có quyền kích hoạt phương án được phê duyệt.
+3. Dùng nguồn roster khả dụng đã xác nhận hoặc chuyển đầu mối có thể xác minh.
+4. Ghi tối thiểu lượt, hồ sơ nếu biết, ca/phòng, thời gian/độ chắc chắn, kết quả, người ghi/người quyết định và lý do.
+5. Giữ bản gốc để đối soát.
+
+**Khi phục hồi:** xác nhận ngữ cảnh/roster → tập hợp fallback → tách thời gian sự kiện và nhập → xét trùng, nhầm người, xung đột và thao tác chưa rõ kết quả → người có quyền xử lý → correction attendance/báo cáo nếu cần → xác định case còn mở trước khi đóng sự cố.
+
+Nếu cả nguồn hồ sơ lẫn người có quyền đều không khả dụng, chưa thể khẳng định tiếp tục check-in được. A-003/A-004, OQ-011/OQ-018 là phụ thuộc thật của continuity. Giữ nhu cầu fallback ở discovery; chưa thiết kế cơ chế đồng bộ hoặc khẳng định có đội hỗ trợ sẵn.
+
+## 17. Risks & Success Criteria
+
+“Current Control” là chưa xác minh vì chưa khảo sát hiện trường. “Required Control” là đề xuất ASSUMPTION, không phải control đã vận hành.
+
+| Risk | Cause | Business Impact | Current Control | Required Control | Measurement Candidate |
+|---|---|---|---|---|---|
+| RISK-001 — False acceptance | Sai người vẫn được hoàn tất/cho vào | Sai người tham gia quy trình/thi | Chưa xác minh | Kiểm tra có căn cứ, quyền, review/correction | Kết quả chấp nhận sai được xác minh / kết quả được đối soát |
+| RISK-002 — False rejection | Người hợp lệ bị từ chối/trì hoãn sai | Chậm, khiếu nại, nguy cơ lỡ quyền tham dự | Chưa xác minh | Human review và kiểm tra bổ sung | Số ca hợp lệ bị xử lý sai; thời gian giải quyết |
+| RISK-003 — Sai ca/phòng | Roster/ngữ cảnh sai, bỏ qua discrepancy | Vào sai ca/phòng, sai attendance | Chưa xác minh | Kiểm tra ngữ cảnh/cập nhật | Số chấp nhận sai ca/phòng đã xác minh |
+| RISK-004 — Attendance trùng | Retry, nhiều điểm, nhập fallback | Báo cáo sai | Chưa xác minh | Kết quả hiệu lực duy nhất, đối soát | Số bản trùng hiệu lực sau đối soát |
+| RISK-005 — Vắng sai | Thiếu event/fallback, nghĩa attendance mơ hồ | Sai kết luận | Chưa xác minh | Đối soát nguồn trước kết luận vắng | Kết luận vắng bị sửa / kết luận vắng được kiểm tra |
+| RISK-006 — Ùn hàng | Lượng đến lớn, kiểm tra/review lâu | Chậm vào thi, tăng nhân lực | Chưa xác minh | Đo toàn luồng, tổ chức hỗ trợ phù hợp | Thông lượng, thời gian chờ, hàng chờ, thời gian review |
+| RISK-007 — Gián đoạn | Hỏng thiết bị/mất nguồn | Không kiểm tra/ghi được | Chưa xác minh | Fallback và recovery có trách nhiệm | Thời gian gián đoạn, lượt ảnh hưởng, công sức đối soát |
+| RISK-008 — Thiếu audit | Mất liên kết, sửa đè, thiếu actor | Không giải thích được kết quả | Chưa xác minh | Lịch sử quyết định/correction | Case có đủ bằng chứng bắt buộc / case được xét |
+| RISK-009 — Override trái quyền | Quyền mơ hồ/cấp rộng | Bỏ qua kiểm soát | Chưa xác minh | Quyền theo loại quyết định, lý do/audit | Số override ngoài quyền/thiếu căn cứ |
+| RISK-010 — Roster sai/cũ | Import sai, cập nhật chưa hiệu lực | Sai ca/phòng, thiếu hồ sơ | Chưa xác minh | Kiểm tra nguồn/phiên bản | Số sai lệch và lượt ảnh hưởng |
+| RISK-011 — Mất/xung đột khi phục hồi | Ghi một phần, nguồn khác kết quả | Attendance sai/thiếu | Chưa xác minh | Đối soát có quyền | Lượt chưa giải quyết sau recovery |
+| RISK-012 — Lộ/thu thập thừa dữ liệu | Quyền rộng, hiển thị nhiều, giữ lâu | Ảnh hưởng thông tin thí sinh | Chưa xác minh | Tối thiểu dữ liệu, quyền, retention | Dữ liệu không có mục đích; truy cập/sửa ngoài quyền |
+
+**Tiêu chí thành công cần xây dựng:**
+
+- Giảm tổng công sức nhân sự cho chuẩn bị, đối chiếu, hỗ trợ, review và đối soát so với As-Is trong điều kiện so sánh được.
+- Ghi nhận đúng theo nguồn đối soát độc lập với kết quả đang được đánh giá.
+- Đo thời gian chờ/hoàn tất cả lượt thường lệ và ngoại lệ.
+- Giải trình được lượt phát sinh trong sự cố và case chưa giải quyết.
+- Có đủ bằng chứng cho điều tra/correction.
+
+Target TBD. Baseline giả lập chỉ giúp kiểm tra giả thuyết trong kịch bản, không chứng minh giảm người ở kỳ thi thật. Tỷ lệ lỗi từ mẫu đối soát cần ghi cách lấy mẫu/mẫu số, không mặc định đại diện toàn bộ lượt.
+
+**Vì sao cần phép đo kỹ thuật sau này:** RISK-002 → review tăng → chờ tăng → cần xác định stage gây lỗi; RISK-001 → cần đo sai lệch của năng lực xác minh nếu có; RISK-006 → đo thời gian bước và toàn luồng; RISK-010 → kiểm tra chất lượng dữ liệu. Lỗi có thể do dữ liệu, thao tác, quy tắc hoặc kỹ thuật, chưa mặc định do model.
+
+## 18. Open Questions
+
+### Gates — câu hỏi chặn quyết định nào?
+
+Mọi OQ dưới đây vẫn **OPEN QUESTION**. Gate là phân loại phụ thuộc đề xuất, không phải bằng chứng đã trả lời:
+
+- **G9 — Blocking for T-009:** chặn việc kết luận candidate phù hợp với nghiệp vụ hoặc khóa yêu cầu dữ liệu/năng lực phụ thuộc. Không chặn đọc nguồn, kiểm tra xuất xứ/quyền/khả dụng hoặc ghi kết quả khảo sát có điều kiện.
+- **GI — Blocking for implementation:** phải giải quyết trước khi thực hiện luồng phụ thuộc. Nếu phục vụ thiết kế thí nghiệm, checkpoint là **T-010**, sớm hơn implementation.
+- **GO — Can remain open:** chưa chặn nghiên cứu hiện tại; phải có checkpoint và giới hạn kết luận, không có nghĩa được bỏ qua mãi.
+
+T-009 có thể chuẩn bị song song T-008 theo Sheet. Phân loại này không đổi T-009 thành “đợi toàn bộ T-008”; mỗi kết luận cần chỉ rõ gate nào liên quan. Câu trả lời cho kịch bản generic có thể là lựa chọn phạm vi nghiên cứu được nhóm duyệt và ghi nguồn, không được giả làm quy chế đã xác minh.
+
+### Exam Policy
+
+| ID | OPEN QUESTION | Why this matters | Gate / mức cần giải quyết |
+|---|---|---|---|
+| OQ-001 | Attendance nghĩa là đến cửa, vào phòng hay tham dự thi? | Đổi output, bằng chứng cần có và cách đánh giá. | G9 — chốt nghĩa trong phạm vi nghiên cứu trước kết luận candidate bao phủ đầu-cuối. |
+| OQ-002 | Mốc giờ nào áp dụng và ai xử lý sau mỗi mốc? | Quyết định late/quyền tiếp tục. | GI — trước luồng phụ thuộc; trước T-010 nếu thử logic giờ. Có thể nghiên cứu biến chính sách chưa gán giá trị. |
+| OQ-003 | Điều kiện đầu vào và bằng chứng xác minh nào được chấp nhận? | Có thể thay đổi chính bài toán kỹ thuật. | G9 — chốt năng lực/bằng chứng cần cho kịch bản; quy chế thật còn phải xác minh trước vận hành. |
+| OQ-004 | Retry/re-entry có được phép, và quản lý re-entry có thuộc scope? | Quyết định AF-002/AF-003 và BR-014. | GI — phải quyết định in/out scope trước xây luồng này; chốt trước T-010 nếu đo nó. |
+
+### Business Process
+
+| ID | OPEN QUESTION | Why this matters | Gate / mức cần giải quyết |
+|---|---|---|---|
+| OQ-005 | As-Is ai làm, bằng gì, mất bao lâu, lỗi được xử lý thế nào? | Thiếu baseline thì không chứng minh giảm công sức. | GO — không chặn audit T-009; cần trước phép so As-Is/To-Be hoặc tuyên bố giảm nhân sự. Freeze có điều kiện phải công khai thiếu bằng chứng. |
+| OQ-006 | Dùng thông tin gì để tìm hồ sơ, nếu thiếu thì hỗ trợ thế nào? | Đổi input và quan hệ lượt–hồ sơ. | G9 — chốt loại thông tin đầu vào và trường hợp chưa xác định; chưa cần chọn phương tiện nhập. |
+| OQ-007 | Khi nào mở/đóng, case còn mở sau đóng được giao ai? | Lifecycle và trách nhiệm cuối ca. | GI — trước luồng đóng/đối soát; trước T-010 nếu kiểm chứng luồng đó. |
+| OQ-008 | Điểm riêng/chung/đổi ca? Có kiểm soát cửa vật lý không? | Đổi phạm vi ngữ cảnh và ý nghĩa “cho vào”. | GI — xác định trước thiết kế điểm vận hành; nâng G9 nếu lựa chọn làm đổi input/output candidate. |
+
+### Authority
+
+| ID | OPEN QUESTION | Why this matters | Gate / mức cần giải quyết |
+|---|---|---|---|
+| OQ-009 | Ai được hoàn tất check-in, cho vào, xử lý late, sửa roster, override và correction? | Không thể chọn giải pháp nếu chưa biết bằng chứng sẽ được ai sử dụng để quyết định. | G9 — chốt ranh giới quyền theo vai trò; danh tính người trực cụ thể có thể đợi GI. |
+| OQ-010 | Trường hợp nào tự động, trường hợp nào bắt buộc human approval? | Đổi output, tiêu chí và hậu quả lỗi. | G9 — xác định phạm vi tự động nghiên cứu; chưa tự cấp quyền vận hành thật. |
+| OQ-011 | Ai nhận ngoại lệ/sự cố, thay thế khi vắng và làm gì lúc chờ? | Điều kiện khả thi của fallback. | GI — trước vận hành/diễn tập fallback; không khẳng định đã có người trực. |
+| OQ-012 | Ai xác nhận attendance, mở lại và phát hành bản sửa? | Trách nhiệm đối soát/correction. | GI — trước luồng attendance nếu thuộc scope; vai trò nguyên tắc phải phù hợp OQ-009. |
+
+### Data
+
+| ID | OPEN QUESTION | Why this matters | Gate / mức cần giải quyết |
+|---|---|---|---|
+| OQ-013 | Nguồn roster, người chịu trách nhiệm, cấu trúc và cách nhận biết hồ sơ trùng là gì? | Quyết định khả năng tìm đúng hồ sơ và dữ liệu cần kiểm tra. | G9 — biết nguồn dự kiến/mẫu cấu trúc hoặc fixture có giới hạn được duyệt; không cần lấy dữ liệu cá nhân thật chỉ để đóng gate. |
+| OQ-014 | Cập nhật ca/phòng có hiệu lực lúc nào, xử lý kết quả cũ ra sao? | Quyết định correction và dữ liệu thay đổi. | GI — trước xây cập nhật; trước T-010 nếu kiểm chứng cập nhật giữa ca. |
+| OQ-015 | Có bằng chứng độc lập cho việc vào phòng/tham dự thi không? | Giới hạn kết luận attendance. | G9 — trả lời “ngoài phạm vi” có thể hợp lệ nếu OQ-001 chỉ xét tại cửa; nếu cần attendance trong phòng mà thiếu nguồn thì vẫn blocked. |
+| OQ-016 | Cần bằng chứng gì, quyền sử dụng/xem nào, giữ bao lâu? | Quyết định dữ liệu có thể nghiên cứu và audit. | G9 cho mục đích/loại dữ liệu/quyền dùng; GI cho retention và quyền vận hành chi tiết. T-009 tiếp tục xác minh quyền từng nguồn. |
+
+### Operational
+
+| ID | OPEN QUESTION | Why this matters | Gate / mức cần giải quyết |
+|---|---|---|---|
+| OQ-017 | Số thí sinh, phân bố đến, số điểm/người hỗ trợ? | Cơ sở throughput, queue và tải đánh giá. | GI; checkpoint T-010 trước phép đo liên quan, dùng kịch bản được duyệt nếu chưa có thực địa. |
+| OQ-018 | Điện/mạng/hỗ trợ thực tế và fallback nào được chấp nhận? | Quyết định continuity/recovery có khả thi. | GI — trước triển khai/diễn tập; nâng G9 nếu tạo ràng buộc loại candidate. |
+| OQ-019 | Có nơi xử lý ngoại lệ riêng, hướng dẫn thí sinh thế nào khi chờ? | Ảnh hưởng hàng chờ và cách tổ chức hỗ trợ. | GO — trước thiết kế vận hành/pilot; nâng gate nếu cách bố trí ảnh hưởng trực tiếp giải pháp. |
+| OQ-020 | Mức sai lệch/chờ/phục hồi/công sức nào chấp nhận được? | Cơ sở acceptance criteria. | GI; checkpoint T-010 trước thử nghiệm đưa kết luận tương ứng. Không chờ có test result mới đặt target. |
+
+### Technical Dependency
+
+| ID | OPEN QUESTION | Why this matters | Gate / mức cần giải quyết |
+|---|---|---|---|
+| OQ-021 | Nguồn quản lý thi cho phép truy cập/cập nhật dữ liệu theo cách nào? | Tính khả thi kết nối nguồn theo quyền. | GI — trước tích hợp; nâng G9 nếu giới hạn nguồn làm thay đổi khả dụng của candidate. |
+| OQ-022 | Năng lực nào cung cấp bằng chứng cho quy trình xác minh được duyệt? | Đầu vào nghiên cứu AI/non-AI sau này. | GO — câu hỏi nghiên cứu giao cho T-009 sau OQ-003, không bắt T-008 chọn solution để đóng gate. |
+| OQ-023 | Nhiều điểm cùng ghi một người/ca không; thời gian giữa nguồn tin cậy đến mức nào? | Chống trùng, xung đột và giải thích thời gian. | GI — trước thiết kế ghi nhận; trước T-010 nếu kiểm chứng đồng thời/giờ. |
+
+### Điều kiện giải quyết một gate
+
+Mỗi câu trả lời cần: **nguồn → người/ngày xác nhận → phạm vi áp dụng → nội dung đã chốt → phần còn mở → BR/FR/task bị ảnh hưởng**. Quốc An tổng hợp, Minh Hy review; chỉ đóng gate khi có căn cứ và quyết định phạm vi rõ. Nếu câu hỏi GI/GO phát hiện ràng buộc đổi loại bài toán hoặc candidate, nâng lên G9 và review phần phụ thuộc.
+
+Không “đóng” OQ bằng một ASSUMPTION chưa được duyệt. Nếu nhóm duyệt kịch bản nghiên cứu tạm thời, gate chỉ giải quyết trong phạm vi kịch bản đó; việc thiếu bằng chứng thực địa vẫn được ghi rõ.
+
+## 19. Requirement Traceability Matrix
+
+| Business Problem | Process/Scenario | Business Rule | System Requirement | Risk |
+|---|---|---|---|---|
+| BP-002 | P-001–P-003; SC-023 | BR-001 | FR-001 | RISK-003, RISK-010 |
+| BP-002, BP-003 | P-002; SC-018, SC-022 | BR-001, BR-016 | FR-002 | RISK-010 |
+| BP-003 | P-004, P-005; SC-012, SC-022 | BR-002 | FR-003 | RISK-005, RISK-008 |
+| BP-002 | P-006; SC-002, SC-003 | BR-003 | FR-004 | RISK-003 |
+| BP-002 | SC-004, SC-023 | BR-004 | FR-005 | RISK-002, RISK-008 |
+| BP-002, BP-004 | P-007; SC-006, SC-007 | BR-005 | FR-006 | RISK-001, RISK-002 |
+| BP-002 | P-008, P-009; SC-001, SC-013 | BR-006 | FR-007 | RISK-001, RISK-009 |
+| BP-003 | SC-008, SC-009, SC-020 | BR-007 | FR-008 | RISK-004 |
+| BP-004 | P-010; SC-019, SC-024 | BR-008 | FR-009 | RISK-002, RISK-006 |
+| BP-003 | SC-013 | BR-009 | FR-010 | RISK-008, RISK-009 |
+| BP-004 | SC-010, SC-011, SC-020 | BR-010 | FR-011 | RISK-007, RISK-011 |
+| BP-002, BP-003 | P-011; SC-014, SC-019 | BR-011, BR-017 | FR-012 | RISK-005 |
+| BP-003 | P-012; SC-014, SC-019 | BR-012 | FR-013 | RISK-005, RISK-008 |
+| BP-003 | SC-015, SC-016 | BR-013 | FR-014 | RISK-005, RISK-008 |
+| BP-002 | AF-003; SC-017 | BR-014 | FR-015 | RISK-003, RISK-004 |
+| BP-003 | DATA-001–DATA-008; SC-013 | BR-015 | FR-016 | RISK-009, RISK-012 |
+| BP-003 | P-010–P-012; SC-015, SC-016 | BR-009–BR-013 | FR-017 | RISK-008 |
+| BP-002, BP-004 | P-003, P-011; SC-019 | BR-017 | FR-018 | RISK-005, RISK-007 |
+| BP-001, BP-004 | P-004–P-012; SC-010, SC-024 | BR-008, BR-010 | FR-019 | RISK-002, RISK-006, RISK-007 |
+
+### Liên kết với ID trong bản repository cũ
+
+Bản ngắn trước dùng BR-01–BR-08 cho cả nghiệp vụ và năng lực kỹ thuật. Bản 20 mục đã thảo luận dùng BR-001–BR-017 và FR-001–FR-019. Không hiểu BR-01 cũ là cùng rule với BR-001 mới chỉ vì gần giống tên.
+
+| ID cũ | Nội dung được giữ ở bản này |
+|---|---|
+| BR-01 | Ngữ cảnh/phiên bản → BR-001, BR-016; FR-001, FR-002. |
+| BR-02 | Tìm đúng hồ sơ, khai báo chưa chứng minh danh tính → BR-002, BR-005; FR-003, FR-006. |
+| BR-03 | Bằng chứng thuộc người đang làm thủ tục, thiếu/mơ hồ có đường xử lý → P-007, BR-005, BR-008; OQ-003, OQ-022. Chi tiết thị giác giữ ở T-005. |
+| BR-04 | Xác minh và mức không chắc → BR-005, FR-006; hướng nghiên cứu lịch sử vẫn ở D-001/D-002, không biến thành quy chế thi. |
+| BR-05 | Tách danh tính với điều kiện vào → BR-003, BR-004, BR-006, BR-007. |
+| BR-06 | Chuyển người có quyền → BR-006, BR-008; FR-007, FR-009. |
+| BR-07 | Chống trùng và audit sửa sai → BR-007, BR-009, BR-013; FR-008, FR-010, FR-014, FR-017. |
+| BR-08 | Đối soát chưa ghi nhận/pending → BR-011, BR-012, BR-017; FR-012, FR-013, FR-018. |
+
+## 20. Implications for Later Technical Tasks
+
+| Nhu cầu nghiệp vụ | Năng lực cần nghiên cứu sau | OQ phụ thuộc |
+|---|---|---|
+| Tìm đúng hồ sơ | Tra cứu và giải quyết hồ sơ mơ hồ từ nguồn được công nhận | OQ-006, OQ-013 |
+| Đúng ca/phòng/thời gian | Áp dụng business rule trên dữ liệu/chính sách hiệu lực | OQ-002, OQ-014 |
+| Người trước điểm kiểm tra tương ứng hồ sơ đã chọn | Technical capability required — Candidate for later AI/non-AI analysis | OQ-003, OQ-022 |
+| Không ghi trùng khi lặp/nhiều điểm | Duy trì kết quả hiệu lực và đối soát tương tác lặp | OQ-023 |
+| Tiếp tục khi automation thất bại | Human fallback và khả năng khôi phục ghi nhận | OQ-011, OQ-018 |
+| Điều tra/sửa/attendance | Liên kết bằng chứng và nguồn đối soát | OQ-001, OQ-012, OQ-015, OQ-016 |
+| Chứng minh giảm công sức/chờ | Đo As-Is/To-Be trong điều kiện so sánh được | OQ-005, OQ-017, OQ-020 |
+
+### T-009 được làm gì khi gates còn mở?
+
+- Tiếp tục chuẩn bị/audit nguồn và khả dụng theo T-005/T-007; ghi rõ giả định và giới hạn của kết quả.
+- Chưa kết luận candidate “đủ phù hợp với hệ thống” nếu G9 liên quan chưa có câu trả lời được duyệt.
+- Khi nghiên cứu dưới nhiều phương án nghiệp vụ, giữ kết luận có điều kiện và chỉ rõ phương án làm thay đổi kết luận.
+- Không bổ sung rule nghiệp vụ chỉ để candidate hiện có trở nên phù hợp.
+
+### Điều kiện freeze T-008 làm đầu vào T-009
+
+**Hiện tại: chưa freeze.** Cần:
+
+1. Nhóm review sáu Core Decisions và ranh giới As-Is/To-Be.
+2. Có câu trả lời có nguồn hoặc phạm vi nghiên cứu tạm thời được nhóm duyệt cho G9: OQ-001, OQ-003, OQ-006, OQ-009, OQ-010, OQ-013, OQ-015 và phần dữ liệu/quyền dùng của OQ-016.
+3. Chọn các FR thực sự thuộc phạm vi nghiên cứu, ghi rõ phần hoãn/out of scope; cập nhật process, state và traceability nếu câu trả lời thay đổi.
+4. As-Is có bằng chứng, hoặc ghi rõ **chưa có — chỉ freeze cho nghiên cứu kịch bản, chưa đánh giá lợi ích thực địa**; giữ OQ-005 tới trước phép so hiệu quả.
+5. Mỗi câu còn mở có checkpoint, người/vai trò theo dõi và giới hạn kết luận. Quốc An tổng hợp, Minh Hy review theo workflow.
+6. Ghi ngày, nguồn, người chốt và commit/phiên bản của đầu vào đã freeze. Freeze phục vụ nghiên cứu không đồng nghĩa cho phép triển khai một kỳ thi thật.
+
+T-010 chỉ khóa phép thử khi các OQ ảnh hưởng dữ liệu, phép đo và acceptance criteria của phép thử đã được xử lý. Các GI còn lại phải chốt trước luồng triển khai tương ứng. Kết quả experiment mới hỗ trợ final technical decision; T-008 không sản sinh lựa chọn kỹ thuật cuối.
+
+### Consistency review sau chỉnh sửa BA
+
+| Câu hỏi review | Kết quả và phần còn thiếu |
+|---|---|
+| As-Is có thiếu không? | Có: chưa khảo sát thực địa. Mục 2 đã tách nguồn đã có, kế hoạch thu bằng chứng và giả thuyết bottleneck; không dựng flow hiện tại như fact. |
+| To-Be có hợp lý không? | Có đường thường lệ, ngoại lệ, pending, cuối ca và correction ở mức logic; khả thi phụ thuộc roster, quyền và fallback chưa xác nhận. |
+| Giả định yếu nào ảnh hưởng lớn? | A-001, A-003, A-004, A-005; có OQ/bằng chứng cần thu. |
+| Requirement có nguồn không? | FR-001–FR-019 đều có process/scenario/rule/risk và traceability. |
+| Có điều gì quá sớm? | Tên state, chi tiết quyền/retention/version/sync/re-entry không bị khóa; mục 14 phân loại giữ/hoãn/theo scope. |
+| Có khái niệm trùng không? | Tách attempt/check-in/entry/attendance; override/correction; audit evidence/năng lực truy cập. |
+| Có tự chọn kỹ thuật không? | Không chọn model/dataset/thuật toán/threshold; D-001/D-002 được giữ như quyết định lịch sử, không suy thành quy chế. |
+| Có quyền tự động sai không? | Mọi kết luận theo quyền; thiếu quyền/không chắc chuyển review, không tự tước quyền dự thi. |
+| State có đường vào/ra không? | Attempt kết thúc có liên kết lượt sau; check-in có correction; attendance có mở lại. Late/sai phòng là cờ riêng. |
+| Có dữ liệu vô mục đích không? | DATA-001–DATA-008 có nguồn BR và FR-016/FR-017 sử dụng; dữ liệu bổ sung cần xét mục đích/quyền. |
+| Automation thất bại có tiếp tục được không? | Có quy trình fallback đề xuất, chưa đủ bằng chứng khả thi; giữ OQ-011/OQ-018. |
+| Đã giải quyết gates/chốt T-008 chưa? | Chưa. Review tài liệu không phải phê duyệt nghiệp vụ; T-009 chỉ chuẩn bị/kết luận có điều kiện trong phạm vi được phép. |
