@@ -64,6 +64,18 @@ Pool ban đầu:
 
 Mỗi fixture phải nêu policy profile, trạng thái trước, attempt mới, actor/quyền, expected state sau, audit event và ID SC/BR/FR/TQ. Tách bốn kết quả: **attempt**, **check-in hiệu lực**, **entry authorization** (nếu trong scope) và **attendance sau đối soát**. Situation flag như late/wrong-room không thay lifecycle state; override và correction là hai hành động khác. Giá trị policy theo kỳ thi và quyền cụ thể còn TBD; fixture chỉ dùng profile giả lập đã được nhóm duyệt, không tạo quy chế thi mặc định.
 
+| Fixture tối thiểu | Invariant có thể khóa ở generic baseline | Value còn phụ thuộc profile |
+|---|---|---|
+| Không tìm được hoặc có nhiều record | Giữ attempt và trạng thái unresolved; không tự tạo check-in hiệu lực | Cách người có quyền giải quyết |
+| Sai phòng/ca hoặc đến ngoài cửa sổ | Ghi observed context/timing và discrepancy riêng; không tự suy quyền vào | Policy muộn/chuyển phòng |
+| Không đủ bằng chứng danh tính, verification unavailable | Phân biệt unmet/inconclusive/unavailable; chuyển review đúng quyền | Loại bằng chứng và retry |
+| Lặp attempt, check-in trước đó, hai nguồn cùng gửi | Bảo toàn mọi attempt nhưng không có hai check-in hiệu lực cho cùng candidate/session | Re-entry/correction nếu được phép |
+| Mất thiết bị/mạng; ghi thủ công nếu policy cho phép | Case và nguồn fallback được nối khi phục hồi; xung đột giữ review | Ai được fallback, thời hạn sync |
+| Override và correction | Override có actor/lý do/phạm vi; correction giữ giá trị trước–sau; hai hành động không đồng nhất | Vai trò nào được quyền |
+| Cuối ca còn case chưa giải quyết | Không suy absent chỉ từ thiếu check-in khi evidence thiếu; attendance theo definition đã duyệt | Định nghĩa attendance, người xác nhận |
+
+**Acceptance E3 ở mức generic:** mọi fixture áp dụng phải giữ invariant và tạo audit evidence dự kiến; không có silent success hay override ngoài quyền. Expected outcome cụ thể chỉ được chấm sau khi profile giả lập/authority được nhóm duyệt. Nếu entry authorization nằm ngoài phạm vi profile, không tạo kết quả giả cho nó.
+
 Kết quả E3 là expected state/outcome pass/fail, không phải face-recognition accuracy. Test fixture có thể thiết kế trước khi có dữ liệu ảnh; pass/fail chỉ được báo khi có implementation thực để chạy.
 
 ### M1 — Đo vận hành theo đúng phạm vi
