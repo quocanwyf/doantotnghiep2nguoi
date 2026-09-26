@@ -1,6 +1,6 @@
 # Đồ án tốt nghiệp AI của nhóm hai người
 
-Dự án nghiên cứu ứng dụng nhận dạng khuôn mặt với một thành phần được tối ưu có thể kiểm chứng bằng số liệu, sau đó triển khai bản phù hợp lên mobile. Đây là **định hướng sau buổi gặp đầu tiên**. Nhóm đã chọn bài toán cửa phòng thi ở [D-001](docs/00-project/decisions/D-001-chon-bai-toan-cua-phong-thi.md) và hướng khảo sát T-005 ở [D-002](docs/00-project/decisions/D-002-chon-huong-khao-sat-t005.md); dataset/model/cấu hình cuối vẫn chờ thí nghiệm.
+Dự án nghiên cứu ứng dụng nhận dạng khuôn mặt với một thành phần được tối ưu có thể kiểm chứng bằng số liệu, sau đó triển khai bản phù hợp lên mobile. Đây là **định hướng sau buổi gặp đầu tiên**. Nhóm đã chọn bài toán cửa phòng thi ở [D-001](docs/00-project/decisions/T-004-D-001-chon-bai-toan-cua-phong-thi.md) và hướng khảo sát T-005 ở [D-002](docs/00-project/decisions/T-007-D-002-chon-huong-khao-sat-t005.md); dataset/model/cấu hình cuối vẫn chờ thí nghiệm.
 
 ## Hai nơi làm việc chung
 

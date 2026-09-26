@@ -1,6 +1,6 @@
 # T-005 / Quốc An — Khảo sát phương pháp và model theo task
 
-**Trạng thái:** survey candidate space sau [phân rã task](quoc-an-task-decomposition.md) và [yêu cầu dataset](quoc-an-datasets.md). **Chưa có selected model, selected detector hay final pipeline.** Một architecture, loss, trọng số pretrained và pipeline hoàn chỉnh là bốn cấp khác nhau; không so chúng như bốn “model” ngang hàng.
+**Trạng thái:** survey candidate space sau [phân rã task](T-005-quoc-an-task-decomposition.md) và [yêu cầu dataset](T-005-quoc-an-datasets.md). **Chưa có selected model, selected detector hay final pipeline.** Một architecture, loss, trọng số pretrained và pipeline hoàn chỉnh là bốn cấp khác nhau; không so chúng như bốn “model” ngang hàng.
 
 ## 1. Ngôn ngữ so sánh và yêu cầu lọc chung
 
@@ -35,7 +35,7 @@
 2. Liên kết bbox qua frame bằng IoU/khoảng cách tâm/kích thước và timeout; kiểm tra tính liên tục.
 3. Tracker học máy hoặc person re-identification riêng chỉ nếu dữ liệu có nhãn target/track và lỗi baseline chứng minh cần.
 
-**Shortlist:** luật không học + ambiguity rejection cho baseline. Chưa shortlist tracker học máy vì [khảo sát dữ liệu](quoc-an-datasets.md) chưa tìm được benchmark công khai đủ claim + target labels quanh cửa. Không tuyên bố chọn đúng người trong đám đông bằng cách thử detector trên WIDER FACE.
+**Shortlist:** luật không học + ambiguity rejection cho baseline. Chưa shortlist tracker học máy vì [khảo sát dữ liệu](T-005-quoc-an-datasets.md) chưa tìm được benchmark công khai đủ claim + target labels quanh cửa. Không tuyên bố chọn đúng người trong đám đông bằng cách thử detector trên WIDER FACE.
 
 ## 4. S5 quality và S6 alignment — tách rule khỏi learned model
 
@@ -74,7 +74,7 @@ Không có sẵn “pipeline A/B/C” ngay lúc khảo sát. Sau khi shortlist t
 3. Ghép tối đa vài tổ hợp có lý do và đo end-to-end trên raw frame/video. Không chạy tích Descartes của mọi candidate.
 4. Giữ pipeline mạnh chưa tối ưu làm đối chứng ngoài; nếu một pipeline nhẹ được chọn để cải thiện, phải so proposed với **chính nó trước cải thiện lẫn pipeline mạnh**.
 
-Tên/phiên bản của pipeline chỉ được đặt khi các component thật sự chạy được và protocol đã khóa. [Thiết kế thí nghiệm](quoc-an-experiments.md) mô tả metric, split, baseline và cổng quyết định đó.
+Tên/phiên bản của pipeline chỉ được đặt khi các component thật sự chạy được và protocol đã khóa. [Thiết kế thí nghiệm](T-005-quoc-an-experiments.md) mô tả metric, split, baseline và cổng quyết định đó.
 
 ## 9. Những điều chưa được quyết
 

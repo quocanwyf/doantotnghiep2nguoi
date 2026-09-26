@@ -3,7 +3,7 @@
 - **Trạng thái:** Nhóm đã chốt T-007 theo T-005, theo xác nhận của Quốc An về quyết định chung với Minh Hy. Đây là **survey decision**, chưa phải final technical decision.
 - **Ngày ghi nhận:** 2026-09-25.
 - **Người chốt/xác nhận:** Quốc An và Minh Hy, theo xác nhận trực tiếp của Quốc An rằng nhóm đã chốt T-004 theo T-002 và T-007 theo T-005. Chưa có biên bản buổi chốt riêng trong repo.
-- **Nguồn:** xác nhận của Quốc An trong trao đổi ngày 2026-09-25; [D-001](D-001-chon-bai-toan-cua-phong-thi.md), [khảo sát T-005](../../02-survey/README.md) và [khảo sát độc lập T-006](https://github.com/quocanwyf/doantotnghiep2nguoi/pull/2).
+- **Nguồn:** xác nhận của Quốc An trong trao đổi ngày 2026-09-25; [D-001](T-004-D-001-chon-bai-toan-cua-phong-thi.md), [khảo sát T-005](../../02-survey/README.md) và [khảo sát độc lập T-006](https://github.com/quocanwyf/doantotnghiep2nguoi/pull/2).
 
 ## Vấn đề và phương án
 
@@ -22,4 +22,4 @@ Chọn **T-005 làm khung khảo sát chính cho bước thí nghiệm** vì nó
 
 ## Bằng chứng, giới hạn và ảnh hưởng
 
-Căn cứ hiện là sự phù hợp logic giữa use case và khảo sát, chưa phải kết quả thực nghiệm. [Bản so sánh T-007](../../02-survey/selection.md) ghi mức hoàn thiện T-005 và việc còn phải kiểm chứng. Bước sau: xác minh tệp/quyền/trọng số, khóa protocol/split/metric/thiết bị, chạy baseline và quyết định kỹ thuật cuối từ kết quả. Minh Hy có thể rà soát cách ghi văn bản này trong PR; việc rà soát không làm thay đổi trạng thái quyết định nhóm đã chốt. Chưa có xác nhận của thầy.
+Căn cứ hiện là sự phù hợp logic giữa use case và khảo sát, chưa phải kết quả thực nghiệm. [Bản so sánh T-007](../../02-survey/T-007-selection.md) ghi mức hoàn thiện T-005 và việc còn phải kiểm chứng. Bước sau: xác minh tệp/quyền/trọng số, khóa protocol/split/metric/thiết bị, chạy baseline và quyết định kỹ thuật cuối từ kết quả. Minh Hy có thể rà soát cách ghi văn bản này trong PR; việc rà soát không làm thay đổi trạng thái quyết định nhóm đã chốt. Chưa có xác nhận của thầy.

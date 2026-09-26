@@ -1,6 +1,6 @@
 # T-005 / Quốc An — Phân rã bài toán và xác định task
 
-**Ngày khảo sát:** 2026-09-25. **Trạng thái:** thiết kế nghiên cứu, chưa chốt dataset, model, pipeline triển khai hay optimization. Tài liệu này chỉ xuất phát từ [bối cảnh phòng thi T-002](../01-problem/quoc-an-proposal.md), yêu cầu chức năng Quốc An bổ sung và [định hướng dự án](../00-project/brief.md). Đọc tiếp [khảo sát dữ liệu](quoc-an-datasets.md), [khảo sát phương pháp/model](quoc-an-models.md), [thiết kế thí nghiệm](quoc-an-experiments.md) theo thứ tự.
+**Ngày khảo sát:** 2026-09-25. **Trạng thái:** thiết kế nghiên cứu, chưa chốt dataset, model, pipeline triển khai hay optimization. Tài liệu này chỉ xuất phát từ [bối cảnh phòng thi T-002](../01-problem/T-002-quoc-an-proposal.md), yêu cầu chức năng Quốc An bổ sung và [định hướng dự án](../00-project/brief.md). Đọc tiếp [khảo sát dữ liệu](T-005-quoc-an-datasets.md), [khảo sát phương pháp/model](T-005-quoc-an-models.md), [thiết kế thí nghiệm](T-005-quoc-an-experiments.md) theo thứ tự.
 
 ## 1. Business problem và ranh giới đồ án
 
@@ -46,7 +46,7 @@ Khi thí sinh khai báo mã C, hệ thống truy xuất một ảnh tham chiếu
 - **S8a–S8b:** similarity không đủ chắc → vùng uncertain; không tự kết luận thí sinh không được thi chỉ vì score thấp.
 - **S9–S10:** match mặt không tự cấp quyền vào phòng; nghiệp vụ phải kiểm tra riêng và tránh hai thiết bị ghi hai lượt cùng lúc.
 
-Để đo pipeline đầu-cuối cần nhãn của **người thực sự làm thủ tục** và claim tương ứng. Dataset chỉ có các bbox mặt mà không có nhãn người mục tiêu không thể đo S4 hay giao dịch cuối. Phần [khảo sát dataset](quoc-an-datasets.md) sẽ đánh dấu chỗ thiếu loại nhãn này thay vì tự gán rằng đã giải quyết.
+Để đo pipeline đầu-cuối cần nhãn của **người thực sự làm thủ tục** và claim tương ứng. Dataset chỉ có các bbox mặt mà không có nhãn người mục tiêu không thể đo S4 hay giao dịch cuối. Phần [khảo sát dataset](T-005-quoc-an-datasets.md) sẽ đánh dấu chỗ thiếu loại nhãn này thay vì tự gán rằng đã giải quyết.
 
 ## 5. Research pipeline, khác runtime pipeline
 

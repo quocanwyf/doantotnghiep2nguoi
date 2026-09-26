@@ -1,12 +1,12 @@
 # Logic quyết định — 01: Bài toán nghiệp vụ
 
-File này ghi **vì sao mỗi bước của [đề xuất T-002](quoc-an-proposal.md) dẫn tới câu hỏi kỹ thuật ở [02](../02-survey/DECISION_LOGIC.md)**. Chi tiết actor, luồng và ngoại lệ nằm trong đề xuất; file này chỉ giữ chuỗi quyết định, nguồn và điều còn mở.
+File này ghi **vì sao mỗi bước của [đề xuất T-002](T-002-quoc-an-proposal.md) dẫn tới câu hỏi kỹ thuật ở [02](../02-survey/DECISION_LOGIC.md)**. Chi tiết actor, luồng và ngoại lệ nằm trong đề xuất; file này chỉ giữ chuỗi quyết định, nguồn và điều còn mở.
 
 ## Trạng thái và nguồn
 
 - **BP-01, định hướng nhóm cung cấp ngày 2026-09-25:** thiết bị tại cửa phòng thi xử lý bước kiểm tra đầu vào thường lệ để giảm nhu cầu người chỉ đứng đối chiếu ở từng phòng; ghi nhận hợp lệ, muộn, nhầm phòng, chưa đến và ngoại lệ.
-- **T-002, đề xuất cá nhân của Quốc An:** [quoc-an-proposal.md](quoc-an-proposal.md) cụ thể hóa luồng có mã dự thi, ảnh đăng ký, xác minh 1:1, kiểm tra phòng/ca/giờ và ghi lượt.
-- **T-004, quyết định nhóm:** Quốc An xác nhận cả Quốc An và Minh Hy đã chốt bối cảnh cửa phòng thi. [D-001](../00-project/decisions/D-001-chon-bai-toan-cua-phong-thi.md) ghi ngày xác nhận, nguồn và giới hạn; không coi đây là xác nhận của thầy hoặc quyết định kỹ thuật cuối.
+- **T-002, đề xuất cá nhân của Quốc An:** [T-002-quoc-an-proposal.md](T-002-quoc-an-proposal.md) cụ thể hóa luồng có mã dự thi, ảnh đăng ký, xác minh 1:1, kiểm tra phòng/ca/giờ và ghi lượt.
+- **T-004, quyết định nhóm:** Quốc An xác nhận cả Quốc An và Minh Hy đã chốt bối cảnh cửa phòng thi. [D-001](../00-project/decisions/T-004-D-001-chon-bai-toan-cua-phong-thi.md) ghi ngày xác nhận, nguồn và giới hạn; không coi đây là xác nhận của thầy hoặc quyết định kỹ thuật cuối.
 
 ## BP-01 → hướng thiết bị tại cửa
 
@@ -16,13 +16,13 @@ File này ghi **vì sao mỗi bước của [đề xuất T-002](quoc-an-proposa
 
 **Alternatives → lý do khảo sát hướng cửa.** Nhân sự đối chiếu hoàn toàn, một điểm kiểm tra tập trung, hoặc thiết bị tại từng cửa. Điểm cửa gắn trực tiếp lượt vào với phòng/ca và có thể xử lý thường lệ ngay nơi phát sinh sự kiện; đổi lại phải giải quyết camera hành lang, hàng chờ, dữ liệu phiên và xử lý ngoại lệ. Lý do này đủ để khảo sát, chưa đủ để kết luận mức tự động hóa được phép hoặc hiệu quả vận hành.
 
-**Decision T-004.** Nhóm đã chọn hướng thiết bị tại cửa theo [D-001](../00-project/decisions/D-001-chon-bai-toan-cua-phong-thi.md). Quy chế của kỳ thi cụ thể và bằng chứng pilot vẫn cần trước khi tuyên bố thay thế bước giám thị hoặc giảm nhân sự thực tế.
+**Decision T-004.** Nhóm đã chọn hướng thiết bị tại cửa theo [D-001](../00-project/decisions/T-004-D-001-chon-bai-toan-cua-phong-thi.md). Quy chế của kỳ thi cụ thể và bằng chứng pilot vẫn cần trước khi tuyên bố thay thế bước giám thị hoặc giảm nhân sự thực tế.
 
 ## UC-01 → khai báo mã trước → xác minh 1:1
 
 **Vì sao có bước khai báo.** Danh sách có mã duy nhất và ảnh tham chiếu cho từng thí sinh. Mã chọn đúng một hồ sơ để đối chiếu; bản thân mã không chứng minh người đứng trước camera là chủ hồ sơ. Từ đó bài toán thị giác là so người đang làm thủ tục với ảnh của **hồ sơ đã khai báo**, tức verification 1:1 trong đề xuất T-002. Identification 1:N chỉ cần nếu bỏ bước khai báo; classifier cố định theo từng thí sinh không khớp danh sách thay đổi theo kỳ thi.
 
-**Yêu cầu kéo theo.** Cần tra hồ sơ đúng phiên; camera phải chọn mặt của người vừa khai báo dù có người nền; chất lượng ảnh đủ cho so khớp; hệ thống có kết quả không chắc/retry thay vì ép chấp nhận hoặc từ chối. Các bước này tạo ra S0–S8b trong [phân rã T-005](../02-survey/quoc-an-task-decomposition.md), chưa chọn detector hay encoder ở phase 01.
+**Yêu cầu kéo theo.** Cần tra hồ sơ đúng phiên; camera phải chọn mặt của người vừa khai báo dù có người nền; chất lượng ảnh đủ cho so khớp; hệ thống có kết quả không chắc/retry thay vì ép chấp nhận hoặc từ chối. Các bước này tạo ra S0–S8b trong [phân rã T-005](../02-survey/T-005-quoc-an-task-decomposition.md), chưa chọn detector hay encoder ở phase 01.
 
 ## UC-02/03 → trạng thái nghiệp vụ và ngoại lệ
 

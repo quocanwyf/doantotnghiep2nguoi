@@ -43,7 +43,7 @@ Ví dụ với task T-003, sau khi tạo các file tương ứng:
 
 ```powershell
 git status --short
-git add -- docs/01-problem/minh-hy-proposal.md docs/handoffs/T-003-use-case-minh-hy.md
+git add -- docs/01-problem/T-003-minh-hy-proposal.md docs/handoffs/T-003-use-case-minh-hy.md
 git commit -m "T-003: đề xuất use case của Minh Hy"
 git push -u origin task/T-003-use-case-minh-hy
 ```

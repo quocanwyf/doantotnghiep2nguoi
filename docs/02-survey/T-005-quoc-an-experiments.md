@@ -1,6 +1,6 @@
 # T-005 / Quốc An — Thiết kế benchmark, phân tích lỗi và quyết định tối ưu
 
-**Trạng thái:** kế hoạch thực nghiệm, chưa có kết quả đo, baseline thực chạy, bottleneck hay phương pháp tối ưu đã chọn. Đọc sau [phân rã bài toán](quoc-an-task-decomposition.md), [khảo sát dữ liệu](quoc-an-datasets.md) và [khảo sát phương pháp/model](quoc-an-models.md). Các mốc bên dưới là **cổng quyết định**, không phải kết luận thực nghiệm.
+**Trạng thái:** kế hoạch thực nghiệm, chưa có kết quả đo, baseline thực chạy, bottleneck hay phương pháp tối ưu đã chọn. Đọc sau [phân rã bài toán](T-005-quoc-an-task-decomposition.md), [khảo sát dữ liệu](T-005-quoc-an-datasets.md) và [khảo sát phương pháp/model](T-005-quoc-an-models.md). Các mốc bên dưới là **cổng quyết định**, không phải kết luận thực nghiệm.
 
 ## 1. Hai luồng cần tách
 
