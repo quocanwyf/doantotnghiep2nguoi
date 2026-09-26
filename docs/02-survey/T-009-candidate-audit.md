@@ -15,7 +15,7 @@
 | S7–S8 xác minh người với hồ sơ đã chọn | Identity, cặp genuine/impostor, reference/probe, encoder có weight và preprocessing rõ | Có thể chuẩn bị protocol 1:1; chưa biết FMR/FNMR hoặc threshold |
 | S9–S10 kiểm tra ca/phòng/trùng lượt, ghi nhận và review | Fixture hồ sơ, policy, trạng thái mong đợi | Kiểm thử rule/app riêng; không cần dataset/model mặt |
 
-**Mức bằng chứng dùng trong tài liệu:** `N` = tên/công bố được nêu trong survey; `S` = đã đối chiếu nguồn chính thức, quyền hoặc định dạng được công bố; `F` = đã kiểm tra byte/cấu trúc file thật; `R` = đã mở và chạy inference tối thiểu trên đầu vào tổng hợp. Mức cao hơn **không** có nghĩa là đã có benchmark hay được phép dùng trong mọi mục đích. Với dataset ảnh mặt, T-009 chủ yếu đạt `S`; riêng file protocol cặp XQLFW đạt `F`, nhưng chưa tải ảnh/nhãn định danh. Với vài weight, đạt `F/R` trên máy hiện tại.
+**Mức bằng chứng dùng trong tài liệu:** `N` = tên/công bố được nêu trong survey; `S` = đã đối chiếu nguồn chính thức, quyền hoặc định dạng được công bố; `F` = đã kiểm tra byte/cấu trúc file thật; `R` = đã mở và chạy inference tối thiểu trên đầu vào tổng hợp. Mức cao hơn **không** có nghĩa là đã có benchmark hay được phép dùng trong mọi mục đích. Với dataset ảnh mặt, ở lượt B0 ban đầu T-009 chủ yếu đạt `S`; riêng file protocol cặp XQLFW đạt `F`, nhưng lúc đó chưa tải archive ảnh. Bằng chứng kiểm thêm trong T-010 được ghi riêng ở mục 4.1, không thay đổi mức bằng chứng của lượt B0. Với vài weight, đạt `F/R` trên máy hiện tại.
 
 ## 2. Audit dataset theo vai trò, không theo độ phổ biến
 
@@ -26,7 +26,7 @@ Quyền của **ảnh**, **annotation**, **mã đánh giá** và **trọng số*
 | **WIDER FACE — S3 component** | [Trang tác giả](https://shuoyang1213.me/WIDERFACE/) là nguồn gốc; [Open Model Zoo](https://github.com/openvinotoolkit/open_model_zoo/blob/master/data/datasets.md) mô tả ảnh validation và `wider_face_val_bbx_gt.txt` | Chưa kiểm tra archive, annotation thực và điều khoản ảnh ở lượt này. Ảnh sự kiện không đại diện đầy đủ camera cửa phòng. Không có claim/target S4 | `S` một phần; **cần xác minh** tải/rights/schema rồi mới dùng detection benchmark |
 | **FDDB — S3 external** | [Bài báo gốc](https://people.cs.umass.edu/~elm/papers/fddb.pdf) nêu ellipse annotation và 10 folds | Ellipse cần quy tắc chuyển/đánh giá riêng nếu so bbox. Archive và điều khoản ảnh chưa kiểm tra; không có claim 1:1 | `S` về protocol; **dự phòng**, chưa đưa vào run |
 | **LFW — S8 smoke** | [Nguồn gốc UMass](http://vis-www.cs.umass.edu/lfw/) và protocol cặp ảnh 1:1 đã được T-005 xác định | Trang/ảnh và quyền dùng chưa kiểm tra được bằng file thật; ảnh web đã crop, không đo cửa phòng, detection hoặc S4 | `S` một phần; **chỉ smoke có điều kiện**, không làm bằng chứng triển khai |
-| **XQLFW — S8 stress chất lượng** | [Trang tác giả](https://martlgap.github.io/xqlfw/) công bố 6.000 cặp, 3.743 identity, 7.263 ảnh; [protocol pairs](https://github.com/Martlgap/xqlfw/releases/download/1.0/xqlfw_pairs.txt) tải thật có header `10 300`, 6.000 dòng cặp: 3.000 genuine (3 trường) và 3.000 impostor (4 trường) | Chưa tải ảnh/đối chiếu path pairs hoặc xác minh quyền ảnh trong archive. Ảnh cặp không đo S3/S4; ảnh suy giảm khác miền camera thi | `F` **chỉ với file pairs**; ứng viên stress có điều kiện, kiểm ảnh/path/rights trước T-010 |
+| **XQLFW — S8 stress chất lượng** | [Trang tác giả](https://martlgap.github.io/xqlfw/) công bố 6.000 cặp, 3.743 identity, 7.263 ảnh; [protocol pairs](https://github.com/Martlgap/xqlfw/releases/download/1.0/xqlfw_pairs.txt) tải thật có header `10 300`, 6.000 dòng cặp: 3.000 genuine (3 trường) và 3.000 impostor (4 trường) | Chưa tải ảnh/đối chiếu path pairs hoặc xác minh quyền ảnh trong archive. Ảnh cặp không đo S3/S4; ảnh suy giảm khác miền camera thi | `F` **chỉ với file pairs**; ứng viên stress có điều kiện; kiểm ảnh/path ở bước chuẩn bị T-010, xác minh quyền trước khi dùng ảnh cho thí nghiệm |
 | **YouTube Faces — S8 video 1:1** | [Trang tác giả](https://www.cs.tau.ac.il/~wolf/ytfaces/) công bố 3.425 video/1.595 người, 5.000 cặp và 10 splits, có errata | Tải qua biểu mẫu/credential; gói lớn. Chưa có byte, xác nhận quyền hoặc cách tái lập split đã sửa. Video chủ yếu person-centric, không có claim tại cửa | `S`; **hoãn**, không phụ thuộc vào tập này cho protocol gần hạn |
 | **ChokePoint — S3/video/portal external** | [Trang tác giả](https://arma.sourceforge.net/chokepoint/) công bố 48 sequence, 64.204 ảnh mặt, raw frame/crop/ground truth và G1/G2; [README archive](https://zenodo.org/records/815657/files/README.txt) đã đọc | Nguồn ghi nghiên cứu phi thương mại và yêu cầu trích dẫn. Archive khoảng 12 GB **chưa tải**; cần kiểm mapping nhãn/reference–probe. Đa số frame một người; 2 sequence đông không đủ claim + target label của S4 | `S`; **ứng viên external có điều kiện**, không gọi là full end-to-end test |
 | **DigiFace-1M — S7 nếu phải train/fine-tune** | [Repo tác giả](https://github.com/microsoft/DigiFace1M) nêu cấu trúc identity và nhiều phần tải | [R-UDA license](https://github.com/microsoft/DigiFace1M/blob/main/LICENSE) giới hạn nghiên cứu phi thương mại; synthetic → real gap, chi phí lưu trữ/train. Chưa tải | `S`; **chỉ mở nhánh train nếu experiment cho thấy cần**, không phải dataset mặc định |
@@ -63,13 +63,17 @@ Các file nhị phân được tải **chỉ vào thư mục tạm trên máy ki
 | BlazeFace TFLite / MediaPipe 1.0.0 | Mở Tasks `FaceDetector`, suy luận ảnh đen 320×320 | Mở thành công, 0 mặt; chưa kiểm camera range, landmark mapping |
 | `buffalo_sc.zip` / ONNX Runtime 1.20.1 CPU | Kiểm tên/size ONNX trong zip; mở detector và encoder, suy luận tensor 0 | Detector có score/box/landmark output; encoder `[1, 512]`, giá trị hữu hạn; chưa kiểm preprocess hoặc similarity thật |
 
+### 4.1. Bằng chứng bổ sung từ T-010, không hồi tố kết luận B0
+
+Ngày 2026-09-26, [T-010 (PR #6)](https://github.com/quocanwyf/doantotnghiep2nguoi/pull/6) kiểm thêm archive XQLFW ngoài Git: ZIP mở và kiểm CRC được; 6.000 cặp trong file protocol đều tham chiếu tới ảnh có trong archive. Đây là `F` cho **file ảnh và path của riêng XQLFW**, không phải runtime benchmark, xác nhận quyền dùng ảnh hay bằng chứng cho S3/S4/toàn bộ quy trình cửa phòng. T-010 cũng phát hiện 10 fold chính thức có identity trùng giữa các fold; vì vậy không được gọi chúng là split kiểm tra người chưa thấy. Chi tiết manifest, hash và phạm vi kết luận nằm ở T-010. XQLFW vẫn là **ứng viên stress có điều kiện**, chưa được chọn làm main verification test: quyền ảnh, vai trò protocol và domain gap chưa được giải quyết.
+
 ## 5. Quyết định T-009 và câu hỏi chuyển tiếp
 
 **Quyết định ở cấp survey/B0:**
 
 1. **Đưa vào chuẩn bị B1/B2:** YuNet, BlazeFace full-range, SCRFD-500MF và MBF từ `buffalo_sc` vì đã qua `F/R` trên máy kiểm tra. Đây là quyền được **thử**, không phải chọn cấu hình cuối. Mỗi component phải có wrapper/preprocessing được kiểm trên ảnh phù hợp và quyền dùng được rà lại cho phạm vi đồ án.
 2. **Giữ có điều kiện, chưa chạy B1/B2:** EdgeFace XS, AdaFace R18 và R50 vì chưa xác minh weight/runtime đủ; không đưa các tên này vào bảng điểm như thể đã chạy. RetinaFace mobile là fallback, không mở rộng benchmark vô lý.
-3. **Dữ liệu:** XQLFW và ChokePoint là hai candidate stress/external theo vai trò khác nhau; WIDER FACE là candidate detection. **Chưa chọn main verification test** vì chưa kiểm file ảnh/nhãn/quyền/split. LFW chỉ có thể là smoke; YTF tạm hoãn vì access. Không lấy một dataset làm đại diện tất cả stage.
+3. **Dữ liệu:** XQLFW và ChokePoint là hai candidate stress/external theo vai trò khác nhau; WIDER FACE là candidate detection. **Chưa chọn main verification test**: ở B0 chưa kiểm đủ file ảnh/nhãn/quyền/split; T-010 đã kiểm thêm file/path XQLFW nhưng quyền ảnh, ý nghĩa split và độ phù hợp domain vẫn chưa đủ để khóa main test. LFW chỉ có thể là smoke; YTF tạm hoãn vì access. Không lấy một dataset làm đại diện tất cả stage.
 4. **Không chọn dữ liệu train** khi chưa có kết quả baseline cho thấy cần train/fine-tune. SCface/IJB-C không là dependency. Stage rule/roster có fixture giả lập riêng.
 
 | Câu hỏi phát sinh từ B0 | Việc phải có trước khi trả lời bằng experiment | Chủ trì task tiếp theo |
@@ -84,6 +88,6 @@ Trace quyết định: [T-004 business scope](../00-project/decisions/T-004-D-00
 
 ## 6. Review cần thiết
 
-- Minh Hy kiểm tra các nguồn/quyền và phân loại `giữ có điều kiện`, `hoãn`, `loại khỏi dependency`; đặc biệt WIDER/LFW/XQLFW/ChokePoint chưa có file thật.
-- Nhóm chọn dữ liệu và phương tiện có thể tiếp cận để **thiết kế** protocol T-010. Không lấy bảng này làm tuyên bố đã qua đủ B0 của dataset.
+- Minh Hy kiểm tra các nguồn/quyền và phân loại `giữ có điều kiện`, `hoãn`, `loại khỏi dependency`; WIDER/LFW/ChokePoint chưa có archive ảnh được kiểm ở T-009, còn XQLFW có file pairs và bằng chứng archive bổ sung ở T-010 nhưng quyền ảnh vẫn chưa rõ.
+- Nhóm đối chiếu candidate với protocol T-010 đang được review riêng, rồi xác định dữ liệu và phương tiện thực sự có thể dùng cho thí nghiệm. Không lấy bảng này làm tuyên bố đã qua đủ B0 của dataset.
 - Khi T-008 được review xong, đối chiếu lại ranh giới claim/record resolution, human authority và outcome trước khi khóa thí nghiệm.
