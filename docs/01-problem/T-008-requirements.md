@@ -2,6 +2,23 @@
 
 **Trạng thái:** bản nghiệp vụ đang cùng Quốc An xây dựng; kỳ thi mục tiêu chưa chốt theo phản hồi ngày 2026-09-25. Cần nhóm rà soát các điểm chưa có nguồn. **Phạm vi đã chốt:** [D-001](../00-project/decisions/T-004-D-001-chon-bai-toan-cua-phong-thi.md) chọn bài toán T-002; [D-002](../00-project/decisions/T-007-D-002-chon-huong-khao-sat-t005.md) chọn khảo sát T-005. Tài liệu này xác định hệ thống cần làm gì trước khi khóa giao thức baseline T-010. Nó không chọn dataset, model, ngưỡng xác minh hoặc quy chế cho một kỳ thi cụ thể.
 
+## Nhiệm vụ T-008 — làm gì và để trả lời câu hỏi nào?
+
+**Câu hỏi trung tâm:** Trong một ca thi có danh sách thí sinh theo phòng, khi một người tới cửa khai báo mã, hệ thống và người phụ trách cần làm gì để xác định đúng người, đúng ca/phòng, ghi nhận đúng trạng thái và xử lý sai lệch có thể đối soát?
+
+**Đầu vào đã có:** bài toán/giới hạn từ T-002 và D-001; phân rã stage T-005; các câu hỏi mở của nhóm. Kỳ thi cụ thể, quy chế áp dụng, mốc giờ và quyền duyệt ngoại lệ **chưa được chốt**. Nguồn nào là quyết định nhóm, nguồn nào chỉ là ví dụ tham khảo phải được ghi tách biệt.
+
+**Công việc cần làm:**
+
+1. Mô tả người tham gia, quy trình kiểm tra hiện tại theo thông tin có nguồn, rồi luồng mục tiêu **trước ca → từng lượt tại cửa → sau ca**. Chỗ chưa có quan sát thực tế phải ghi là giả định cần xác minh.
+2. Với lượt thường lệ và từng ngoại lệ (mã/hồ sơ lỗi, ảnh kém, không khớp, sai phòng/ca, đến muộn, trùng lượt, chưa đến, lỗi thiết bị), ghi theo cùng khuôn: **input/bối cảnh → điều kiện/quy tắc → output/trạng thái → ai xử lý → vết cần lưu → bước kế**. Không dùng một nhãn chung che nhiều nguyên nhân khác nhau.
+3. Xác định dữ liệu nghiệp vụ tối thiểu và nguồn/chủ thể được sửa; tách tình trạng hồ sơ, kết quả một lần thử và trạng thái hiện diện sau ca. Nêu ranh giới máy tự xử lý và quyết định phải chuyển người có quyền.
+4. Suy mục tiêu đo và rủi ro từ nghiệp vụ: nhận nhầm, từ chối nhầm, hàng chờ, retry/manual, ghi trùng, vắng sai. Ghi câu hỏi và biến chính sách còn mở để T-009 kiểm tra dữ liệu và T-010 khóa giao thức/tiêu chí chấp nhận.
+
+**Đầu ra:** một file [T-008-requirements.md](T-008-requirements.md) dễ đọc, có luồng và bảng tình huống đủ để người khác đi từ bài toán tới các yêu cầu BR và biết vì sao T-009/T-010 tồn tại. Bố cục, sơ đồ và mức gộp bảng có thể đổi sau khi Quốc An nghiên cứu cách trình bày; các mục 1–9 bên dưới là **bản nháp nội dung**, không phải khuôn bắt buộc.
+
+**Điều kiện hoàn tất:** luồng thường lệ và ngoại lệ được mô tả nhất quán; mỗi kết quả có người chịu trách nhiệm và cách ghi vết; yêu cầu có nguồn hoặc được đánh dấu giả định; những quy tắc chưa chốt nằm trong danh sách câu hỏi; Quốc An rà soát nội dung, Minh Hy review theo workflow. T-008 không chọn dataset, model, threshold, thuật toán tối ưu hay khẳng định áp dụng được cho một kỳ thi cụ thể.
+
 ## 1. Vấn đề, mục tiêu và giới hạn bằng chứng
 
 Theo [đề xuất T-002](T-002-quoc-an-proposal.md), khâu kiểm tra đầu vào hiện cần đối chiếu người đến với hồ sơ, phòng và ca, rồi ghi nhận. Việc này lặp lại ở nhiều cửa phòng; người đến muộn, nhầm phòng và trường hợp chưa đến cần được theo dõi để đối soát. Quy trình thực tế, số người bố trí và thời gian xử lý của **kỳ thi mục tiêu** chưa được khảo sát, nên đây là mô tả bối cảnh của nhóm, chưa phải số đo hiện trường.
