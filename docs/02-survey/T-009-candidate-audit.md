@@ -2,6 +2,8 @@
 
 **Ngày kiểm tra:** 2026-09-26. **Người thực hiện:** Quốc An. **Trạng thái:** bàn giao để Minh Hy review; chưa chọn dataset, model, cấu hình hoặc giao thức đánh giá cuối cùng.
 
+Nguồn và vị trí dùng lại khi viết báo cáo được ghi trong [sổ nguồn T-009](T-009-source-register.md).
+
 ## 1. Câu hỏi và ranh giới
 
 [T-007](T-007-selection.md) chọn **hướng nghiên cứu T-005** cho bài toán cửa phòng thi, chứ không chọn các tên dataset/model trong T-005 làm giải pháp cuối. T-009 kiểm tra cổng **B0 — khả dụng**: nguồn, quyền dùng được công bố, file/annotation, trọng số, input/output, preprocessing và khả năng mở/chạy thử. B0 chỉ xác định candidate nào có thể tiếp tục chuẩn bị thí nghiệm; kết quả chạy trên dữ liệu thật thuộc task sau.

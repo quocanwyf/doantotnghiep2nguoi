@@ -17,7 +17,7 @@ Các tài liệu trên **thay cho** bản khảo sát một file trước đây.
 
 ## T-009 — Audit khả dụng trước thí nghiệm
 
-[T-009: kiểm tra dataset và trọng số ứng viên](T-009-candidate-audit.md) ghi nguồn, quyền được công bố, mức kiểm file/runtime thực tế và khoảng trống còn lại. Một số weight đã mở/chạy với đầu vào tổng hợp; dataset ảnh chưa được tải/parse đầy đủ. Tài liệu này lọc **candidate để chuẩn bị thí nghiệm**, chưa chọn dataset/model cuối hoặc báo performance. T-008 đang được review ở [PR riêng](https://github.com/quocanwyf/doantotnghiep2nguoi/pull/3), nên mapping nghiệp vụ cần kiểm lại khi baseline ổn định.
+[T-009: kiểm tra dataset và trọng số ứng viên](T-009-candidate-audit.md) ghi nguồn, quyền được công bố, mức kiểm file/runtime thực tế và khoảng trống còn lại. Một số weight đã mở/chạy với đầu vào tổng hợp; dataset ảnh chưa được tải/parse đầy đủ. [Sổ nguồn T-009](T-009-source-register.md) ghi link, mục/trang nguồn và lý do giữ, hoãn hoặc cần điều kiện để tái sử dụng khi viết báo cáo. Tài liệu audit lọc **candidate để chuẩn bị thí nghiệm**, chưa chọn dataset/model cuối hoặc báo performance. T-008 đang được review ở [PR riêng](https://github.com/quocanwyf/doantotnghiep2nguoi/pull/3), nên mapping nghiệp vụ cần kiểm lại khi baseline ổn định.
 
 ## Cổng chuyển sang thực nghiệm sau T-007
 
