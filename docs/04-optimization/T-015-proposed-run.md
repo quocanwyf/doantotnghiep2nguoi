@@ -1,6 +1,6 @@
 # T-015 — Chạy thử S4 theo protocol T-014
 
-**Trạng thái:** đã chạy T-015, chờ phân tích trade-off T-016; không chọn cấu hình triển khai. **Người thực hiện:** Quốc An. **Protocol bất biến:** [T-014](T-014-method-protocol.md). **Vai trò:** đo B0/P1/P2 trên proxy XQLFW; không đại diện lượt check-in thật hoặc quyết định cho vào phòng.
+**Trạng thái:** đã chạy và báo cáo T-015; PR chờ review sai khác thao tác gán điểm tâm so với T-014 trước khi đóng task. Không chọn cấu hình triển khai. **Người thực hiện:** Quốc An. **Protocol bất biến:** [T-014](T-014-method-protocol.md). **Vai trò:** đo B0/P1/P2 trên proxy XQLFW; không đại diện lượt check-in thật hoặc quyết định cho vào phòng.
 
 ## 1. Câu hỏi và thứ tự thực hiện
 
