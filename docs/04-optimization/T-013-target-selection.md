@@ -1,6 +1,6 @@
 # T-013 — Kiểm tính khả thi của phép thử chọn đúng mặt mục tiêu S4
 
-**Trạng thái:** pilot khả thi, đề xuất chọn **S4 chọn mặt mục tiêu** làm điểm cải thiện chính để thiết kế protocol T-014; cần nhóm kiểm lại nhãn trước khi báo benchmark. Chưa chọn phương pháp S4 hay thuật toán tối ưu. **Người phụ trách:** Quốc An; Minh Hy review theo Sheet. **Phạm vi dữ liệu:** dùng ảnh công khai đã có, không thu ảnh/video kỳ thi.
+**Trạng thái:** đã audit pilot 24 cảnh một lượt và ghi tiêu chí giữ/loại; đề xuất chọn **S4 chọn mặt mục tiêu** làm điểm cải thiện chính để thiết kế protocol T-014; cần nhóm kiểm lại nhãn trước khi báo benchmark. Chưa chọn phương pháp S4 hay thuật toán tối ưu. **Người phụ trách:** Quốc An; Minh Hy review theo Sheet. **Phạm vi dữ liệu:** dùng ảnh công khai đã có, không thu ảnh/video kỳ thi.
 
 ## Vì sao cần bước này
 
@@ -47,8 +47,31 @@ Chạy đúng detector B0 trên 24 reference target-present: **20/24** ảnh có
 
 Ảnh XQLFW trong pilot là JPG 250×250 có người nền nhỏ, ảnh mờ và góc nhìn khác nhau; chúng là proxy học thuật hợp lý cho câu hỏi **chọn mặt từ nhiều detection**, không đại diện tần suất lỗi tại cửa phòng thi. Những identity/ảnh đã xem trong pilot là **development**, không được tái dùng làm test khóa. File ảnh, tên identity, bbox và phân loại từng mẫu chỉ ở thư mục tạm ngoài Git; [handoff T-013](../handoffs/T-013-s4-feasibility.md) ghi cách tạo lại và giới hạn.
 
+## Audit 24 cảnh pilot: tiêu chí giữ/loại
+
+Audit này xét **ảnh scene gốc cùng reference gốc**, không dùng điểm tương đồng hay vị trí box của B0 để suy ra danh tính. Mã `sample-01`…`sample-24` là thứ tự chọn mẫu cố định; ảnh, tên người và box chi tiết vẫn ở thư mục tạm ngoài Git. Đây là một lượt audit bởi Codex, **chưa phải nhãn độc lập được nhóm xác nhận**.
+
+| Quyết định audit | Tiêu chí | Xử lý |
+|---|---|---|
+| Giữ tạm cho `target-present` nhiều người | Scene có ít nhất hai người thật có mặt nhìn được; reference khác ảnh scene; bằng mắt có thể chỉ **duy nhất một** người tương ứng với reference mà không dựa vào kết quả S4/B0. | Đủ tư cách làm ứng viên benchmark; người thứ hai phải xác nhận mặt mục tiêu trên ảnh gốc trước khi khóa nhãn. |
+| Tạm giữ, chưa gán nhãn | Có nhiều người nhưng mặt trong scene hoặc reference quá mờ/che/cắt; hai người có thể bị nhầm, hoặc không thể khẳng định target hiện diện. | Ghi `ambiguous`; không chấm đúng/sai và không lén chuyển sang `target-absent`. Có thể thử reference khác cùng identity ở T-014, nhưng phải ghi rõ thay đổi. |
+| Loại khỏi tập **nhiều người** | Detection thứ hai là ảnh nền/box thừa hoặc không xác nhận được một người thứ hai trong scene. | Báo riêng lỗi detector/scene; không tính vào mẫu số phép so S4 nhiều người. Vẫn giữ record audit để giải thích việc loại. |
+| Ứng viên `target-absent` | Reference từ identity khác và kiểm bằng mắt rằng không người nào trong scene là identity đó. | Chỉ khóa nhãn `NONE` sau khi người kiểm độc lập xác nhận; tên thư mục khác nhau tự nó không chứng minh vắng mặt. |
+
+| Mã mẫu | Kết luận audit một lượt | Lý do/xử lý |
+|---|---|---|
+| `01, 02, 04, 06–18, 20, 22–24` (20 cảnh) | **Giữ tạm**: nhiều người, target-present có thể chỉ một mặt. | Không phải nhãn cuối; `sample-11` cho thấy target không nhất thiết ở detection đầu. Trong 20 cảnh này, 16 reference hiện có chỉ có một detection khi chạy B0; 4 reference còn lại cần báo riêng hoặc thay reference trước phép đo toàn pipeline. |
+| `03` | **Tạm giữ — không gán chắc.** | Mặt/người ở rìa scene bị cắt; reference quá mờ so với các mặt trong scene. Không thể chỉ một target duy nhất đáng tin. |
+| `19` | **Tạm giữ — không gán chắc.** | Reference mờ và người ở rìa scene chỉ hiện một phần; chưa thể xác nhận đúng người nào. |
+| `21` | **Tạm giữ — không gán chắc.** | Scene mờ, mặt mục tiêu có thể nhầm với người ở nền; đối chiếu reference chưa đủ chắc. |
+| `05` | **Loại khỏi tập nhiều người.** | Chỉ thấy một người thật rõ trong scene; detection thêm gắn với chi tiết/ảnh nền. Giữ ở nhóm lỗi extra detection. |
+
+Với 24 reference khác identity dùng cho ca absent, lượt xem sơ bộ **không thấy** người của reference trong scene; **0/24 nhãn absent được coi là đã xác nhận độc lập**. Vì vậy pilot hiện có **20 ca present đủ hứa hẹn, 3 ca present chưa thể gán chắc, 1 ca không thuộc tập nhiều người**, cùng 24 ca absent *ứng viên*; đây không phải tỷ lệ hiệu năng và không ngoại suy sang 908 ảnh nhiều detection của B0. Những cảnh mơ hồ vẫn nằm trong audit denominator 24, nhưng sẽ không nằm trong denominator chấm chọn target nếu không được giải quyết trước khi khóa benchmark.
+
+**Điều kiện hoàn tất nhãn:** người kiểm thứ hai xem scene/reference gốc, độc lập ghi `present + mặt mục tiêu`, `absent`, `ambiguous` hoặc `không nhiều người`, kèm lý do khi bất đồng. Nếu hai lượt không thống nhất, giữ `ambiguous` hoặc cùng xem lại trước khi khóa; không dùng dự đoán của candidate để phân xử. T-014 sẽ quy định protocol/split/metric và cách xử lý các ca còn thiếu sau audit này, rồi mới chạy so S4 với B0.
+
 ## Quyết định đề xuất cho bước sau
 
-Pilot cho thấy **có thể dựng nhãn target-present và target-absent từ ảnh công khai** mà không cần sự kiện gõ mã thật: reference mô phỏng hồ sơ đã khai, scene giữ các mặt nền. Vì S4 trực tiếp nối nhu cầu nghiệp vụ với nhánh B0 đang `unresolved` khi nhiều mặt, **chọn S4 làm mục tiêu cải thiện chính để thiết kế T-014**. Đây là quyết định về *câu hỏi có thể đo*, không phải chọn cách chọn mặt, model, threshold hay tuyên bố cải thiện.
+Pilot cho thấy **có triển vọng dựng nhãn target-present và target-absent từ ảnh công khai**, sau bước xác nhận độc lập mà không cần sự kiện gõ mã thật: reference mô phỏng hồ sơ đã khai, scene giữ các mặt nền. Vì S4 trực tiếp nối nhu cầu nghiệp vụ với nhánh B0 đang `unresolved` khi nhiều mặt, **chọn S4 làm mục tiêu cải thiện chính để thiết kế T-014**. Đây là quyết định về *câu hỏi có thể đo*, không phải chọn cách chọn mặt, model, threshold hay tuyên bố cải thiện.
 
-Trước run so B0/proposed, T-014 phải (1) kiểm lại nhãn bằng người review độc lập, (2) mở rộng mẫu target-present/absent và một/nhiều mặt với identity-disjoint development/evaluation, (3) định nghĩa riêng trường hợp target có mặt nhưng detector bỏ sót và case reference không hợp lệ, (4) giữ cùng scene/reference/detector/encoder khi chỉ thử S4, (5) báo đúng/sai/chưa kết luận trên toàn bộ mẫu và hậu quả FA/FR sau verification. Nếu nhãn mở rộng không đạt độ tin cậy, dùng dữ liệu ghép có kiểm soát **như một proxy riêng**, hoặc quay lại mục tiêu B0 khác; không chạy candidate S4 trên nhãn suy từ chính model.
+Trước run so B0/proposed, T-014 phải (1) quy định kiểm nhãn độc lập và phân xử bất đồng từ audit T-013, (2) mở rộng mẫu target-present/absent và một/nhiều mặt với identity-disjoint development/evaluation, (3) định nghĩa riêng trường hợp target có mặt nhưng detector bỏ sót và case reference không hợp lệ, (4) giữ cùng scene/reference/detector/encoder khi chỉ thử S4, (5) báo đúng/sai/chưa kết luận trên toàn bộ mẫu và hậu quả FA/FR sau verification. Nếu nhãn mở rộng không đạt độ tin cậy, dùng dữ liệu ghép có kiểm soát **như một proxy riêng**, hoặc quay lại mục tiêu B0 khác; không chạy candidate S4 trên nhãn suy từ chính model.
