@@ -26,7 +26,7 @@
 
 - **T-015 đã chạy proxy S4:** [báo cáo T-015](../04-optimization/T-015-proposed-run.md) ghi 64 scene mỗi split, nhãn self-confirm trước score candidate, 43/37 present/absent dùng được trên development và 41/35 trên evaluation. Trên evaluation P2 chọn đúng 35/41 present, không chọn đúng 33/35 absent, còn 6 present unresolved và 2 absent false-selection; P1 chọn đúng 40/41 present nhưng false-select 35/35 absent. Đây là kết quả proxy XQLFW, không là tỷ lệ tại cửa phòng. Sai khác thao tác điểm tâm nhãn và giới hạn self-review được ghi trong báo cáo; PR T-015 chờ review điểm này trước khi đóng task. T-016 phải phân tích lỗi/trade-off trước quyết định kỹ thuật.
 
-- **T-016 đã phân tích output T-015:** [so sánh và lỗi S4](../05-evaluation/T-016-comparison-ablation.md) phân nhóm 6 present unresolved và 2 absent false-selection của P2, tách lỗi chọn mặt khỏi verification, xem score/gap và giới hạn nhãn. Kết luận giữ selective S4 làm hướng ứng viên, chưa chốt P2; đề xuất một task rerun sạch riêng trước khi xem xét quyết định cuối.
+- **T-016 [PR #13](https://github.com/quocanwyf/doantotnghiep2nguoi/pull/13) đã phân tích output T-015:** [so sánh và lỗi S4](../05-evaluation/T-016-comparison-ablation.md) phân nhóm 6 present unresolved và 2 absent false-selection của P2, tách lỗi chọn mặt khỏi verification, xem score/gap và giới hạn nhãn. Kết luận giữ selective S4 làm hướng ứng viên, chưa chốt P2; đề xuất một task rerun sạch riêng trước khi xem xét quyết định cuối.
 
 ## Chưa có bằng chứng để chốt kỹ thuật cuối
 
