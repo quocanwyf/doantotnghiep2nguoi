@@ -1,0 +1,10 @@
+# Logic quyết định — 04: điểm cải thiện và phương pháp
+
+## T-012 → T-013: vì sao chọn câu hỏi S4
+
+[D-001](../00-project/decisions/T-004-D-001-chon-bai-toan-cua-phong-thi.md) chọn kiểm tra đầu vào tại cửa phòng; [T-008](../01-problem/T-008-requirements.md) yêu cầu nối hồ sơ đã khai với đúng người hiện diện rồi mới xác minh 1:1. [B0 T-012](../03-baseline/T-012-B0-pipeline-choice.md) trả `unresolved` khi ảnh có 0 hoặc nhiều detection. [Chẩn đoán](../03-baseline/T-012-B0-freeze-and-stage-diagnosis.md) ghi 1.785/6.000 cặp XQLFW chưa chấm, trong đó 1.399 có ảnh nhiều detection; đó là dấu hiệu coverage trên dữ liệu web, không là tỷ lệ cửa phòng.
+
+**Question trước solution:** dữ liệu có sẵn có đủ để tự xác nhận có kiểm soát `reference A + scene nhiều mặt → mặt của A hoặc NONE` mà không lấy model làm ground truth duy nhất không? [Pilot T-013](T-013-target-selection.md) chọn cố định 24 scene: audit ảnh gốc thấy 20 nhiều người có target rõ, 3 mơ hồ, 1 detection thừa. [Quy trình self-confirm](T-013-self-confirm-protocol.md) khóa trước khi xem điểm embedding: kiểm metadata XQLFW, ảnh gốc, rồi mới dùng rank MobileFaceNet làm tín hiệu phụ. Kết quả **16/24 present** và **13/24 absent** nhất quán ở mức proxy; phần còn lại `AMBIGUOUS` hoặc không thuộc tập nhiều người. Nguồn đủ để đi tiếp T-014 thiết kế S4; không có người gán nhãn độc lập, nên pilot chỉ là development và có nguy cơ thiên lệch về B0. Không chọn model/threshold S4 từ kết quả này.
+## T-013 → T-014: điều phải thiết kế tiếp
+
+T-014 mới đặt phương pháp S4, biến và protocol. B0 A0 phải chạy trên cùng scene/reference và cùng detector/encoder; so `correct-target / wrong-target / unresolved` cho target-present và target-absent, rồi nếu nối verification thì báo FA/FR/coverage cùng mẫu số. Lợi ích coverage không che lỗi chọn sai. Dữ liệu pilot đã xem chỉ dành development; evaluation tách identity và không chọn threshold bằng test. Nguồn XQLFW là proxy học thuật, không biến thành transaction thật hoặc bằng chứng giảm nhân sự. Nếu nhãn mở rộng không đủ, ghi `not runnable` cho phép so có kết luận và quay lại nhánh cải thiện B0 khác có thể đo.
