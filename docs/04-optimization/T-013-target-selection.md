@@ -68,7 +68,7 @@ Audit này xét **ảnh scene gốc cùng reference gốc**, không dùng điể
 
 Với 24 reference khác identity dùng cho ca absent, lượt xem sơ bộ **không thấy** người của reference trong scene; **0/24 nhãn absent được coi là đã xác nhận độc lập**. Vì vậy pilot hiện có **20 ca present đủ hứa hẹn, 3 ca present chưa thể gán chắc, 1 ca không thuộc tập nhiều người**, cùng 24 ca absent *ứng viên*; đây không phải tỷ lệ hiệu năng và không ngoại suy sang 908 ảnh nhiều detection của B0. Những cảnh mơ hồ vẫn nằm trong audit denominator 24, nhưng sẽ không nằm trong denominator chấm chọn target nếu không được giải quyết trước khi khóa benchmark.
 
-**Điều kiện hoàn tất nhãn:** người kiểm thứ hai xem scene/reference gốc, độc lập ghi `present + mặt mục tiêu`, `absent`, `ambiguous` hoặc `không nhiều người`, kèm lý do khi bất đồng. Nếu hai lượt không thống nhất, giữ `ambiguous` hoặc cùng xem lại trước khi khóa; không dùng dự đoán của candidate để phân xử. T-014 sẽ quy định protocol/split/metric và cách xử lý các ca còn thiếu sau audit này, rồi mới chạy so S4 với B0.
+**Điều kiện hoàn tất nhãn:** theo [gói và biểu mẫu kiểm độc lập](T-013-independent-label-review.md), người kiểm thứ hai xem scene/reference gốc, độc lập ghi `present + mặt mục tiêu`, `absent`, `ambiguous` hoặc `không nhiều người`, kèm lý do khi bất đồng. Nếu hai lượt không thống nhất, giữ `ambiguous` hoặc cùng xem lại trước khi khóa; không dùng dự đoán của candidate để phân xử. T-014 sẽ quy định protocol/split/metric và cách xử lý các ca còn thiếu sau audit này, rồi mới chạy so S4 với B0.
 
 ## Quyết định đề xuất cho bước sau
 
