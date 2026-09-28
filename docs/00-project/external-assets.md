@@ -66,3 +66,15 @@ Các tài sản ngoài Git đang cần cho T-011 được ghi bên dưới.
 - Trạng thái: Chưa gửi; không đưa ảnh/annotation archive vào Git.
 - Vị trí lưu: thư mục tạm ngoài Git của máy chạy.
 - Ngày cập nhật: 2026-09-27.
+
+
+## A-005 — Private manifests và raw S4 T-015/T-016
+
+- Task liên quan: T-013, T-014, T-015, T-016.
+- Mục đích và cách dùng: split/scene/visual self-review/label audit, frozen P2 và raw từng trial để replay mô tả T-016; không công bố ảnh, tên identity hoặc embedding.
+- Tên/phiên bản: `T-015-scenes-v1` và contact sheets `T-015-review-sheets-v1` ngoài Git; T-016 chỉ đọc, không sửa.
+- SHA-256 file trọng yếu: scene manifest `ae80423e479d616052a2bf2cc5a24d2dd45519bb12957525e33f8ab45b769c74`; label `747f9f0877b92c9f87fbceec944e4de5132c393cfa766f44fd6c9ea9ce333785`; development raw `ff1f98c177ddd70f79ca24365ba16a5b7045234a68c98bd090016452dc269fbd`; frozen P2 `a63f64d7fa6cfe4d3d98f2d52c10a30d7bb8445b20de8b0e6b4780ff1ff7980d`; evaluation raw `bfb452355ba038ea935b54e4daf1df76c01d28d1b437839dc3f4daaa579d1209`.
+- Người giữ và người cần nhận: bản trên máy chạy của Quốc An; Minh Hy cần nhận riêng nếu muốn replay/audit ảnh.
+- Trạng thái: Chưa gửi; chỉ có bản cục bộ trong thư mục tạm, chưa có lưu trữ bền được xác nhận.
+- Vị trí lưu: Temp ngoài Git của máy chạy; đường dẫn cụ thể trong [handoff T-015](../handoffs/T-015-s4-proxy-run.md), trao riêng khi cần.
+- Ngày cập nhật: 2026-09-28.

@@ -26,6 +26,8 @@
 
 - **T-015 đã chạy proxy S4:** [báo cáo T-015](../04-optimization/T-015-proposed-run.md) ghi 64 scene mỗi split, nhãn self-confirm trước score candidate, 43/37 present/absent dùng được trên development và 41/35 trên evaluation. Trên evaluation P2 chọn đúng 35/41 present, không chọn đúng 33/35 absent, còn 6 present unresolved và 2 absent false-selection; P1 chọn đúng 40/41 present nhưng false-select 35/35 absent. Đây là kết quả proxy XQLFW, không là tỷ lệ tại cửa phòng. Sai khác thao tác điểm tâm nhãn và giới hạn self-review được ghi trong báo cáo; PR T-015 chờ review điểm này trước khi đóng task. T-016 phải phân tích lỗi/trade-off trước quyết định kỹ thuật.
 
+- **T-016 [PR #13](https://github.com/quocanwyf/doantotnghiep2nguoi/pull/13) đã phân tích output T-015:** [so sánh và lỗi S4](../05-evaluation/T-016-comparison-ablation.md) phân nhóm 6 present unresolved và 2 absent false-selection của P2, tách lỗi chọn mặt khỏi verification, xem score/gap và giới hạn nhãn. Kết luận giữ selective S4 làm hướng ứng viên, chưa chốt P2; đề xuất một task rerun sạch riêng trước khi xem xét quyết định cuối.
+
 ## Chưa có bằng chứng để chốt kỹ thuật cuối
 
 T-005 **hoàn thiện phần phân tích/survey**. Quốc An xác nhận T-008 đủ mốc bài toán cho nghiên cứu và T-009/T-010 hoàn tất phạm vi hiện tại; góp ý nghiệp vụ chi tiết của T-008 để khi xây app. T-011/T-012 đã kiểm nguồn/file, pin cấu hình, chạy E1/E2/M1 tham chiếu, chọn B0 và chẩn đoán lỗi; vẫn chưa có main test phù hợp miền cửa phòng thi, phép đo trên thiết bị đích hoặc kiểm E3/app để chốt kỹ thuật cuối. Model/dataset triển khai, threshold và mobile stack vẫn là câu hỏi giai đoạn sau. Chưa có pilot để tuyên bố giảm nhân sự; dữ liệu công khai và fixture giả lập không thay thế đánh giá tại kỳ thi thật.
@@ -34,7 +36,7 @@ T-005 **hoàn thiện phần phân tích/survey**. Quốc An xác nhận T-008 �
 
 ## Bước tiếp theo theo thứ tự
 
-1. **T-016 phân tích T-015:** so paired B0/P1/P2 trên đúng sample đã khóa, rà 6 present unresolved và 2 absent false-selection của P2, lượng hóa trade-off coverage/lỗi/chi phí và sai khác protocol; chưa chỉnh threshold theo evaluation hoặc chốt model.
+1. **Xác nhận sạch S4 trước T-017:** đề xuất task rerun riêng trên holdout chưa xem, gán điểm mặt độc lập trước khi nối box, giữ nguyên P1/P2 và `τ,δ` frozen; không thay T-015. Nếu nguồn có sẵn không đủ nhãn absent tin cậy, ghi giới hạn thay vì ép quyết định.
 2. **Bằng chứng triển khai còn thiếu:** main test xác minh gần miền cửa phòng, thiết bị đích để đo encoder/attempt, E3/app logic theo policy sau và As-Is thực địa nếu muốn tuyên bố giảm công sức. Không lấy timing GitHub runner làm kết luận triển khai.
 3. **Experiment rồi mới chốt kỹ thuật:** từ uncertainty và rủi ro T-012, đặt điều kiện kiểm và acceptance criteria trước experiment; dùng kết quả đó để cân nhắc candidate/configuration, threshold và kiến trúc app.
 
