@@ -1,6 +1,6 @@
 # T-015 — Chạy thử S4 theo protocol T-014
 
-**Trạng thái:** đang chạy; mốc khóa nhãn trước score P1/P2. **Người thực hiện:** Quốc An. **Protocol bất biến:** [T-014](T-014-method-protocol.md). **Vai trò:** đo B0/P1/P2 trên proxy XQLFW; không đại diện lượt check-in thật hoặc quyết định cho vào phòng.
+**Trạng thái:** đang chạy; nhãn và tham số development đã khóa, evaluation chưa mở. **Người thực hiện:** Quốc An. **Protocol bất biến:** [T-014](T-014-method-protocol.md). **Vai trò:** đo B0/P1/P2 trên proxy XQLFW; không đại diện lượt check-in thật hoặc quyết định cho vào phòng.
 
 ## 1. Câu hỏi và thứ tự thực hiện
 
@@ -29,11 +29,21 @@ Manifest private gồm tên ảnh, ảnh gốc, nhãn và score R50 lưu tại `
 - Scene/reference manifest: `ae80423e479d616052a2bf2cc5a24d2dd45519bb12957525e33f8ab45b769c74`.
 - Locked label audit manifest: `747f9f0877b92c9f87fbceec944e4de5132c393cfa766f44fd6c9ea9ce333785`.
 
-**Chưa có kết quả P1/P2 tại mốc này.** Bất kỳ outcome nào dưới đây chỉ được ghi sau khi run thực tế với manifest nhãn trên. Nếu checksum thay đổi, dừng và điều tra; không cập nhật manifest theo score model.
+Ở **commit mốc nhãn `d1e8cb7`**, chưa có kết quả P1/P2. Bất kỳ outcome nào dưới đây được tạo **sau** mốc đó với manifest nhãn trên. Nếu checksum thay đổi, dừng và điều tra; không cập nhật manifest theo score model.
 
 ## 3. Development và khóa P2
 
-Chưa chạy. Sẽ ghi số scene/cặp hợp lệ và mọi outcome B0/P1; tìm toàn bộ midpoint grid của top-score `τ` và top-two gap `δ` theo [T-014](T-014-method-protocol.md), tối đa 16.900 cấu hình. Chỉ cấu hình có 0 wrong-target present và 0 false selection absent trên development được xét; chọn max correct-target present, hòa ưu tiên `τ` lớn hơn rồi `δ` lớn hơn. Khóa tham số, phiên bản mã và hash nhãn trước evaluation.
+[Script run](../../scripts/t015_s4_run.py) chạy trên **43 present và 37 absent self-confirm** của development. Mỗi scene/ref giữ nguyên SCRFD-500MF, landmark/crop 112, MobileFaceNet trong `buffalo_sc`, L2/cosine; chỉ S4 khác nhau. Cả 43 scene present đều có ≥2 detection (35 scene có 2, 7 có 3, 1 có 4); không có single-face trong tập chọn theo protocol.
+
+| Nhánh | Present correct / wrong / unresolved (N=43) | Absent no-select / false-select (N=37) |
+|---|---:|---:|
+| B0/A0 | 0 / 0 / 43 | 37 / 0 |
+| P1 top-1 | 43 / 0 / 0 | 0 / 37 |
+| P2 chọn trên development | 40 / 0 / 3 | 37 / 0 |
+
+Grid có **81 mốc `τ` × 81 mốc `δ` = 6.561 cấu hình**, kiểm hết; 4.815 cấu hình đạt ràng buộc 0 wrong-target present và 0 false-selection absent của development. Theo tie-break đã định trước, khóa **`τ = 0,14789717107158995`**, **`δ = 0,07647264965285691`**. Đây là tham số nghiên cứu, không là ngưỡng cho vào phòng thi hoặc bảo đảm 0 lỗi ngoài development.
+
+Raw development từng scene/ref có scores, outcome và thời gian ở Temp ngoài Git; SHA-256 `ff1f98c177ddd70f79ca24365ba16a5b7045234a68c98bd090016452dc269fbd`. SHA-256 mã run **trước evaluation** `70f6bbd2f1c6dafa2b433779905df6539149a1c3c415a117aa76f84c2100fd3a`. File cấu hình khóa riêng lưu cùng thư mục Temp; SHA-256 `a63f64d7fa6cfe4d3d98f2d52c10a30d7bb8445b20de8b0e6b4780ff1ff7980d`. Các giá trị hash/tham số ở đây được commit **trước khi chạy evaluation**; mọi thay đổi code/nhãn sau đó phải dừng, không chạy lại tìm tham số theo evaluation.
 
 ## 4. Evaluation và kết luận
 
