@@ -1,0 +1,11 @@
+# Bàn giao T-021 — yêu cầu rủi ro và protocol S8
+
+- **Ngày/người:** 2026-09-29; Quốc An (Codex hỗ trợ), Minh Hy review ranh giới app–AI.
+- **Đầu vào:** [T-020](../05-evaluation/T-020-s4-s8-integration.md) cho thấy 2/41 absent proxy P2 false-select rồi S8 accept vì cùng cosine và `θ S8 < τ P2`. Không dùng holdout T-017 để chọn cấu hình mới.
+- **Đầu ra:** [protocol T-021](../05-evaluation/T-021-s8-risk-protocol.md), cập nhật [logic quyết định](../05-evaluation/DECISION_LOGIC.md) và [trạng thái](../00-project/status.md); [script kiểm kê metadata](../../scripts/t021_s8_inventory.py) chỉ in số aggregate, không xuất ảnh/identity/score.
+- **Quyết định phạm vi:** Quốc An xác nhận chưa có giới hạn false accept số cho demo (`α=TBD`). T-021 hoàn tất **thiết kế risk/protocol**, không chốt ngưỡng S8, model mới hoặc tự động accept. Ngưỡng tương lai phải chọn trên development theo risk cap đã định, trước một lượt evaluation; hard negative sau S4 phải báo riêng negative pair thường.
+- **Kiểm kê nguồn:** split T-014 SHA `23542240…6692e2`; scene manifest T-015/T-017 SHA `ae80423e…69c74`/`5ca44481…58290`. Loại mọi identity nguồn từ scene/reference T-015/T-017: còn 2.481 development identity với 3.162 pair tiềm năng và 875 evaluation identity với 613 pair. Chưa lọc detector hoặc audit hard-negative label; không gọi là dataset đã khóa.
+- **Cách kiểm:** `python -m py_compile scripts/t021_s8_inventory.py`; chạy script với XQLFW zip/pair, model zip và ba manifest local. Script pin SHA, chỉ đọc metadata và đếm aggregate. `git diff --check` trước push. Không có phép inference/evaluation mới ở T-021.
+- **Giới hạn:** XQLFW không có identity đầy đủ mọi người nền; label absent self-confirm; số hard negative sau P2 chưa biết. Không có ảnh cửa phòng hoặc thiết bị đích. Không lấy NIST FMR chuẩn từ ứng dụng khác làm policy kỳ thi này.
+- **Bước sau:** khóa manifest/nhãn tập thử mới, xác nhận đủ hard negative và risk cap/authority; nếu thiếu thì giữ AI ở mức hỗ trợ người xử lý. Không tune P2 hay dùng T-017 để chọn threshold mới.
+- **PR/Sheet:** [PR #16](https://github.com/quocanwyf/doantotnghiep2nguoi/pull/16) mở sau PR #15, chưa merge. Sheet T-021 ghi hoàn tất **phạm vi thiết kế** và nêu rõ `α=TBD`, chưa có run evaluation mới.
