@@ -8,3 +8,4 @@
 - **Cách kiểm:** `python -m py_compile scripts/t021_s8_inventory.py`; chạy script với XQLFW zip/pair, model zip và ba manifest local. Script pin SHA, chỉ đọc metadata và đếm aggregate. `git diff --check` trước push. Không có phép inference/evaluation mới ở T-021.
 - **Giới hạn:** XQLFW không có identity đầy đủ mọi người nền; label absent self-confirm; số hard negative sau P2 chưa biết. Không có ảnh cửa phòng hoặc thiết bị đích. Không lấy NIST FMR chuẩn từ ứng dụng khác làm policy kỳ thi này.
 - **Bước sau:** khóa manifest/nhãn tập thử mới, xác nhận đủ hard negative và risk cap/authority; nếu thiếu thì giữ AI ở mức hỗ trợ người xử lý. Không tune P2 hay dùng T-017 để chọn threshold mới.
+- **PR/Sheet:** [PR #16](https://github.com/quocanwyf/doantotnghiep2nguoi/pull/16) mở sau PR #15, chưa merge. Sheet T-021 ghi hoàn tất **phạm vi thiết kế** và nêu rõ `α=TBD`, chưa có run evaluation mới.
