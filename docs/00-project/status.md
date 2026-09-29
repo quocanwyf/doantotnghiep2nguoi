@@ -40,7 +40,7 @@ T-005 **hoàn thiện phần phân tích/survey**. Quốc An xác nhận T-008 �
 
 ## Bước tiếp theo theo thứ tự
 
-1. **Sau T-022:** giữ `θ=0,15` là reference nghiên cứu, không tune bằng holdout. Kết quả pair-level có trade-off lặp lại nhưng hard-negative S8 trên evaluation có mẫu số 0. Nếu tiếp tục AI improvement, mở task riêng hỏi **encoder/model hiện tại có cần thay hoặc fine-tune không?** Task mới cần phép kiểm hard-negative độc lập và mục tiêu so sánh khóa trước; không tự train/chọn model từ T-022. App tiếp tục tách AI result khỏi authority và xử lý `unresolved` bằng retry/đứng một mình/manual review.
+1. **Sau T-022:** giữ `θ=0,15` là reference nghiên cứu, không tune bằng holdout. Kết quả pair-level có trade-off lặp lại nhưng hard-negative S8 trên evaluation có mẫu số 0. **T-023 trên Sheet** hỏi encoder/model hiện tại có cần thay hoặc fine-tune không; trước hết cần phép kiểm hard-negative độc lập và mục tiêu so sánh khóa trước, không tự train/chọn model từ T-022. App tiếp tục tách AI result khỏi authority và xử lý `unresolved` bằng retry/đứng một mình/manual review.
 2. **Bằng chứng triển khai còn thiếu:** main test xác minh gần miền cửa phòng, thiết bị đích để đo encoder/attempt, E3/app logic theo policy sau và As-Is thực địa nếu muốn tuyên bố giảm công sức. Không lấy timing CPU tham chiếu làm kết luận triển khai.
 3. **Experiment rồi mới chốt kỹ thuật:** từ uncertainty và rủi ro T-017, đặt điều kiện kiểm và acceptance criteria trước experiment; dùng kết quả đó để cân nhắc candidate/configuration, threshold và kiến trúc app.
 
