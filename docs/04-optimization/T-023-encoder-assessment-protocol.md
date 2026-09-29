@@ -2,8 +2,7 @@
 
 **Câu hỏi:** Với MobileFaceNet và cosine hiện tại, hard negative mà S4 có thể chuyển sang S8 có tách được khỏi genuine đủ để tiếp tục nghiên cứu decision rule, hay có bằng chứng cần thử encoder/model khác?
 
-**Trạng thái:** protocol và audit nguồn trước score; chưa chạy MobileFaceNet trên benchmark mới, chưa chọn model/fine-tune/ngưỡng triển khai. Chỉ dùng dữ liệu công khai đã phát hành, không thu ảnh/video mới.
-**Cập nhật 2026-09-29:** benchmark và development đã chạy theo protocol dưới đây; [báo cáo development](../05-evaluation/T-023-development-analysis.md) và [freeze trước holdout](../05-evaluation/T-023-evaluation-freeze.md) ghi kết quả/hashes. Không xem dòng trạng thái ban đầu là kết quả cuối.
+**Trạng thái 2026-09-29:** benchmark/nhãn, development và một lượt evaluation đã hoàn tất; [phân tích development](../05-evaluation/T-023-development-analysis.md), [freeze trước holdout](../05-evaluation/T-023-evaluation-freeze.md), [kết quả evaluation](../05-evaluation/T-023-encoder-evaluation-result.md). Chưa chọn model/fine-tune/ngưỡng triển khai. Chỉ dùng dữ liệu công khai đã phát hành, không thu ảnh/video mới.
 
 ## Vì sao cần tập mới
 
