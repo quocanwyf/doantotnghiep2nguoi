@@ -40,7 +40,7 @@ T-005 **hoàn thiện phần phân tích/survey**. Quốc An xác nhận T-008 �
 
 ## Bước tiếp theo theo thứ tự
 
-1. **Sau development T-022:** Quốc An review trade-off và đề xuất rule research/reference trong báo cáo T-022 trước khi mở evaluation; chưa tự khóa threshold vì mức false accept demo vẫn `TBD`. Không retune P2/T-017. App tiếp tục tách AI result khỏi authority và xử lý `unresolved` bằng retry/đứng một mình/manual review.
+1. **Sau development T-022:** [báo cáo](../05-evaluation/T-022-s8-development-analysis.md) đề xuất rule research/reference chọn `θ=0,15` trên development dưới điều kiện không reject thêm 29 genuine được S4 chọn; điểm này chặn 1/4 hard negative, chưa đủ chốt rủi ro. `θ_old=0,122254` là baseline lịch sử, `0,25` chỉ là stress point. Quốc An review rule và số trước khi freeze code/hash/threshold; **evaluation chưa mở**. Không retune P2/T-017. App tiếp tục tách AI result khỏi authority và xử lý `unresolved` bằng retry/đứng một mình/manual review.
 2. **Bằng chứng triển khai còn thiếu:** main test xác minh gần miền cửa phòng, thiết bị đích để đo encoder/attempt, E3/app logic theo policy sau và As-Is thực địa nếu muốn tuyên bố giảm công sức. Không lấy timing CPU tham chiếu làm kết luận triển khai.
 3. **Experiment rồi mới chốt kỹ thuật:** từ uncertainty và rủi ro T-017, đặt điều kiện kiểm và acceptance criteria trước experiment; dùng kết quả đó để cân nhắc candidate/configuration, threshold và kiến trúc app.
 

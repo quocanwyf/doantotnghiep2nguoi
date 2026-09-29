@@ -1,6 +1,6 @@
 # T-022 — Audit và khóa benchmark S8 controlled two-face từ XQLFW
 
-**Ngày:** 2026-09-29. **Người thực hiện:** Quốc An cùng Codex. **Trạng thái:** benchmark và nhãn proxy đã khóa trước score; [development đã chạy và phân tích](T-022-s8-development-analysis.md), **chưa mở evaluation hoặc khóa ngưỡng nghiên cứu**. T-021 và [chuỗi quyết định](DECISION_LOGIC.md) là đầu vào. Đây là **synthetic/controlled proxy** ghép từ ảnh XQLFW, không phải ảnh cửa phòng thi hay lượt check-in thật.
+**Ngày:** 2026-09-29. **Người thực hiện:** Quốc An cùng Codex. **Trạng thái:** benchmark và nhãn proxy đã khóa trước score; [development đã chạy, phân tích và đề xuất rule `θ=0,15` để review](T-022-s8-development-analysis.md). **Chưa duyệt/khóa rule và chưa mở evaluation.** T-021 và [chuỗi quyết định](DECISION_LOGIC.md) là đầu vào. Đây là **synthetic/controlled proxy** ghép từ ảnh XQLFW, không phải ảnh cửa phòng thi hay lượt check-in thật.
 
 ## Observation → question → protocol → evidence → decision
 
