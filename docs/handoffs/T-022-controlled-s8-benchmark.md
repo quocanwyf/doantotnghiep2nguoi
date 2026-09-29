@@ -9,4 +9,4 @@
 - **File ngoài Git cần giữ riêng:** `%TEMP%/T-022-controlled-s8-v1/` chứa ảnh ghép, candidate/detector/locked JSON; `%TEMP%/T-022-controlled-s8-review-v1/` chứa contact sheet. Những file này có ảnh mặt/identity, không push. `%TEMP%` có thể bị dọn; nếu chuyển máy cần sao lưu riêng theo quy định nhóm.
 - **Giới hạn:** một người tự kiểm nhãn; pair thường chưa được rà trực quan từng cặp; cảnh ghép và dataset người nổi tiếng không đại diện cửa phòng; số hard negative sau P2 có thể ít. Không có score, FMR/FNMR, threshold mới hoặc evaluation run trong T-022.
 - **Bước sau:** Quốc An review benchmark, mẫu số, exclusion và plan. Khi đồng ý, chạy **development** để trình bày score distribution/trade-off; chưa chọn optimal/deployment threshold. Rule research/reference (nếu cần) phải được đề xuất sau development và review trước evaluation.
-- **PR/Sheet:** cập nhật sau khi tạo PR riêng; không merge tự động.
+- **PR/Sheet:** [PR #17](https://github.com/quocanwyf/doantotnghiep2nguoi/pull/17) mở sau PR #16, chưa merge. Sheet `Trang tính1!A23:L23` ghi T-022 `Chờ phản hồi` để Quốc An review benchmark trước development; dòng T-021 được chỉnh wording theo rule mới.
