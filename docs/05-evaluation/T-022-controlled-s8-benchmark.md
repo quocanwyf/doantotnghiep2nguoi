@@ -1,6 +1,6 @@
 # T-022 — Audit và khóa benchmark S8 controlled two-face từ XQLFW
 
-**Ngày:** 2026-09-29. **Người thực hiện:** Quốc An cùng Codex. **Trạng thái:** benchmark và nhãn proxy đã khóa trước score; [development đã chạy, phân tích và đề xuất rule `θ=0,15` để review](T-022-s8-development-analysis.md). **Chưa duyệt/khóa rule và chưa mở evaluation.** T-021 và [chuỗi quyết định](DECISION_LOGIC.md) là đầu vào. Đây là **synthetic/controlled proxy** ghép từ ảnh XQLFW, không phải ảnh cửa phòng thi hay lượt check-in thật.
+**Ngày:** 2026-09-29. **Người thực hiện:** Quốc An cùng Codex. **Trạng thái:** benchmark và nhãn proxy khóa trước score; [development](T-022-s8-development-analysis.md) dẫn tới rule `θ=0,15` được Quốc An duyệt; [freeze trước score](T-022-s8-evaluation-freeze.md) và [một lượt evaluation](T-022-s8-evaluation-result.md) đã hoàn tất. T-021 và [chuỗi quyết định](DECISION_LOGIC.md) là đầu vào. Đây là **synthetic/controlled proxy** ghép từ ảnh XQLFW, không phải ảnh cửa phòng thi hay lượt check-in thật.
 
 ## Observation → question → protocol → evidence → decision
 
@@ -29,7 +29,7 @@ SCRFD của B0 chạy **detection-only**, `det_size=(640,640)`, `det_thresh=0.5`
 | Ordinary-impostor pair 1:1 usable | 992 | 131 | Official negative pair, khác identity, không trùng chính cặp ảnh nguồn dùng trong cảnh khóa |
 | Pair nguồn excluded bởi detector | 843 | 113 | Gộp genuine và ordinary negative |
 | Ordinary pair excluded do trùng scene pair | 9 | 14 | Tránh cùng cặp ảnh xuất hiện ở nhóm ordinary và cảnh S4 |
-| S4-derived hard-negative pair | 4 | **Chưa có mẫu số** | P2 cố định chọn non-target trong 4/32 absent scene development; evaluation chưa được mở |
+| S4-derived hard-negative pair | 4 | 0 | P2 cố định chọn non-target trong 4/32 absent scene development; evaluation 30/30 absent no-select, nên không có hard-negative candidate tới S8 |
 
 Hai nhóm pair thông thường lấy từ official XQLFW protocol, đã kiểm nhất quán metadata và điều kiện detector; **không tuyên bố đã kiểm trực quan từng pair**. Scene được self-confirm từ contact sheet, không có người gán nhãn độc lập. Các identity ở development và evaluation **không giao nhau** trên cả pair và scene; số identity nguồn sau khóa tương ứng 1.807 và 435. Các pair/trial dùng chung identity trong *cùng* split nên không được xem là quan sát thống kê độc lập; khi báo khoảng bất định phải xét cluster theo identity/anchor.
 
@@ -58,4 +58,4 @@ Script tái lập: `scripts/t022_construct_controlled_s8.py`, `scripts/t022_dete
 
 Đây là ảnh người nổi tiếng/ảnh công khai ghép thành hai panel, không mô phỏng ánh sáng, camera, chuyển động, khoảng cách, thao tác khai hồ sơ hay tần suất người nền của cửa phòng thi. Một người tự kiểm trực quan, **không có independent reviewer**; ảnh mờ và nhãn nguồn có thể còn sai. Lọc detector và visual làm tập nhỏ, thiên về trường hợp dễ quan sát. Hard negative có thể rất ít; nếu P2 không chọn đủ absent scene, không suy ra risk bound mạnh. `2/41` của T-017 và mọi tỷ lệ ở đây không phải real-world FAR.
 
-**Development đã thực hiện:** [báo cáo riêng](T-022-s8-development-analysis.md) ghi score distribution, FNMR/FMR và toàn bộ chuỗi S4→S8; 4/32 absent scene tạo hard negative có điều kiện. Acceptable false-accept risk demo vẫn `TBD`; chưa chọn ngưỡng tối ưu/triển khai. **Bước kế tiếp:** Quốc An review đề xuất research/reference rule sau development; chỉ sau khi rule được khóa mới mở frozen evaluation. Không dùng evaluation để chọn rule, thay nhãn, loại sample sai hoặc tune P2.
+**Development và evaluation đã thực hiện:** [development](T-022-s8-development-analysis.md) ghi score distribution, FNMR/FMR và toàn bộ chuỗi S4→S8; 4/32 absent scene tạo hard negative có điều kiện. Quốc An duyệt `θ_research=0,15`; [freeze](T-022-s8-evaluation-freeze.md) pin rule/code/GT trước khi [evaluation một lượt](T-022-s8-evaluation-result.md). Holdout không tạo hard negative sau S4 nên chưa chứng minh S8 chặn được failure path. Acceptable false-accept risk demo vẫn `TBD`; không chọn ngưỡng tối ưu/triển khai. T-022 đóng với giới hạn này, không tune trên evaluation.

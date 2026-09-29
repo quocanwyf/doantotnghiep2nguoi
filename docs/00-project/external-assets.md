@@ -78,3 +78,14 @@ Các tài sản ngoài Git đang cần cho T-011 được ghi bên dưới.
 - Trạng thái: Chưa gửi; chỉ có bản cục bộ trong thư mục tạm, chưa có lưu trữ bền được xác nhận.
 - Vị trí lưu: Temp ngoài Git của máy chạy; đường dẫn cụ thể trong [handoff T-015](../handoffs/T-015-s4-proxy-run.md), trao riêng khi cần.
 - Ngày cập nhật: 2026-09-28.
+
+## A-006 — T-022 controlled S8 benchmark, freeze và raw evaluation
+
+- Task liên quan: T-022.
+- Mục đích và cách dùng: manifest/ảnh cảnh controlled XQLFW, self-review, raw development, freeze trước score, raw/summary một lượt evaluation; phục vụ audit theo sample và tái lập kết quả, không dùng làm dữ liệu check-in thực.
+- Nguồn ảnh/weight: A-001 XQLFW và A-002 buffalo_sc, tải lại đúng release công khai và đối chiếu SHA-256.
+- SHA-256 file trọng yếu: locked benchmark `d752c99fae5071c2aedb7fe0e40842b8b25c05decf539b61df8e988fee8ec131`; development raw `7f912cb9647906314890d4e586b915b1a5b1b55451941e1c0651fdc6c6de0a2f`; freeze `37071ad8bd244ddad1cf1d45fc279d642903b18f073553cb04d51eb1e45ad705`; evaluation raw `b284c5d50a76eee0764f92cb15c519b1d395ba15959ab5f0c98f65abf939f575`; evaluation summary `f27f233aefc42f8146874e68bff11fe66875622f6f23f17ab686f39da9009afe`.
+- Người giữ và người cần nhận: bản cục bộ trên máy chạy của Quốc An; Minh Hy nhận riêng nếu cần audit hoặc tích hợp mốc nghiên cứu.
+- Trạng thái: Chưa gửi; chưa có bản lưu trữ bền được xác nhận. Ảnh mặt, identity, embedding và raw per-sample không đưa lên Git.
+- Vị trí lưu: các thư mục `%TEMP%/T-022-*` ngoài Git; [handoff T-022](../handoffs/T-022-controlled-s8-benchmark.md) ghi tên folder/hash. `%TEMP%` có thể bị dọn, nên sao lưu riêng trước khi chuyển máy.
+- Ngày cập nhật: 2026-09-29.
