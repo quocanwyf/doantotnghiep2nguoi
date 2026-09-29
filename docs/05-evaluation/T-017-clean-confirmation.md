@@ -28,7 +28,7 @@ Từ 1.116 identity evaluation của T-014, loại mọi identity nguồn từng
 | Absent usable sau metadata, box và R50 | **41/64** | 23 không vào mẫu số absent. |
 | Target nhìn thấy nhưng không box chứa điểm | **2/64** | Giữ trong audit (`holdout-008`, `holdout-055`), không chấm như lỗi riêng của S4. |
 
-Lý do audit có thể chồng nhau: present reference không đúng một detection (6), absent reference không đúng một detection (12), R50 present rank conflict (1), R50 absent relative conflict (1), cùng visual/box issues trên. Không loại một trial vì P1/P2 sai. Cả hai mẫu số usable đều vượt mức tối thiểu 30 của T-014, nhưng kết luận vẫn **conditional on self-confirmed proxy**. Mỗi scene có thể tạo một present và một absent trial; 90 trial usable không phải 90 scene độc lập.
+Lý do audit có thể chồng nhau: present reference không đúng một detection (6), absent reference không đúng một detection (12), R50 present rank conflict (1), R50 absent relative conflict (1), cùng visual/box issues trên. `TARGET_MISSED_BY_DETECTOR` ở đây nghĩa là **không box nào chứa điểm tự ghi**; cũng có thể do điểm tự ghi chưa chính xác, nên không xem hai ca là phép đo chắc chắn về detector recall. Không loại một trial vì P1/P2 sai. Cả hai mẫu số usable đều vượt mức tối thiểu 30 của T-014, nhưng kết luận vẫn **conditional on self-confirmed proxy**. Mỗi scene có thể tạo một present và một absent trial; 90 trial usable không phải 90 scene độc lập.
 
 ## 3. Kết quả paired của một lượt holdout
 
