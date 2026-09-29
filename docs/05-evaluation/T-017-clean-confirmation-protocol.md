@@ -26,3 +26,10 @@ Chỉ sau khi label manifest khóa, chạy B0/P1/P2 **một lần** trên mọi 
 So paired với T-015/T-016: xu hướng đúng/lỗi/unresolved, hai absent false-selection và sáu present unresolved cũ có lặp **kiểu lỗi** hay không; không đòi cùng sample. Đưa một trong ba quyết định có điều kiện: chốt P2 cho pipeline thử, giữ selective S4 nhưng chưa triển khai, hoặc cần thiết kế S4 khác. Không suy ra hiệu quả camera phòng thi, quyền vào phòng hay attendance từ proxy này.
 
 **Ranh giới lưu trữ:** ảnh khuôn mặt, tên nguồn, nhãn từng ảnh, embedding và raw score ở Temp ngoài Git; Git chỉ chứa protocol, script, hash, số đếm và diễn giải không định danh.
+
+## Mốc khóa trước candidate score (2026-09-29)
+
+- Chọn đủ **64/64** scene từ 994 identity evaluation còn lại chưa dùng; đã quét 618 ảnh, 554 ảnh có 0/1 detection. Manifest scene SHA-256 `5ca44481ce26abe62e2e699bdaae44c7b9227f2a5c54f6ac9d865330ad658290`.
+- Người làm xem 16 contact sheet không vẽ box/score; ghi điểm tâm trực tiếp trên ảnh gốc. Visual review SHA-256 `c19136dbb743dcbd15ef177886bd064444c312a9ee44e7f5d6d0dbd9a2a0d728`: 57 cảnh được ghi target, 5 visual ambiguous, 2 false extra detection. Đây là self-confirm một người, không có reviewer độc lập.
+- Sau khi khóa visual review mới đối chiếu box và R50 audit-only. Label manifest SHA-256 `130408bd8f7a02ce502f31cb8f386a01d7adfeab9d5be00bc8fe9a195adc7d11`: **49 present và 41 absent self-confirm**. Có 2 `TARGET_MISSED_BY_DETECTOR` và 1 `R50_PRESENT_RANK_CONFLICT` giữ `AMBIGUOUS`; không sửa điểm để cứu mẫu. Hai mẫu số đều vượt mức tối thiểu 30 của T-014.
+- Ảnh, tên nguồn, tọa độ và audit từng sample nằm ở `C:\Users\Admin\AppData\Local\Temp\T-017-holdout-v1\`; contact sheet ở `C:\Users\Admin\AppData\Local\Temp\T-017-review-sheets-v1\`. Chưa mở MobileFaceNet candidate score tại mốc này.
