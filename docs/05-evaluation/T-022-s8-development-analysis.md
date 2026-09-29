@@ -86,6 +86,8 @@ Trial ID trong raw có tiền tố `development-`; bảng rút ngắn để đ�
 
 **Điều chờ duyệt:** Quốc An review rule và số `0,15` trước khi freeze. Nếu được duyệt, cố định trước evaluation ba mốc báo cáo `θ_old`, `θ_research` và `0,25` stress; chạy **một lần** trên cùng evaluation đã khóa, không chọn lại mốc theo kết quả. Trước run phải ghi hash code, rule, manifest, model và danh sách mốc; nếu không duyệt, tiếp tục thảo luận chỉ trên development. **Evaluation chưa mở.**
 
+**Cập nhật sau review 2026-09-29:** Quốc An đã duyệt rule trên và `θ_research=0,15`. [Bản freeze trước score](T-022-s8-evaluation-freeze.md) ghi hash/version cho evaluation manifest, ground truth, P2, model, detector, code và ba mốc báo cáo. Không đổi các số development; kết quả evaluation sẽ được ghi ở báo cáo riêng sau đúng một run.
+
 ## Giới hạn
 
 XQLFW ghép hai ảnh tĩnh, self-confirm một người, identity nguồn công khai và lọc detector; không đại diện camera cửa phòng hay thao tác khai hồ sơ. Các ordinary pair và hard-negative scene có điều kiện lấy mẫu khác nhau, nên không thể so FMR như hai mẫu ngẫu nhiên cùng phân bố. `AMBIGUOUS` không bị ép nhãn và vẫn ngoài metric. Một số identity/ảnh có thể đóng góp nhiều pair, nên phần trăm quan sát không phải khoảng tin cậy độc lập. S8 ở đây reuse cùng MobileFaceNet cosine như S4; chưa thử tín hiệu xác minh độc lập. Evaluation frozen vẫn nguyên trạng.
