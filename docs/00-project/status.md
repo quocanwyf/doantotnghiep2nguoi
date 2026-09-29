@@ -1,6 +1,6 @@
 # Trạng thái dự án
 
-- Cập nhật: 2026-09-28
+- Cập nhật: 2026-09-29
 - Giai đoạn: phạm vi bài toán 01 đã được nhóm chọn; khảo sát 02 đã chọn hướng; T-009/T-010/T-011/T-012 có audit, giao thức, baseline B0 và phân tích lỗi làm mốc cho stage tiếp theo.
 - Thành viên: Quốc An (TV-A), Minh Hy (TV-B).
 
@@ -27,6 +27,7 @@
 - **T-015 đã chạy proxy S4:** [báo cáo T-015](../04-optimization/T-015-proposed-run.md) ghi 64 scene mỗi split, nhãn self-confirm trước score candidate, 43/37 present/absent dùng được trên development và 41/35 trên evaluation. Trên evaluation P2 chọn đúng 35/41 present, không chọn đúng 33/35 absent, còn 6 present unresolved và 2 absent false-selection; P1 chọn đúng 40/41 present nhưng false-select 35/35 absent. Đây là kết quả proxy XQLFW, không là tỷ lệ tại cửa phòng. Sai khác thao tác điểm tâm nhãn và giới hạn self-review được ghi trong báo cáo; PR T-015 chờ review điểm này trước khi đóng task. T-016 phải phân tích lỗi/trade-off trước quyết định kỹ thuật.
 
 - **T-016 [PR #13](https://github.com/quocanwyf/doantotnghiep2nguoi/pull/13) đã phân tích output T-015:** [so sánh và lỗi S4](../05-evaluation/T-016-comparison-ablation.md) phân nhóm 6 present unresolved và 2 absent false-selection của P2, tách lỗi chọn mặt khỏi verification, xem score/gap và giới hạn nhãn. Kết luận giữ selective S4 làm hướng ứng viên, chưa chốt P2; đề xuất một task rerun sạch riêng trước khi xem xét quyết định cuối.
+- **T-017 đã chạy clean confirmation:** [protocol](../05-evaluation/T-017-clean-confirmation-protocol.md) và [báo cáo](../05-evaluation/T-017-clean-confirmation.md) dùng 64 scene XQLFW mới, point-first trước box, identity nguồn tách khỏi pilot/T-015, giữ nguyên B0/P1/P2 và `τ,δ`. Trên 49 present/41 absent usable, P2 chọn đúng 46 present, unresolved 3 và false-select 2 absent. Kết luận giữ selective S4 làm ứng viên, chưa chốt P2 cho triển khai; nhãn self-confirm và miền dữ liệu vẫn là giới hạn. Sheet/PR theo handoff T-017.
 
 ## Chưa có bằng chứng để chốt kỹ thuật cuối
 
@@ -36,8 +37,8 @@ T-005 **hoàn thiện phần phân tích/survey**. Quốc An xác nhận T-008 �
 
 ## Bước tiếp theo theo thứ tự
 
-1. **Xác nhận sạch S4 trước T-017:** đề xuất task rerun riêng trên holdout chưa xem, gán điểm mặt độc lập trước khi nối box, giữ nguyên P1/P2 và `τ,δ` frozen; không thay T-015. Nếu nguồn có sẵn không đủ nhãn absent tin cậy, ghi giới hạn thay vì ép quyết định.
-2. **Bằng chứng triển khai còn thiếu:** main test xác minh gần miền cửa phòng, thiết bị đích để đo encoder/attempt, E3/app logic theo policy sau và As-Is thực địa nếu muốn tuyên bố giảm công sức. Không lấy timing GitHub runner làm kết luận triển khai.
-3. **Experiment rồi mới chốt kỹ thuật:** từ uncertainty và rủi ro T-012, đặt điều kiện kiểm và acceptance criteria trước experiment; dùng kết quả đó để cân nhắc candidate/configuration, threshold và kiến trúc app.
+1. **Sau T-017:** kiểm S4→S8 end-to-end và trường hợp target vắng bằng dữ liệu có nhãn đủ tin cậy theo một protocol mới; không retune trên holdout T-017. Nếu dùng P2 trong demo nghiên cứu, output chọn mặt phải tiếp tục qua S8 và app authority, còn `unresolved` chuyển review.
+2. **Bằng chứng triển khai còn thiếu:** main test xác minh gần miền cửa phòng, thiết bị đích để đo encoder/attempt, E3/app logic theo policy sau và As-Is thực địa nếu muốn tuyên bố giảm công sức. Không lấy timing CPU tham chiếu làm kết luận triển khai.
+3. **Experiment rồi mới chốt kỹ thuật:** từ uncertainty và rủi ro T-017, đặt điều kiện kiểm và acceptance criteria trước experiment; dùng kết quả đó để cân nhắc candidate/configuration, threshold và kiến trúc app.
 
 **Task, người phụ trách và trạng thái chi tiết:** [Google Sheet chung](https://docs.google.com/spreadsheets/d/14BQCQ_LbGkZS15Grfi4AZNWBX15h479XjoyQvP9jHcU/edit?gid=0#gid=0). Trang này tóm tắt tiến độ và việc kế tiếp, không sao chép bảng task.
