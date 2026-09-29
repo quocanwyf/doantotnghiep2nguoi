@@ -50,7 +50,7 @@ Không có `S4 wrong selection` trong present hoặc `S4 false selection` trong 
 - [Freeze trước score](T-022-s8-evaluation-freeze.md): private freeze SHA-256 `37071ad8bd244ddad1cf1d45fc279d642903b18f073553cb04d51eb1e45ad705`; GT/status SHA-256 `1a1adbc67fb327888b5b40f95b31f79c312e7a5730d5e115ecc05ccdbd2f0a19`; code version `T-022-S8-evaluation-v1`, code commit chuẩn bị `120fbff`. Preflight PASS. Evaluation script đối chiếu lại hash trước inference.
 - Raw per-pair/per-scene: `%TEMP%/T-022-s8-evaluation-v1/evaluation-raw.json`, SHA-256 **`b284c5d50a76eee0764f92cb15c519b1d395ba15959ab5f0c98f65abf939f575`**. Summary: `evaluation-summary.json`, SHA-256 **`f27f233aefc42f8146874e68bff11fe66875622f6f23f17ab686f39da9009afe`**. Đã kiểm độc lập sau run: raw có 486 pair, 60 scene; summary trỏ đúng raw/freeze hash và các mẫu số cộng khớp. Không chạy lại model để tạo báo cáo.
 - Runtime toàn script `20,391` giây trên máy Windows 11, 12 logical CPU, Python 3.12.2, OpenCV 5.0.0, ONNX Runtime 1.20.1, InsightFace 0.7.3, NumPy 2.2.6, CPUExecutionProvider. Runtime gồm tải/encode ảnh và cảnh; **không** phải latency một lượt check-in. 793 ảnh nguồn evaluation được encode.
-- Raw, source ZIP, ảnh cảnh, manifest và private freeze giữ ngoài Git; không commit ảnh mặt, identity hoặc per-sample score. `%TEMP%` có thể bị dọn, nên artifact cần được sao lưu riêng trước khi chuyển máy.
+- Raw, source ZIP, ảnh cảnh, manifest và private freeze giữ ngoài Git; không commit ảnh mặt, identity hoặc per-sample score. Đã sao lưu 5 folder vào `C:/Programming/doantotnghiep2nguoi/artifacts/T-022-private/` (Git ignore) và kiểm 7 hash trọng yếu; bản sao này vẫn chỉ trên máy Quốc An, chưa chuyển cho Minh Hy.
 
 ## Kết luận và đóng T-022
 
