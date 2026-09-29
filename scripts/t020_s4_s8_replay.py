@@ -125,7 +125,7 @@ def main() -> None:
               "summary": summary, "raw_trials": trials,
               "replay_runtime_ms": replay_ms, "environment": {"python": platform.python_version()}}
     write_once(args.output, result)
-    print(json.dumps({"raw_sha256": digest(args.output), **{k: v for k, v in result.items() if k != "raw_trials"}}, ensure_ascii=False, indent=2))
+    print(json.dumps({"raw_sha256": digest(args.output), **{k: v for k, v in result.items() if k != "raw_trials"}}, ensure_ascii=True, indent=2))
 
 
 if __name__ == "__main__":
