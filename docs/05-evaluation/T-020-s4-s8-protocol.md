@@ -14,6 +14,8 @@ T-017 cho thấy P2 chọn đúng 46/49 target-present và chọn nhầm một m
 2. Dùng đúng SCRFD-500MF + MobileFaceNet `buffalo_sc`, input detector 640×640, `det_thresh=0.5`, crop encoder 112×112, CPUExecutionProvider và cosine như T-011/T-017. Chỉ tính pair khi mỗi ảnh có đúng một mặt. Không thay dữ liệu hoặc nhãn theo kết quả.
 3. Chọn **một** ngưỡng bằng hàm `select_threshold` đã có ở `scripts/t011_xqlfw_baseline.py`: giảm `|FMR−FNMR|` trên development, hòa thì ưu tiên FMR thấp hơn, rồi ngưỡng cao hơn. Đó là điểm cân bằng mô tả nghiên cứu, **không phải policy an toàn kỳ thi**. Lưu config và hash trước khi đọc raw T-017 cho S8. Không chỉnh ngưỡng bằng holdout.
 
+**Mốc khóa development, trước lượt replay holdout:** commit giao thức và runner development `eecee11`; frozen config SHA `edc5e46d8746b82d7011af6eea634bb3d35768390139cd2273dad4f950da538c`, raw development SHA `613418577a2f5a187dcd6df9478428642a14e8f0bd35c7b1a8d5a9a633c4dd3e`. Trong 3.512 pair đủ điều kiện identity có 2.061 genuine/1.451 impostor; 1.007 pair bị loại vì ảnh không đúng một mặt. Mẫu số dùng được: 1.441 genuine/1.064 impostor. Quy tắc trên chọn ngưỡng cosine **`0.1222538902465593`**; trên chính development FMR 71/1.064, FNMR 96/1.441. Đây là điểm chọn từ development, không dùng tỷ lệ đó để khẳng định hiệu quả holdout.
+
 ## Một lượt nối S4 → S8 trên holdout T-017
 
 - Kiểm SHA raw T-017 `dceea1abe0d09e78479473bc28a068f2b32d601c840cff0fceac09e1419811c8`, nhãn `130408bd8f7a02ce502f31cb8f386a01d7adfeab9d5be00bc8fe9a195adc7d11` và frozen P2 `a63f64d7fa6cfe4d3d98f2d52c10a30d7bb8445b20de8b0e6b4780ff1ff7980d`.
