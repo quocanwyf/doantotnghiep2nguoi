@@ -4,7 +4,9 @@ Mỗi quyết định quan trọng có một file `T-004-D-001-ten-ngan.md` khi 
 
 [D-004 — Duyệt default demo T-024](T-024-D-004-duyet-default-demo.md) ghi xác nhận của Quốc An ngày 2026-09-30 cho **Group 1**. Quyền auto-check-in, manual authority và risk chưa được duyệt cùng quyết định này; toàn profile chưa freeze.
 
-[D-005 — Auto-check-in có điều kiện](T-024-D-005-auto-checkin-co-dieu-kien.md) ghi duyệt **Group 2** của Quốc An cùng ngày: quyền trong demo profile qua `auto_checkin_enabled`, hỗ trợ READY_FOR_CONFIRMATION khi tắt; Group 3/4 và toàn profile chưa freeze.
+[D-005 — Auto-check-in có điều kiện](T-024-D-005-auto-checkin-co-dieu-kien.md) ghi duyệt **Group 2** của Quốc An cùng ngày: quyền trong demo profile qua `auto_checkin_enabled`, hỗ trợ READY_FOR_CONFIRMATION khi tắt.
+
+[D-006 — Manual authority ba tầng](T-024-D-006-manual-authority.md) ghi duyệt **Group 3** của Quốc An cùng ngày: operator chỉ tương tác/route; cán bộ phòng được manual identity/late/re-entry trong quyền được ủy quyền; admin giữ data/policy/correction/lifecycle. Manual identity cần quyền + evidence method đã duyệt + scope; HUMAN không sửa verdict AI. Group 4 risk/test acceptance còn mở; toàn profile chưa freeze.
 
 Mẫu:
 

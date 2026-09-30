@@ -8,7 +8,7 @@
 
 Một mặt không tự xác minh danh tính. Nhiều mặt nhưng chọn được candidate thì tiếp tục; không mặc định yêu cầu mọi cảnh chỉ có một người. Giữ nguyên phương pháp S4/S8 được freeze, không thêm bypass hoặc tune tại T-024.
 
-Theo [D-005](../00-project/decisions/T-024-D-005-auto-checkin-co-dieu-kien.md), AI_VERIFIED không trực tiếp tạo PASS. Flag `auto_checkin_enabled` và nhánh READY_FOR_CONFIRMATION thuộc business/Decision Engine; bật/tắt mode không đổi encoder/P2/S8. Manual identity verification nếu Group 3 được duyệt phải giữ verdict AI và căn cứ con người riêng.
+Theo [D-005](../00-project/decisions/T-024-D-005-auto-checkin-co-dieu-kien.md), AI_VERIFIED không trực tiếp tạo PASS. Flag `auto_checkin_enabled` và nhánh READY_FOR_CONFIRMATION thuộc business/Decision Engine; bật/tắt mode không đổi encoder/P2/S8. Group 3 đã duyệt tại [D-006](../00-project/decisions/T-024-D-006-manual-authority.md): manual identity cần đủ quyền role + evidence method được policy duyệt + scope phòng/ca; giữ verdict AI và quyết định HUMAN riêng, không tính manual-approved check-in thành AI success.
 
 [T-023](../05-evaluation/T-023-encoder-evaluation-result.md) mới kiểm ảnh tĩnh proxy với SCRFD/MobileFaceNet/cosine. Chưa có bằng chứng tất cả quality case, target stability hay retry dưới đây đã được tự phát hiện/chạy trong app. “Quality không đạt” có thể do operator nhận thấy hoặc capability sẽ triển khai; tiêu chí/method tự động còn TBD, không tự chọn thêm model.
 

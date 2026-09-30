@@ -35,3 +35,5 @@ Workflow phải support `READY_FOR_CONFIRMATION` riêng với exception MANUAL. 
 PASS chỉ là check-in confirmed, không tự cấp quyền vào phòng/attendance. Group 2 không cấp sẵn quyền override/late/re-entry/correction cho một role cụ thể; những quyền đó thuộc Group 3. Không đổi AIConfig, không chọn threshold demo hay chứng minh đạt false-accept cap. Mode/config chỉ có hiệu lực vận hành sau khi profile/test scope được freeze theo các phần còn lại.
 
 **Bước tiếp:** Group 3 — ai nhận MANUAL/READY_FOR_CONFIRMATION, quyền xử lý từng case và escalation; sau đó Group 4 — risk/test acceptance. Không thay quyết định Group 1 hoặc sửa kết quả nghiên cứu trước.
+
+**Cập nhật kế tiếp ngày 2026-09-30:** Quốc An đã duyệt Group 3 tại [D-006](T-024-D-006-manual-authority.md). Quyết định đó bổ sung role/scope/evidence guards và route HUMAN riêng, không thay điều kiện auto-check-in của D-005; hiện tiếp tục Group 4 risk/test acceptance.

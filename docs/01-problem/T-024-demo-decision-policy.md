@@ -1,6 +1,6 @@
 # T-024 — Policy quyết định cho demo cửa phòng thi
 
-**Trạng thái:** DRAFT — **Group 1 và Group 2: Approved for demo profile**, toàn profile chưa freeze. **Cập nhật:** 2026-09-30. **Người phụ trách:** Quốc An. [D-004](../00-project/decisions/T-024-D-004-duyet-default-demo.md) duyệt default; [D-005](../00-project/decisions/T-024-D-005-auto-checkin-co-dieu-kien.md) duyệt auto-check-in có điều kiện và mode chờ xác nhận. Group 3/4 (manual authority, risk) còn mở. Đây là profile demo, không tự áp quy chế kỳ thi thật.
+**Trạng thái:** DRAFT — **Group 1/2/3: Approved for demo profile**, toàn profile chưa freeze. **Cập nhật:** 2026-09-30. **Người phụ trách:** Quốc An. [D-004](../00-project/decisions/T-024-D-004-duyet-default-demo.md) duyệt default; [D-005](../00-project/decisions/T-024-D-005-auto-checkin-co-dieu-kien.md) duyệt auto-check-in có điều kiện và mode chờ xác nhận; [D-006](../00-project/decisions/T-024-D-006-manual-authority.md) duyệt authority ba tầng. Group 4 risk/test acceptance còn mở. Đây là profile demo, không tự áp quy chế kỳ thi thật.
 
 ## 1. Mục tiêu và ba đầu ra
 
@@ -39,9 +39,9 @@ Mỗi attempt lưu `policy_version`, `ai_config_version`, context và phiên b�
 | `CONTINUE` | Business đủ điều kiện để đi tiếp; chưa xác minh danh tính. |
 | `AI_VERIFIED` | S8 đạt rule trong AIConfig; còn phải qua final business-check. Không phải bảo đảm ground truth đúng. |
 | `READY_FOR_CONFIRMATION` | Pipeline/business đạt nhưng quyền auto-check-in tắt; nhánh chờ chưa terminal, chưa có effective check-in. Khác MANUAL do exception; người được ủy quyền xác nhận rồi recheck trước ghi. |
-| `PASS` | Check-in đã được ghi thành công qua route được duyệt: tự động có điều kiện hoặc xác nhận có thẩm quyền. Không đồng nghĩa đã vào phòng/đã dự thi. |
+| `PASS` | Check-in đã được ghi thành công qua route được duyệt: tự động có điều kiện, xác nhận lượt đạt hoặc manual-authorized HUMAN. Ghi nguồn quyết định riêng; không đồng nghĩa đã vào phòng/đã dự thi hoặc AI success. |
 | `RETRY` | Thêm observation mới hoặc phục hồi lỗi kỹ thuật có ích, còn ngân sách; sau đó đánh giá lại. |
-| `MANUAL` | Không tự hoàn tất; chuyển người có quyền. Người xử lý/timeout còn cần gán trong demo. |
+| `MANUAL` | Không tự hoàn tất; chuyển theo authority ba tầng D-006. Người/tài khoản, delegation, evidence method và timeout cần được gán cho nhánh demo dùng tới. |
 | `INFO/WAIT`, `REDIRECT` | Hướng dẫn chờ hoặc đến đúng context; không cần chạy camera cho case đã rõ. |
 | `CHECK_IN_NOT_ALLOWED` | Policy hiện hành không cho luồng này ghi check-in tự động. Có đường khiếu nại/manual theo quyền; không tự kết luận cấm dự thi. |
 | `SYSTEM_HOLD` | Dữ liệu/thiết bị/config không đáng tin để tiếp tục tự động; không ghi PASS. |
@@ -49,7 +49,7 @@ Mỗi attempt lưu `policy_version`, `ai_config_version`, context và phiên b�
 
 `BLOCK` trong nội dung nguồn được chuẩn hóa thành `CHECK_IN_NOT_ALLOWED`. Không dùng `REJECT` chung chung làm outcome cuối: `S8 REJECT/NOT_VERIFIED` là kết quả component dẫn đến retry/manual, không là cáo buộc gian lận hoặc quyết định từ chối dự thi.
 
-**Group 2 đã duyệt:** AI_VERIFIED không trực tiếp tạo PASS. Decision Engine chỉ tự ghi khi `auto_checkin_enabled=true` trong profile đã duyệt và business pre-check/final-check đều OK, không duplicate/exception unresolved. Nếu flag false, lượt đủ điều kiện chuyển READY_FOR_CONFIRMATION; người có quyền xác nhận rồi final recheck/ghi thành công mới PASS. Flag/profile thiếu hoặc không đáng tin → SYSTEM_HOLD. Nhánh chờ không tự cấp quyền cho một role khi Group 3 chưa chốt.
+**Group 2 đã duyệt:** AI_VERIFIED không trực tiếp tạo PASS. Decision Engine chỉ tự ghi khi `auto_checkin_enabled=true` trong profile đã duyệt và business pre-check/final-check đều OK, không duplicate/exception unresolved. Nếu flag false, lượt đủ điều kiện chuyển READY_FOR_CONFIRMATION; người có quyền xác nhận rồi final recheck/ghi thành công mới PASS. Flag/profile thiếu hoặc không đáng tin → SYSTEM_HOLD. Authority theo Group 3/D-006; phải bind actor/quyền/scope trước dùng nhánh, không suy quyền từ score.
 
 ## 4. Quy trình tổng business × AI
 
@@ -94,7 +94,9 @@ flowchart TD
 
 **Nhiều mặt không tự động là lỗi.** S4 chọn được candidate theo rule frozen thì sang S8; không chọn được mới retry/manual. “Một mặt” cũng không tự PASS hoặc bỏ các điều kiện của phương pháp S4 đã freeze. T-024 không đổi P2. Mất dấu/selection theo thời gian là tình huống app cần hỗ trợ, chưa là capability đã kiểm bằng nghiên cứu ảnh tĩnh.
 
-Manual có thể kết thúc bằng ghi nhận được người có quyền xác nhận, giữ pending hoặc kết thúc không ghi, kèm lý do. Kết quả manual phải phân biệt với AI-verified; override và correction không xóa attempt/evidence cũ.
+**Nhánh HUMAN theo Group 3:** MANUAL → actor có quyền + evidence method được policy duyệt + case trong scope phòng/ca → xác minh thủ công → final business-check/authority/duplicate → ghi thành công mới manual-approved check-in/PASS. Thiếu một guard → ESCALATE; thiếu evidence đáng tin thì giữ pending. Không cần đổi S8 NOT_VERIFIED thành AI_VERIFIED để đi route HUMAN. SYSTEM_HOLD/data conflict/unknown write phải resolve hoặc reconcile theo authority trước, không nối thẳng sang PASS. Re-entry/duplicate giữ check-in cũ, không ghi lần hai.
+
+Kết quả HUMAN và verdict AI được báo riêng; manual không tính thành AI success, không sửa score/threshold/ground truth. Override xử lý ngoại lệ đang có; correction sửa kết quả đã ghi với lịch sử trước/sau, không xóa attempt/evidence cũ. Chi tiết authority nằm ở [business-policy mục 3.1](T-024-business-policy.md#31-group-3--manual-authority-đã-duyệt).
 
 ## 5. Core decisions và phần còn cần chốt
 
@@ -103,14 +105,14 @@ Giữ ID của draft ban đầu để trace:
 | ID | Nội dung đã cụ thể hóa từ bản Quốc An cung cấp | Phần còn mở trước freeze |
 | --- | --- | --- |
 | DP-01 | Profile cho demo nghiên cứu; không áp quy chế kỳ thi thật. | Demo bằng nguồn sẵn có/live camera, thiết bị và phạm vi người thật nếu có. |
-| DP-02 | Group 2 approved theo D-005: auto-check-in có điều kiện khi flag true; false → READY_FOR_CONFIRMATION → người có quyền → recheck/write → PASS. | Gán role xác nhận ở Group 3 và freeze mode/config/test scope; entry/attendance vẫn tách riêng. |
-| DP-03 | AI chưa verify → retry/manual; BLOCK nghiệp vụ được đặt tên rõ. | Quyền người xử lý tranh chấp, không bổ sung quyền cấm thi. |
-| DP-04 | Group 1 approved: technical recovery 1; no-face/quality/S4 unresolved tối đa 2 retry mỗi nhóm, S8 not verified 1 capture mới; mọi capture chịu tổng 3/attempt. | Quality criterion/timeout và các retry phụ chưa xác nhận giữ trạng thái riêng; quyền manual thuộc Group 3. |
+| DP-02 | Group 2 approved theo D-005: auto-check-in có điều kiện khi flag true; false → READY_FOR_CONFIRMATION → người có quyền → recheck/write → PASS. Group 3/D-006 duyệt role/scope. | Bind tài khoản/delegation và freeze mode/config/test scope; entry/attendance vẫn tách riêng. |
+| DP-03 | AI chưa verify → retry/manual; D-006 duyệt HUMAN độc lập với verdict AI. BLOCK nghiệp vụ được đặt tên rõ. | Evidence method cụ thể phải được duyệt trước dùng nhánh manual; không bổ sung quyền cấm thi. |
+| DP-04 | Group 1 approved: technical recovery 1; no-face/quality/S4 unresolved tối đa 2 retry mỗi nhóm, S8 not verified 1 capture mới; mọi capture chịu tổng 3/attempt. | Quality criterion/timeout và các retry phụ chưa xác nhận giữ trạng thái riêng; quyền manual đã duyệt theo D-006. |
 | DP-05 | Failure nguy hiểm: non-target/impostor được ghi check-in như đã xác minh. | False-accept cap và acceptance criteria demo **TBD**; không dùng 8/38 làm cap. |
-| DP-06 | Group 1 approved: late 15 phút/intake mở, re-entry/duplicate, eligibility, reference và data-unreliable actions theo D-004. | Early window TBD; context/data profile thực sự dùng và quyền xử lý ngoại lệ còn mở. |
-| DP-07 | Audit version, actor, reason, kết quả trước/sau; giữ pending khi chưa xử lý. | Gán người/role manual, override/correction và thời hạn lưu bằng chứng. |
+| DP-06 | Group 1 approved: late 15 phút/intake mở, re-entry/duplicate, eligibility, reference và data-unreliable actions theo D-004. D-006 duyệt phân quyền ngoại lệ. | Early window TBD; context/data profile và delegation thực sự dùng cần bind. |
+| DP-07 | Audit version, actor/quyền/scope, reason, kết quả trước/sau; giữ pending khi chưa xử lý. AI/HUMAN riêng theo D-006. | Gán người/tài khoản, evidence method, timeout và thời hạn lưu bằng chứng cho case test. |
 
-Group 1/2 đã được duyệt theo D-004/D-005; không đồng nghĩa freeze toàn profile hoặc chứng minh auto-check-in đạt cap. False-accept cap còn TBD không ngăn thiết kế capability, nhưng chưa thể kết luận test “đạt cap” hay hệ thống đủ an toàn. Thứ tự tiếp theo: **Group 3 — manual authority → Group 4 — risk/test acceptance**.
+Group 1/2/3 đã được duyệt theo D-004/D-005/D-006; không đồng nghĩa freeze toàn profile hoặc chứng minh auto-check-in đạt cap. False-accept cap còn TBD không ngăn thiết kế capability, nhưng chưa thể kết luận test “đạt cap” hay hệ thống đủ an toàn. **Tiếp theo: Group 4 — risk/test acceptance**; tách tính đúng của workflow/authority với sai nhận dạng AI cần đo. Quyền manual không tự chặn một wrong accept đã đi qua nhánh tự động.
 
 ## 6. Đầu vào cho bước freeze và kiểm end-to-end
 
