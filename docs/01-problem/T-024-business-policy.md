@@ -106,7 +106,7 @@ Sau AI_VERIFIED, kiểm registration/context/eligibility/policy còn hiệu lự
 
 **“Override AI” trong đề xuất:** được người có quyền kết luận theo evidence thủ công khi automation không đủ, **không sửa AI NOT_VERIFIED thành AI_VERIFIED**, không thay crop/score/threshold. Lưu căn cứ xác minh `HUMAN` riêng với `AI`, giữ verdict AI gốc và rule/version. Đây là manual-authorized route cần Group 3 duyệt, không là auto-PASS qua flag Group 2.
 
-Report test phải tách outcome manual/human-confirmation với outcome AI, không đếm một lượt được người xử lý xác nhận thành S8 accept hoặc dùng xác nhận ấy để sửa ground truth sau khi xem kết quả.
+Report test phải tách outcome manual/human-confirmation với outcome AI. Metric S8 giữ verdict thật của component: xác nhận của con người không biến S8 reject/unresolved thành S8 accept; lượt READY đã có S8 accept vẫn báo component theo output gốc. Không dùng xác nhận manual để sửa ground truth sau khi xem kết quả.
 
 Mọi quyết định confirm/exception/correction cần actor, role/quyền, scope phòng/ca, thời gian, reason/evidence, policy/AIConfig/data version và kết quả trước/sau. Điều kiện nghiệp vụ mới phát sinh phải được recheck trước ghi. Technical maintainer có thể phục hồi camera/runtime trong quyền nhưng không tự có quyền duyệt danh tính/late hoặc đổi AIConfig frozen.
 
