@@ -2,6 +2,8 @@
 
 Mỗi quyết định quan trọng có một file `T-004-D-001-ten-ngan.md` khi phát sinh từ task T-004; không sửa mất lịch sử. Quyết định mới thay thế mục cũ bằng liên kết hai chiều. Đã ghi [D-001 — chọn bài toán cửa phòng thi](T-004-D-001-chon-bai-toan-cua-phong-thi.md) và [D-002 — dùng T-005 làm hướng khảo sát](T-007-D-002-chon-huong-khao-sat-t005.md) theo xác nhận của Quốc An về lựa chọn nhóm. D-002 là survey decision, chưa phải quyết định kỹ thuật cuối; chưa ghi nhận thầy xác nhận hai quyết định này.
 
+[D-004 — Duyệt default demo T-024](T-024-D-004-duyet-default-demo.md) ghi xác nhận của Quốc An ngày 2026-09-30 cho **Group 1**. Quyền auto-check-in, manual authority và risk chưa được duyệt cùng quyết định này; toàn profile chưa freeze.
+
 Mẫu:
 
 ```md

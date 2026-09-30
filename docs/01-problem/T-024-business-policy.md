@@ -1,6 +1,6 @@
 # T-024 — Business policy, tình huống và quyền cấu hình
 
-**Trạng thái:** `PROPOSED_DEMO_V1`, 2026-09-30; chưa freeze. Nguồn là nội dung Quốc An cung cấp, kế thừa [T-008](T-008-requirements.md). Đọc [quy trình tổng](T-024-demo-decision-policy.md) và [AI/retry](T-024-ai-rule-and-retry.md) trước khi triển khai.
+**Trạng thái:** Group 1 defaults **Approved for demo profile** ngày 2026-09-30 theo [D-004](../00-project/decisions/T-024-D-004-duyet-default-demo.md); toàn profile chưa freeze. Nguồn là xác nhận Quốc An, kế thừa [T-008](T-008-requirements.md). Đọc [quy trình tổng](T-024-demo-decision-policy.md) và [AI/retry](T-024-ai-rule-and-retry.md) trước khi triển khai.
 
 ## 1. Pre-session và cấu hình
 
@@ -8,7 +8,7 @@ Trước intake: xác định kỳ thi/ca/phòng của thiết bị; roster/regi
 
 Config là **cách xử lý theo quy định**, không phải dữ liệu identity hay eligibility. Room/session assignment có thể được người có quyền sửa ở nguồn nhưng không phải operator đổi tham số để bỏ qua sai phòng/ca.
 
-| Policy/key | Default demo đề xuất | Có thể chỉnh / người duyệt |
+| Policy/key | Default demo (trạng thái theo đoạn dưới) | Có thể chỉnh / người duyệt |
 | --- | --- | --- |
 | TimePolicy.early_checkin_minutes | TBD; số 30 trong nguồn chỉ là ví dụ | Người quản lý profile duyệt cửa sổ và mốc thời gian. |
 | TimePolicy.late_allowed_minutes | 15 phút | Có; không hard-code hoặc gán quy chế kỳ thi thật. |
@@ -24,13 +24,13 @@ Config là **cách xử lý theo quy định**, không phải dữ liệu identi
 | DataPolicy.roster/policy_unavailable | SYSTEM_HOLD | Fallback thủ công cần actor/quyền và đối soát. |
 | EvidencePolicy.retention/access | TBD | Quyền đọc/lưu phù hợp phạm vi dữ liệu được duyệt. |
 
-Các policy `PROPOSED_DEMO_V1` là baseline để review, không là profile đã duyệt. Không dùng placeholder/giá trị TBD để tiếp tục branch tự động phụ thuộc chúng.
+**Đã duyệt Group 1:** late 15 phút + intake còn mở → LATE/CONTINUE; quá 15 phút → MANUAL; ca đóng theo lifecycle riêng; already checked-in/re-entry → MANUAL, không duplicate; eligibility mapping, missing/unusable reference → MANUAL; policy/roster unreliable → SYSTEM_HOLD; retry keys đã duyệt ở bảng duy nhất trong tài liệu AI. Early window vẫn TBD. Các mục manual/retention/authority và chi tiết ngoài phạm vi xác nhận không tự được duyệt theo Group 1. Không dùng placeholder/TBD để tiếp tục branch tự động phụ thuộc chúng.
 
 ## 2. Case matrix trước camera
 
 Trong bảng, “config” là hành động/route có thể cấu hình; dữ liệu nguồn vẫn phải có thẩm quyền. `CONTINUE` nghĩa tiếp tục kiểm các điều kiện còn lại, không bỏ qua condition khác.
 
-| ID | Tình huống | Hành động đề xuất | Config / nguồn |
+| ID | Tình huống | Hành động theo profile (phạm vi duyệt ở mục 1) | Config / nguồn |
 | --- | --- | --- | --- |
 | BP-ID01 | Mã trống/sai format | Yêu cầu sửa input; chưa camera. | Format theo loại identifier chọn cho demo, TBD. |
 | BP-ID02 | Không tìm thấy registration | Nhập lại hoặc SUPPORT/MANUAL; không tự tạo hồ sơ. | Lookup từ roster hiệu lực; support route configurable. |
@@ -47,7 +47,7 @@ Trong bảng, “config” là hành động/route có thể cấu hình; dữ l
 | BP-S04 | Không đăng ký ca/môn này | CHECK_IN_NOT_ALLOWED; tranh chấp → người có quyền. | Registration nguồn; exception authority. |
 | BP-S05 | Dữ liệu ca không rõ/mâu thuẫn | MANUAL/SYSTEM_HOLD. | Độ tin cậy nguồn và phạm vi lỗi. |
 | BP-T01 | Trong cửa sổ đến hợp lệ | CONTINUE. | Arrival window theo ca; mốc/clock dùng cho demo TBD. |
-| BP-T02 | Muộn trong giới hạn demo khi intake còn mở | Gắn LATE flag, CONTINUE các kiểm khác. | Đề xuất 0 < late ≤ 15 phút. |
+| BP-T02 | Muộn trong giới hạn demo khi intake còn mở | Gắn LATE flag, CONTINUE các kiểm khác. | Approved Group 1: 0 < late ≤ 15 phút. |
 | BP-T03 | Vượt giới hạn muộn | MANUAL. | Có thể duyệt hành động khác; không mặc định cấm thi. |
 | BP-E01 | ELIGIBLE | CONTINUE. | Status từ nguồn có thẩm quyền. |
 | BP-E02 | CANCELLED/SUSPENDED/DISQUALIFIED | CHECK_IN_NOT_ALLOWED theo policy; tranh chấp có route riêng. | AI không tạo/đổi status hoặc quyền override. |
@@ -60,7 +60,7 @@ Trong bảng, “config” là hành động/route có thể cấu hình; dữ l
 | BP-REF02 | Reference thiếu/corrupt/unusable/mapping không chắc | MANUAL; không camera-retry để chữa dữ liệu nguồn. | ReferencePolicy + người sửa dữ liệu. |
 | BP-REF03 | Có nhiều reference | Chỉ dùng khi đã có quy tắc chọn reference được freeze; chưa có → MANUAL. | Không chọn reference theo score evaluation. |
 | BP-SYS01 | Roster/data cần cho quyết định không truy cập được | SYSTEM_HOLD hoặc fallback được ủy quyền. | Không mặc định offline cache luôn hợp lệ. |
-| BP-SYS02 | Data quá cũ/không biết hiệu lực | MANUAL/SYSTEM_HOLD. | Freshness/validity rule TBD; không đặt số tùy ý. |
+| BP-SYS02 | Data quá cũ/không biết hiệu lực, không đáng tin để quyết định | SYSTEM_HOLD; fallback có người xử lý chỉ theo quyền được duyệt. | Freshness/validity rule TBD; không đặt số tùy ý. |
 | BP-SYS03 | Policy thiếu hoặc context/config sai | SYSTEM_HOLD. | Chỉ profile hợp lệ được phép chạy. |
 | BP-SYS04 | Không biết lần ghi đã thành công chưa | Reconcile trước lần ghi tiếp; không báo PASS sớm. | Một effective check-in, giữ attempt/write evidence. |
 | BP-SYS05 | Policy/roster đổi trong attempt | Final recheck và log version trước/sau; cần quyền thì MANUAL. | Không âm thầm áp policy mới lên kết quả cũ. |
@@ -88,6 +88,6 @@ Hy có thể triển khai business workflow/UI/manual/fallback theo contract nà
 
 ## 5. Cần duyệt trước freeze
 
-Chốt mode demo/nguồn đầu vào và quyền auto-check-in; duyệt default late/retry/re-entry/eligibility actions; gán manual/override/correction authority; xác định arrival window, reference/quality capability thực sự có; false-accept cap và acceptance criteria; policy/data effectiveness, retention và fallback cho case đưa vào test.
+Default Group 1 đã duyệt theo D-004. Tiếp theo chốt Group 2 — quyền auto-check-in; Group 3 — manual/override/correction authority; Group 4 — risk/test acceptance. Trước freeze cũng cần mode/nguồn đầu vào, early window, reference/quality capability thực sự có, policy/data effectiveness, retention và fallback cho case đưa vào test.
 
 Chưa cần thiết kế mọi màn hình/database để hoàn thành profile, nhưng branch sẽ chạy trong demo phải có outcome/owner/expected result rõ. Tham chiếu DP-01–DP-07 trong [tài liệu tổng](T-024-demo-decision-policy.md) để không tạo danh sách quyết định thứ hai.

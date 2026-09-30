@@ -20,4 +20,4 @@ Logic từ bài toán nghiệp vụ đến câu hỏi khảo sát: [DECISION_LOG
 
 ## Profile demo sau nghiên cứu AI
 
-[T-024 — Quy trình và decision policy](T-024-demo-decision-policy.md) nối T-008 với evidence T-023: business pre-check → camera/S4/S8 → final-check → check-in hoặc review. Đọc tiếp [AI rule/retry](T-024-ai-rule-and-retry.md) và [business policy/config](T-024-business-policy.md). Đây là `PROPOSED_DEMO_V1` để An/Hy review; chưa freeze hoặc kiểm camera/thiết bị, chưa tự chốt false-accept cap/ngưỡng triển khai.
+[T-024 — Quy trình và decision policy](T-024-demo-decision-policy.md) nối T-008 với evidence T-023: business pre-check → camera/S4/S8 → final-check → check-in hoặc review. Đọc tiếp [AI rule/retry](T-024-ai-rule-and-retry.md) và [business policy/config](T-024-business-policy.md). **Group 1 defaults đã được Quốc An duyệt** theo [D-004](../00-project/decisions/T-024-D-004-duyet-default-demo.md); Group 2/3/4 còn mở, toàn profile chưa freeze/kiểm camera/thiết bị, chưa tự chốt false-accept cap/ngưỡng triển khai.

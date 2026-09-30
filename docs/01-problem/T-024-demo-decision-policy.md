@@ -1,6 +1,6 @@
 # T-024 — Policy quyết định cho demo cửa phòng thi
 
-**Trạng thái:** DRAFT — profile `PROPOSED_DEMO_V1`, chưa freeze. **Cập nhật:** 2026-09-30. **Người phụ trách:** Quốc An. Nội dung dựa trên bản phân tích Quốc An gửi trong cuộc trò chuyện cùng ngày; các giá trị ghi “đề xuất demo” chưa phải quy chế kỳ thi thật hoặc quyết định triển khai.
+**Trạng thái:** DRAFT — **Group 1: Approved for demo profile**, toàn profile chưa freeze. **Cập nhật:** 2026-09-30. **Người phụ trách:** Quốc An. [D-004](../00-project/decisions/T-024-D-004-duyet-default-demo.md) ghi default đã được Quốc An duyệt và hai chỉnh wording; Group 2/3/4 (auto-check-in, manual authority, risk) còn mở. Đây là profile demo, không tự áp quy chế kỳ thi thật.
 
 ## 1. Mục tiêu và ba đầu ra
 
@@ -93,16 +93,18 @@ Giữ ID của draft ban đầu để trace:
 | DP-01 | Profile cho demo nghiên cứu; không áp quy chế kỳ thi thật. | Demo bằng nguồn sẵn có/live camera, thiết bị và phạm vi người thật nếu có. |
 | DP-02 | Hướng profile: PASS tự ghi check-in; entry/attendance tách riêng. | Phê duyệt quyền bật auto-check-in trong mode/test cụ thể. |
 | DP-03 | AI chưa verify → retry/manual; BLOCK nghiệp vụ được đặt tên rõ. | Quyền người xử lý tranh chấp, không bổ sung quyền cấm thi. |
-| DP-04 | Retry theo lý do + global capture budget; xem tài liệu AI. | Duyệt mặc định 1/2 retry, tối đa 3 capture; tiêu chí quality/timeout. |
+| DP-04 | Group 1 approved: technical recovery 1; no-face/quality/S4 unresolved tối đa 2 retry mỗi nhóm, S8 not verified 1 capture mới; mọi capture chịu tổng 3/attempt. | Quality criterion/timeout và các retry phụ chưa xác nhận giữ trạng thái riêng; quyền manual thuộc Group 3. |
 | DP-05 | Failure nguy hiểm: non-target/impostor được ghi check-in như đã xác minh. | False-accept cap và acceptance criteria demo **TBD**; không dùng 8/38 làm cap. |
-| DP-06 | Có business case/action/config; early window TBD, late 15 phút là đề xuất. | Duyệt các default và context/data profile thực sự dùng. |
+| DP-06 | Group 1 approved: late 15 phút/intake mở, re-entry/duplicate, eligibility, reference và data-unreliable actions theo D-004. | Early window TBD; context/data profile thực sự dùng và quyền xử lý ngoại lệ còn mở. |
 | DP-07 | Audit version, actor, reason, kết quả trước/sau; giữ pending khi chưa xử lý. | Gán người/role manual, override/correction và thời hạn lưu bằng chứng. |
 
-Các default được ghi để review và xây demo có hướng cụ thể; chưa freeze policy hoặc tuyên bố auto-check-in đạt yêu cầu rủi ro. False-accept cap còn TBD không ngăn thiết kế capability, nhưng chưa thể kết luận test “đạt cap” hay hệ thống đủ an toàn.
+Group 1 đã được duyệt cho demo theo D-004; không đồng nghĩa duyệt quyền auto-check-in hoặc freeze toàn profile. False-accept cap còn TBD không ngăn thiết kế capability, nhưng chưa thể kết luận test “đạt cap” hay hệ thống đủ an toàn. Thứ tự tiếp theo: **Group 2 — auto-check-in → Group 3 — manual authority → Group 4 — risk/test acceptance**.
 
 ## 6. Đầu vào cho bước freeze và kiểm end-to-end
 
 Sau khi profile demo được duyệt, khóa policy/version, roster/reference/context, model/weight/detector/P2/S8 rule, camera hoặc nguồn replay, quality capability thực sự có, ground truth, exclusions, metric và điều kiện đo **trước** test. `θ=0,23` T-023 chỉ là mốc nghiên cứu, không tự điền thành deployment threshold.
+
+**T-024 không thay model, P2 hoặc retune S8. AIConfig hiện tại được giữ nguyên làm cấu hình nghiên cứu tham chiếu; operating point dùng cho end-to-end demo sẽ được freeze trước khi test và không được tuning từ chính test đó.**
 
 Báo tách S4 selection, S8 verification, business outcomes, effective check-in sai/đúng, retry/manual, latency và lỗi ghi dữ liệu. Lượt lặp cùng người có tương quan; báo số người/attempt/observation riêng. Kiểm false acceptance **toàn attempt sau retry**, không chỉ từng ảnh, vì retry có thể tạo nhiều cơ hội accept.
 
