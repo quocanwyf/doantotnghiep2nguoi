@@ -17,3 +17,7 @@ Logic từ bài toán nghiệp vụ đến câu hỏi khảo sát: [DECISION_LOG
 ## Đặc tả nghiệp vụ sau khi chọn bài toán
 
 [T-008 — Generic Exam Entry Business Baseline](T-008-requirements.md) được chấp nhận làm mốc nghiệp vụ cho nghiên cứu theo [D-003](../00-project/decisions/T-008-D-003-chap-nhan-baseline-nghien-cuu.md). Đọc mục 1 (Core Flow/Decisions), mục 3 (cấu trúc generic, policy cấu hình, triển khai kỹ thuật), mục 18 (phần còn mở) và mục 20 (contract cho task sau). BR/FR mô tả capability generic; các chi tiết policy/case/authority/correction còn được Minh Hy xử lý khi xây app. Thiếu As-Is thực địa chỉ giới hạn kết luận về hiệu quả tại kỳ thi thật. [Logic phase 01](DECISION_LOGIC.md) nối các nhu cầu này với T-009/T-010/T-011.
+
+## Profile demo sau nghiên cứu AI
+
+[T-024 — Quy trình và decision policy](T-024-demo-decision-policy.md) nối T-008 với evidence T-023: business pre-check → camera/S4/S8 → final-check → check-in hoặc review. Đọc tiếp [AI rule/retry](T-024-ai-rule-and-retry.md) và [business policy/config](T-024-business-policy.md). Đây là `PROPOSED_DEMO_V1` để An/Hy review; chưa freeze hoặc kiểm camera/thiết bị, chưa tự chốt false-accept cap/ngưỡng triển khai.
