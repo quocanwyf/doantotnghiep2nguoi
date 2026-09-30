@@ -1,6 +1,6 @@
 # T-024 — Business policy, tình huống và quyền cấu hình
 
-**Trạng thái:** Group 1 defaults **Approved for demo profile** ngày 2026-09-30 theo [D-004](../00-project/decisions/T-024-D-004-duyet-default-demo.md); toàn profile chưa freeze. Nguồn là xác nhận Quốc An, kế thừa [T-008](T-008-requirements.md). Đọc [quy trình tổng](T-024-demo-decision-policy.md) và [AI/retry](T-024-ai-rule-and-retry.md) trước khi triển khai.
+**Trạng thái:** Group 1/2 **Approved for demo profile** ngày 2026-09-30 theo [D-004](../00-project/decisions/T-024-D-004-duyet-default-demo.md)/[D-005](../00-project/decisions/T-024-D-005-auto-checkin-co-dieu-kien.md); toàn profile chưa freeze. Group 3 ở mục 3.1 là **đề xuất để Quốc An review**, chưa cấp quyền cho role. Kế thừa [T-008](T-008-requirements.md); đọc [quy trình tổng](T-024-demo-decision-policy.md) và [AI/retry](T-024-ai-rule-and-retry.md) trước triển khai.
 
 ## 1. Pre-session và cấu hình
 
@@ -20,11 +20,14 @@ Config là **cách xử lý theo quy định**, không phải dữ liệu identi
 | ReEntryPolicy.action | MANUAL | Có; ALLOW_WITH_VERIFICATION/BLOCK chỉ là lựa chọn tương lai, chưa bật. |
 | ReferencePolicy.missing/unusable | MANUAL | Có thể đổi route trong quyền; không bỏ xác minh rồi gắn nhãn AI_VERIFIED. |
 | RetryPolicy | Xem bảng duy nhất ở tài liệu AI | Người quản lý demo/operational profile duyệt; version lại và kiểm tác động toàn lượt. |
+| DecisionPolicy.auto_checkin_enabled | true trong demo profile được duyệt; hỗ trợ false → READY_FOR_CONFIRMATION | Approved Group 2; thay mode cần quyền/version của profile, không đổi AIConfig. Role cụ thể ở Group 3. |
 | ManualPolicy.receiver/timeout/action | TBD | Gán role/quyền trước dùng branch; timeout không tự thành success. |
 | DataPolicy.roster/policy_unavailable | SYSTEM_HOLD | Fallback thủ công cần actor/quyền và đối soát. |
 | EvidencePolicy.retention/access | TBD | Quyền đọc/lưu phù hợp phạm vi dữ liệu được duyệt. |
 
 **Đã duyệt Group 1:** late 15 phút + intake còn mở → LATE/CONTINUE; quá 15 phút → MANUAL; ca đóng theo lifecycle riêng; already checked-in/re-entry → MANUAL, không duplicate; eligibility mapping, missing/unusable reference → MANUAL; policy/roster unreliable → SYSTEM_HOLD; retry keys đã duyệt ở bảng duy nhất trong tài liệu AI. Early window vẫn TBD. Các mục manual/retention/authority và chi tiết ngoài phạm vi xác nhận không tự được duyệt theo Group 1. Không dùng placeholder/TBD để tiếp tục branch tự động phụ thuộc chúng.
+
+**Đã duyệt Group 2:** auto-check-in là quyền của profile, không tự suy từ AI_VERIFIED. True + mọi business/final checks đạt, không duplicate/exception unresolved → ghi thành công → PASS. False + lượt đạt → READY_FOR_CONFIRMATION; người được ủy quyền xác nhận, recheck sau chờ và ghi thành công mới PASS. Profile/flag lỗi → SYSTEM_HOLD; không mặc định bật quyền khi thiếu config.
 
 ## 2. Case matrix trước camera
 
@@ -71,16 +74,47 @@ Nhiều điều kiện có thể cùng tồn tại: lưu tất cả flag/reason;
 
 Sau AI_VERIFIED, kiểm registration/context/eligibility/policy còn hiệu lực, duplicate và quyền auto-check-in. Arrival timestamp của lượt đến giữ riêng với thời gian xử lý để retry/queue không tự làm đổi sự kiện đến; cách xác lập mốc và late rule phải nằm trong profile.
 
-- Đủ điều kiện và có quyền trong profile → ghi một effective check-in, xác nhận commit rồi PASS.
+- Đủ điều kiện và `auto_checkin_enabled=true` trong profile đã duyệt → ghi một effective check-in, xác nhận commit rồi PASS.
+- Đủ điều kiện nhưng flag false → READY_FOR_CONFIRMATION. Xác nhận từ actor được ủy quyền → recheck context/evidence/business/duplicate sau chờ → ghi thành công → PASS. Chưa được xác nhận thì giữ pending, không ghi check-in tự động.
 - Chưa đủ dữ liệu/thẩm quyền hoặc có tranh chấp → MANUAL/SYSTEM_HOLD, không silently success.
 - **Manual/override:** người được ủy quyền xử lý ngoại lệ đang có; lưu actor/quyền, thời gian, reason, evidence và outcome. Không giả rằng operator có mọi quyền.
 - **Correction:** sửa kết quả đã ghi khi có evidence mới; lưu trước/sau và liên kết bản cũ, không xóa lịch sử hoặc viết lại output nghiên cứu.
 - **Fallback:** khi automation/device hỏng, người có quyền ghi biên nhận tạm với context/candidate hoặc unresolved claim, thời gian và reason. Sau phục hồi phải reconcile điện tử/thủ công trước sync; không auto-confirm nếu chưa resolve identity/duplicate.
 - **End session:** đóng routine intake, tập hợp pending/fallback, đối soát; attendance theo định nghĩa riêng. Thiếu evidence → UNDETERMINED, không tự absent chỉ vì chưa PASS. Reopen/correction phải có quyền và audit.
 
+### 3.1. Group 3 — đề xuất manual authority để duyệt
+
+**PROPOSED, chưa là quyền đã được cấp.** Đề xuất ba role nghiệp vụ; tên role mô tả quyền, chưa gán cho An/Hy hoặc nhân sự kỳ thi thật. Một người demo có thể giữ nhiều role nếu được cấp rõ, nhưng log phải ghi actor và quyền dùng ở từng quyết định.
+
+| Role đề xuất | Nhận/xem | Được xử lý trong đề xuất | Phải escalate / không tự làm |
+| --- | --- | --- | --- |
+| OPERATOR — người vận hành thiết bị | Case của phòng/ca được giao, MANUAL/READY pending | Hướng dẫn nhập lại mã/đứng camera, redirect theo roster, resume/recovery trong budget, gửi case cho người có quyền. | Không tự confirm PASS, duyệt late/re-entry, đổi roster/reference/eligibility, sửa check-in hoặc giảm threshold. |
+| AUTHORIZED_ROOM_STAFF — cán bộ phòng được ủy quyền | Case của phòng/ca được giao, evidence cần thiết | Confirm READY_FOR_CONFIRMATION; xác minh thủ công khi AI chưa verified/unavailable theo evidence policy; duyệt late/re-entry **chỉ trong phạm vi được profile ủy quyền**; resolve duplicate bằng record hiện hành, không ghi lần hai. | Mâu thuẫn identity/reference/roster, status blocked, ca đóng, không đủ evidence/quyền, correction bản ghi đã chốt, write chưa rõ → EXAM_ADMIN. |
+| EXAM_ADMIN — người quản lý profile/dữ liệu | Case được escalate và dữ liệu trong quyền quản lý | Gán quyền/role; duyệt policy/mode theo version; xử lý dữ liệu nguồn với căn cứ có thẩm quyền; duyệt correction/reconciliation và exception vượt quyền phòng khi có rule/evidence phù hợp. | Không biến chưa rõ thành success, sửa verdict AI/score, tùy ý đổi model/threshold hoặc xóa lịch sử. Không có căn cứ/thẩm quyền nguồn thì giữ pending và chuyển chủ thể có thẩm quyền. |
+
+| Case / source | Người nhận đầu tiên | Người quyết định đề xuất | Điều kiện / giới hạn |
+| --- | --- | --- | --- |
+| Lượt đạt, flag false (D-005) | OPERATOR route | AUTHORIZED_ROOM_STAFF | Confirm thường, không là AI override; final recheck và write thành công mới PASS. |
+| AI unresolved/not verified, exhausted retry (AI-S406/S803) | OPERATOR route | AUTHORIZED_ROOM_STAFF nếu có quyền manual identity verification | Evidence thủ công theo policy, business vẫn phải hợp lệ; thiếu evidence → pending/escalate, không buộc PASS. |
+| Late trong 15 phút/intake mở (BP-T02) | Luồng bình thường | System theo Group 1/2 | Không cần human approve late riêng nếu mọi điều kiện khác đạt. |
+| Late quá 15 phút nhưng intake còn mở (BP-T03) | OPERATOR route | AUTHORIZED_ROOM_STAFF **nếu được cấp quyền late exception**, nếu không EXAM_ADMIN | Ghi lý do/authority; không dùng quyền late để tự mở ca đóng hoặc bỏ identity verification. |
+| Duplicate/re-entry (BP-D03/RE01) | OPERATOR route | AUTHORIZED_ROOM_STAFF trong quyền re-entry của profile | Giữ effective check-in cũ; ghi xử lý yêu cầu quay lại riêng. Không suy attendance/entry-exit từ detector hoặc tạo PASS record thứ hai. |
+| Không tìm được hồ sơ duy nhất/reference sai/thiếu (BP-ID02/03, REF02) | OPERATOR route | EXAM_ADMIN cho sửa nguồn; cán bộ phòng chỉ manual-verify nếu có evidence/quyền thay thế được duyệt | Không tự tạo registration/identity hoặc chọn reference theo score. |
+| CANCELLED/SUSPENDED/DISQUALIFIED, wrong session/ca đóng (BP-E02/S03/S04) | OPERATOR route | EXAM_ADMIN hoặc chủ thể có thẩm quyền nguồn | Cán bộ phòng không override trạng thái/quyền; cần giải quyết theo dữ liệu/policy/lifecycle, không chỉ bấm approve. |
+| Policy/roster unreliable, config lỗi, write chưa rõ (BP-SYS01–05) | OPERATOR route | EXAM_ADMIN điều phối phục hồi/đối soát | Giữ SYSTEM_HOLD cho nhánh tự động. Fallback được ủy quyền có thể ghi biên nhận tạm; chưa resolve/reconcile thì không effective PASS. |
+| Incorrect check-in/absence phát hiện sau (T-008 correction) | Cán bộ phòng báo evidence | EXAM_ADMIN trong correction authority | Ghi trước/sau/reason/actor; giữ lịch sử, đối soát attendance riêng, không sửa output nghiên cứu. |
+
+**“Override AI” trong đề xuất:** được người có quyền kết luận theo evidence thủ công khi automation không đủ, **không sửa AI NOT_VERIFIED thành AI_VERIFIED**, không thay crop/score/threshold. Lưu căn cứ xác minh `HUMAN` riêng với `AI`, giữ verdict AI gốc và rule/version. Đây là manual-authorized route cần Group 3 duyệt, không là auto-PASS qua flag Group 2.
+
+Report test phải tách outcome manual/human-confirmation với outcome AI, không đếm một lượt được người xử lý xác nhận thành S8 accept hoặc dùng xác nhận ấy để sửa ground truth sau khi xem kết quả.
+
+Mọi quyết định confirm/exception/correction cần actor, role/quyền, scope phòng/ca, thời gian, reason/evidence, policy/AIConfig/data version và kết quả trước/sau. Điều kiện nghiệp vụ mới phát sinh phải được recheck trước ghi. Technical maintainer có thể phục hồi camera/runtime trong quyền nhưng không tự có quyền duyệt danh tính/late hoặc đổi AIConfig frozen.
+
+**Cần Quốc An chốt:** ba role có phù hợp không; quyền manual identity verification cho cán bộ phòng; phạm vi late/re-entry exception; correction/escalation ở admin; gán người/tài khoản và evidence/timeout cho case thực sự demo. Không có người nhận hoặc hết quyền thì giữ pending, không mặc định auto-approve. Quyền manual được duyệt cũng chưa chứng minh đáp ứng risk cap ở Group 4.
+
 ## 4. Audit/version và contract cho app
 
-Tối thiểu liên kết attempt → registration/context → observation/S4/S8 → business decision → effective check-in hoặc manual case. Lưu timestamp, actor/system, reason/flags, nguồn/version roster/reference, `policy_version`, `ai_config_version`, counters retry và trạng thái lần ghi. Policy đổi late 15 → 20 tạo version mới; vẫn truy ra lượt cũ dùng policy nào.
+Tối thiểu liên kết attempt → registration/context → observation/S4/S8 → business decision → effective check-in hoặc manual/confirmation case. Lưu timestamp, actor/system/role/quyền, reason/flags, nguồn/version roster/reference, `policy_version`, `ai_config_version`, giá trị auto-check-in/mode, nguồn quyết định automatic/authorized confirmation/manual exception, counters retry, final recheck và trạng thái lần ghi. Policy đổi late 15 → 20 hoặc true → false tạo version mới; vẫn truy ra lượt cũ dùng policy nào.
 
 Model/detector/threshold chỉ đổi qua AIConfig được đánh giá/version, không là quyền chỉnh nghiệp vụ hàng ngày. Không đưa identity/ảnh/embedding lên Git. Retention, quyền đọc và mức evidence được lưu còn TBD; chỉ giữ dữ liệu phục vụ điều tra/correction trong quyền đã duyệt.
 
@@ -88,6 +122,6 @@ Hy có thể triển khai business workflow/UI/manual/fallback theo contract nà
 
 ## 5. Cần duyệt trước freeze
 
-Default Group 1 đã duyệt theo D-004. Tiếp theo chốt Group 2 — quyền auto-check-in; Group 3 — manual/override/correction authority; Group 4 — risk/test acceptance. Trước freeze cũng cần mode/nguồn đầu vào, early window, reference/quality capability thực sự có, policy/data effectiveness, retention và fallback cho case đưa vào test.
+Group 1/2 đã duyệt theo D-004/D-005. Tiếp theo duyệt đề xuất Group 3 ở mục 3.1, rồi Group 4 — risk/test acceptance. Trước freeze cũng cần mode/nguồn đầu vào, early window, reference/quality capability thực sự có, policy/data effectiveness, retention và fallback cho case đưa vào test.
 
 Chưa cần thiết kế mọi màn hình/database để hoàn thành profile, nhưng branch sẽ chạy trong demo phải có outcome/owner/expected result rõ. Tham chiếu DP-01–DP-07 trong [tài liệu tổng](T-024-demo-decision-policy.md) để không tạo danh sách quyết định thứ hai.

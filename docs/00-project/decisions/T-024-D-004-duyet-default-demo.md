@@ -22,3 +22,5 @@ Default giúp app có hành động cụ thể, còn global cap giới hạn to�
 Group 2 (quyền auto-check-in), Group 3 (manual authority), Group 4 (risk/test acceptance) còn cần chốt. Quality/temporal capability, manual timeout và các retry phụ ngoài nhóm đã xác nhận vẫn theo trạng thái ở tài liệu. Không bật quyền auto-PASS từ việc duyệt Group 1; không sửa model/protocol/kết quả cũ.
 
 **Bước tiếp:** chốt Group 2: business OK + AI_VERIFIED được tự ghi check-in hay cần người xác nhận cuối; sau đó manual authority và risk trước freeze/test. Quyết định này duyệt các default của draft, không thay D-001/D-002/D-003.
+
+**Cập nhật sau quyết định này:** Quốc An đã duyệt Group 2 tại [D-005](T-024-D-005-auto-checkin-co-dieu-kien.md). D-004 giữ nguyên phạm vi Group 1 và lịch sử tại thời điểm duyệt.
