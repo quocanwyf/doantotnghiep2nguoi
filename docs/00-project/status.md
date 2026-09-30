@@ -41,7 +41,7 @@ T-005 **hoàn thiện phần phân tích/survey**. Quốc An xác nhận T-008 �
 
 ## Bước tiếp theo theo thứ tự
 
-1. **Sau T-023:** giữ MobileFaceNet làm baseline nghiên cứu vì benchmark BFW có vùng trade-off hữu ích; không fine-tune/thay model theo holdout đã xem. θ 0,23 chỉ là research reference và còn 8/38 hard negative được accept. Nhóm cần xác định yêu cầu false-accept cho demo và kiểm thêm miền camera/thiết bị phù hợp trước khi chọn cấu hình tự động. App tiếp tục tách AI result khỏi authority và xử lý `unresolved` bằng retry/đứng một mình/manual review.
+1. **Sau T-023 — Quốc An xác nhận hướng ngày 30/09:** giữ MobileFaceNet làm baseline nghiên cứu; không tự mở thêm task thay/fine-tune model hoặc tune threshold từ holdout đã xem. Trước hết chốt policy/risk demo (auto-pass, `unresolved`/manual, false-accept cap hiện `TBD`), rồi khóa cấu hình và kiểm end-to-end gần miền camera/thiết bị. Kết quả BFW `θ=0,23` chỉ là research reference, còn 8/38 hard negative được accept. Nếu phép thử gần miền phù hợp yêu cầu demo, mới khóa AI để tích hợp app/report; chỉ khi fail rõ theo yêu cầu đã đặt mới xem xét thí nghiệm model riêng. [Logic bước tiếp](../05-evaluation/DECISION_LOGIC.md).
 2. **Bằng chứng triển khai còn thiếu:** main test xác minh gần miền cửa phòng, thiết bị đích để đo encoder/attempt, E3/app logic theo policy sau và As-Is thực địa nếu muốn tuyên bố giảm công sức. Không lấy timing CPU tham chiếu làm kết luận triển khai.
 3. **Experiment rồi mới chốt kỹ thuật:** từ uncertainty và rủi ro T-017, đặt điều kiện kiểm và acceptance criteria trước experiment; dùng kết quả đó để cân nhắc candidate/configuration, threshold và kiến trúc app.
 
