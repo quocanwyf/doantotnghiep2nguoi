@@ -16,3 +16,7 @@ Khi giải quyết câu hỏi, dẫn đến biên bản/nguồn và tạo file q
 ## Câu hỏi còn mở của generic baseline T-008
 
 OQ-001–OQ-023 được quản lý tại [T-008, mục 18](../01-problem/T-008-requirements.md#18-open-questions--deferred-policies). [D-003](decisions/T-008-D-003-chap-nhan-baseline-nghien-cuu.md) chấp nhận cấu trúc generic làm mốc nghiên cứu; Minh Hy xử lý semantics chi tiết về policy/authority/roster/correction khi thiết kế app và trước phép thử E3 phụ thuộc profile. Giá trị policy theo kỳ thi, điều kiện triển khai và câu hỏi nghiên cứu tiếp tục mở theo đúng phạm vi. Chưa có xác minh As-Is thực địa và chưa thể tuyên bố giảm nhân sự.
+
+## Phạm vi đã chốt cho demo T-024
+
+D-004–D-007 đã chốt bốn group policy demo; không mở lại authority/defaults chỉ vì câu hỏi quy chế kỳ thi thật còn chưa trả lời. [D-007](decisions/T-024-D-007-workflow-va-risk-evaluation.md) duyệt workflow PASS/FAIL và AI/risk reporting ở attempt-level. False-accept cap vẫn TBD, không cản test/replay nhưng chưa được kết luận AI đạt mức rủi ro chấp nhận được. Phần còn lại là bind/freeze input/config/scenario/expected result theo [test profile preparation](../01-problem/T-024-test-profile-preparation.md), gồm operating point test, runner, actor/evidence fixtures và hash; chưa có test đã chạy hoặc near-domain evidence.

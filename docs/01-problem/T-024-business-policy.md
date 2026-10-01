@@ -1,6 +1,6 @@
 # T-024 — Business policy, tình huống và quyền cấu hình
 
-**Trạng thái:** Group 1/2/3 **Approved for demo profile** ngày 2026-09-30 theo [D-004](../00-project/decisions/T-024-D-004-duyet-default-demo.md)/[D-005](../00-project/decisions/T-024-D-005-auto-checkin-co-dieu-kien.md)/[D-006](../00-project/decisions/T-024-D-006-manual-authority.md); toàn profile chưa freeze. Group 3 ở mục 3.1 duyệt mô hình quyền; người/tài khoản, delegation và evidence method cụ thể cần được gán trước dùng nhánh. Group 4 risk/test acceptance còn mở. Kế thừa [T-008](T-008-requirements.md); đọc [quy trình tổng](T-024-demo-decision-policy.md) và [AI/retry](T-024-ai-rule-and-retry.md) trước triển khai.
+**Trạng thái:** Bốn group chính **Approved for demo profile**: [D-004](../00-project/decisions/T-024-D-004-duyet-default-demo.md)/[D-005](../00-project/decisions/T-024-D-005-auto-checkin-co-dieu-kien.md)/[D-006](../00-project/decisions/T-024-D-006-manual-authority.md) ngày 2026-09-30 và [D-007](../00-project/decisions/T-024-D-007-workflow-va-risk-evaluation.md) ngày 2026-10-01. Hoàn tất chốt policy T-024; test profile chưa freeze/test. Người/tài khoản, delegation và evidence method cụ thể cần bind trước dùng nhánh. Kế thừa [T-008](T-008-requirements.md); đọc [quy trình tổng](T-024-demo-decision-policy.md) và [AI/retry](T-024-ai-rule-and-retry.md) trước triển khai.
 
 ## 1. Pre-session và cấu hình
 
@@ -112,7 +112,7 @@ Report test phải tách outcome manual/human-confirmation với outcome AI. Met
 
 Mọi quyết định confirm/exception/correction cần actor, role/quyền, scope phòng/ca, thời gian, reason/evidence, policy/AIConfig/data version và kết quả trước/sau. Điều kiện nghiệp vụ mới phát sinh phải được recheck trước ghi. Technical maintainer có thể phục hồi camera/runtime trong quyền nhưng không tự có quyền duyệt danh tính/late hoặc đổi AIConfig frozen.
 
-**Còn cần bind trước dùng nhánh demo:** gán người/tài khoản, delegation/scope và evidence method cụ thể được policy duyệt; receiver/timeout/retention theo case. Mô hình ba role và các quyền manual identity/late/re-entry/correction/escalation đã được duyệt, không phải chờ duyệt lại. Thiếu một guard manual identity → ESCALATE; không có người nhận thì giữ pending, không mặc định auto-approve. Quyền manual được duyệt chưa chứng minh đáp ứng risk cap ở Group 4.
+**Còn cần bind trước dùng nhánh demo:** gán người/tài khoản, delegation/scope và evidence method cụ thể được policy duyệt; receiver/timeout/retention theo case. Mô hình ba role và các quyền manual identity/late/re-entry/correction/escalation đã được duyệt, không phải chờ duyệt lại. Thiếu một guard manual identity → ESCALATE; không có người nhận thì giữ pending, không mặc định auto-approve. Group 4/D-007 đã duyệt đo/báo lỗi; cap còn TBD nên quyền manual không chứng minh AI đạt mức rủi ro chấp nhận được.
 
 ## 4. Audit/version và contract cho app
 
@@ -122,8 +122,8 @@ Model/detector/threshold chỉ đổi qua AIConfig được đánh giá/version,
 
 Hy có thể triển khai business workflow/UI/manual/fallback theo contract này và hoàn thiện chi tiết app trong scope của mình; An giữ AI output/config contract. Nếu thay đổi input/reference/verification semantics thì hai phần phải rà lại contract. T-024 không chọn mobile stack, database hoặc backend architecture.
 
-## 5. Cần duyệt trước freeze
+## 5. Bước freeze sau khi chốt policy
 
-Group 1/2/3 đã duyệt theo D-004/D-005/D-006. Tiếp theo Group 4 — risk/test acceptance. Trước freeze cũng cần mode/nguồn đầu vào, early window, reference/quality capability thực sự có, policy/data effectiveness, retention và fallback cho case đưa vào test.
+Group 1/2/3/4 đã duyệt theo D-004–D-007; không bàn lại policy chính. [Test profile preparation](T-024-test-profile-preparation.md) đề xuất input/scenario/expected result để bind và freeze trước chạy. Chỉ những branch đưa vào test mới cần giá trị cụ thể: context/clock, reference/quality capability thực sự có, quyền/evidence fixtures, policy/data effectiveness, retention/fallback nếu dùng. Early window hoặc capability phụ chưa bind phải để ngoài scope hoặc giữ route chưa đủ điều kiện, không tự đặt giá trị.
 
 Chưa cần thiết kế mọi màn hình/database để hoàn thành profile, nhưng branch sẽ chạy trong demo phải có outcome/owner/expected result rõ. Tham chiếu DP-01–DP-07 trong [tài liệu tổng](T-024-demo-decision-policy.md) để không tạo danh sách quyết định thứ hai.

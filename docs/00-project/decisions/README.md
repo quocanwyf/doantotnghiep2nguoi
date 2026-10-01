@@ -6,7 +6,9 @@ Mỗi quyết định quan trọng có một file `T-004-D-001-ten-ngan.md` khi 
 
 [D-005 — Auto-check-in có điều kiện](T-024-D-005-auto-checkin-co-dieu-kien.md) ghi duyệt **Group 2** của Quốc An cùng ngày: quyền trong demo profile qua `auto_checkin_enabled`, hỗ trợ READY_FOR_CONFIRMATION khi tắt.
 
-[D-006 — Manual authority ba tầng](T-024-D-006-manual-authority.md) ghi duyệt **Group 3** của Quốc An cùng ngày: operator chỉ tương tác/route; cán bộ phòng được manual identity/late/re-entry trong quyền được ủy quyền; admin giữ data/policy/correction/lifecycle. Manual identity cần quyền + evidence method đã duyệt + scope; HUMAN không sửa verdict AI. Group 4 risk/test acceptance còn mở; toàn profile chưa freeze.
+[D-006 — Manual authority ba tầng](T-024-D-006-manual-authority.md) ghi duyệt **Group 3** của Quốc An cùng ngày: operator chỉ tương tác/route; cán bộ phòng được manual identity/late/re-entry trong quyền được ủy quyền; admin giữ data/policy/correction/lifecycle. Manual identity cần quyền + evidence method đã duyệt + scope; HUMAN không sửa verdict AI.
+
+[D-007 — Workflow acceptance và AI/risk evaluation](T-024-D-007-workflow-va-risk-evaluation.md) ghi duyệt **Group 4** ngày 2026-10-01: mandatory workflow invariants có PASS/FAIL; AI/pipeline errors báo attempt-level, manual riêng. Cap TBD nên test chưa có safety PASS/FAIL hoặc kết luận đạt rủi ro chấp nhận được. Bốn group policy chính đã chốt; test profile cụ thể chưa freeze/test, nguồn existing/replay/fixture không là camera thực địa.
 
 Mẫu:
 

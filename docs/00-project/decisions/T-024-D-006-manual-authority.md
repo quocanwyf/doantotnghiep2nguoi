@@ -39,3 +39,5 @@ Lưu actor, role/quyền được dùng, scope phòng/ca, timestamp, reason/evid
 App dùng [business-policy mục 3.1](../../01-problem/T-024-business-policy.md#31-group-3--manual-authority-đã-duyệt) làm contract. Trước dùng nhánh thực tế phải gán người/tài khoản, delegation và evidence method đã duyệt; timeout/retention còn theo trạng thái riêng. Không có người nhận thì pending/escalate, không auto-approve.
 
 **Vì sao Group 4 tồn tại:** quyền quyết định đã rõ, nhưng quyền không chứng minh chất lượng identity verification. T-023 vẫn có 8/38 hard negative accept trong proxy. Cần chốt risk/test acceptance trước freeze/test; không tự đặt false-accept cap, retune S8, mở experiment model hoặc merge PR từ D-006.
+
+**Cập nhật kế tiếp 2026-10-01:** Quốc An duyệt Group 4 tại [D-007](T-024-D-007-workflow-va-risk-evaluation.md), tách workflow PASS/FAIL với observed AI risk khi cap TBD. Quyền D-006 giữ nguyên; tiếp theo bind/freeze test profile, không sửa kết quả AI cũ.
