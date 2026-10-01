@@ -1,6 +1,6 @@
-# T-024 — Chuẩn bị test profile sau khi chốt policy
+# T-024 — Checklist chuẩn bị test profile khi app đã chạy end-to-end
 
-**Trạng thái:** DRAFT cho bước freeze kế tiếp, chưa là evaluation freeze và chưa có kết quả test. **Ngày:** 2026-10-01. **Owner:** Quốc An theo task T-024. [D-007](../00-project/decisions/T-024-D-007-workflow-va-risk-evaluation.md) đã chốt cách acceptance; các đề xuất input/operating point dưới đây cần được khóa cụ thể trước chạy.
+**Trạng thái:** DRAFT / checklist cho test cuối sau khi app đã chạy end-to-end; không là phase nghiên cứu mới hoặc điều kiện phải hoàn thành trước build app. Chưa là evaluation freeze và chưa có kết quả test. **Ngày:** 2026-10-01. **Owner:** Quốc An theo task T-024. [D-007](../00-project/decisions/T-024-D-007-workflow-va-risk-evaluation.md) đã chốt cách acceptance; các đề xuất input/operating point dưới đây cần khóa trước test chính thức. Bắt đầu integration từ [bộ bàn giao Hy](../06-mobile/T-024-ban-giao-app-cho-hy/T-024-README.md).
 
 ## 1. Hai loại đầu vào và phạm vi kết luận
 
